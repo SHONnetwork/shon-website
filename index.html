@@ -1,14 +1,14 @@
 <!doctype html>
 <html lang="en">
- <head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width,initial-scale=1" name="viewport"/>
-  <meta content="#073d3b" name="theme-color"/>
-  <meta content="SHON connects people across the United States with housing opportunities, companionship, skills, learning, and community. A free, noncommercial nationwide network." name="description"/>
-  <title>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="#073d3b" name="theme-color"/>
+<meta content="SHON connects people across the United States with housing opportunities, companionship, skills, learning, and community. A free, noncommercial nationwide network." name="description"/>
+<title>
    SHON | People. Places. Possibilities.
   </title>
-  <style>
+<style>
    :root{font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:#103b3c;background:#f7f9f5}*{box-sizing:border-box}body{margin:0}a{color:inherit}header{background:#fff;box-shadow:0 1px 9px #0c45451a;position:sticky;top:0;z-index:2}.bar{max-width:1150px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:15px 22px;flex-wrap:wrap}.logo{font-family:Georgia,serif;font-size:38px;font-weight:bold;text-decoration:none;letter-spacing:1px}.logo small{display:block;font:12px system-ui;letter-spacing:0}nav{display:flex;gap:20px;flex-wrap:wrap}nav a{text-decoration:none;font-weight:600;font-size:14px}nav a:hover{text-decoration:underline}.support{background:#f4c56e;padding:10px 16px;border-radius:12px}main{max-width:1150px;margin:auto;padding:0 22px}.hero{padding:75px 25px;text-align:center;background:linear-gradient(140deg,#e4f0d9,#e3f5f4 50%,#ffe6b8);border-radius:0 0 24px 24px}.eyebrow{font-weight:700;letter-spacing:2px;text-transform:uppercase;font-size:12px}.hero h1{font:clamp(38px,5vw,66px) Georgia,serif;line-height:1.08;margin:18px 0}.hero p{font-size:19px;max-width:730px;margin:20px auto;line-height:1.6}.button{display:inline-block;background:#07504b;color:white;border:0;border-radius:10px;padding:13px 22px;text-decoration:none;font-weight:700;cursor:pointer}.button:hover{background:#086e66}.section{padding:55px 0}.section h2{font:36px Georgia,serif;margin:0 0 10px}.muted{color:#4e6666;line-height:1.6}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:25px}.card{border-radius:18px;padding:28px;background:white;box-shadow:0 4px 22px #15463c12}.card h3{margin:0 0 10px;font-size:22px}.card p{line-height:1.6;margin-bottom:0}.green{background:#e3f0d7}.blue{background:#e0f0fc}.pink{background:#fae0e5}.gold{background:#ffedc7}.icon{font-size:30px;margin-bottom:14px}.strip{background:#073f3d;color:white;border-radius:20px;padding:35px;margin:25px 0}.strip h2{margin:0 0 8px}.pills{display:flex;gap:9px;flex-wrap:wrap;margin:20px 0}.pill{border:1px solid #bfd5cc;border-radius:30px;padding:9px 13px;background:white;font-size:13px}.wide{grid-column:1/-1}.notice{border-left:4px solid #dfad53;background:#fff9ea;padding:18px;border-radius:8px;line-height:1.6}.search{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.search input{flex:1;min-width:210px;padding:13px;border:1px solid #abc7c1;border-radius:9px;font:inherit}.preview{font-size:14px;margin-top:12px;color:#496460}.footer{background:#073f3d;color:white;text-align:center;padding:30px 15px;margin-top:30px}@media(max-width:650px){.grid{grid-template-columns:1fr}.hero{padding:45px 12px}.bar{justify-content:center}nav{justify-content:center}.section h2{font-size:30px}}
 
 /* Approved SHON and SHANE identity */
@@ -22,331 +22,511 @@
 .partner-grid h3{margin-top:0}.partner-grid p{line-height:1.6}
 @media(max-width:650px){.partner-grid{grid-template-columns:1fr}.partnership{padding:18px}.brand-mark{width:45px;height:45px}}
   </style>
- </head>
- <body>
-  <header>
-   <div class="bar">
-    <a class="logo" href="#home">
-     <span class="brand-line"><span aria-hidden="true">🏡</span><span>SHON</span></span>
-     <small>
+<style>
+/* Member access: responsive, accessible and isolated from landing-page styles */
+.member-panel{background:#fff;border:1px solid #d7e7df;border-radius:20px;padding:28px;box-shadow:0 4px 22px #15463c12;max-width:760px;margin:20px auto}
+.member-panel h2{font:32px Georgia,serif;margin:0 0 10px}.member-panel label{display:block;font-weight:650;margin:15px 0 6px}
+.member-panel input{display:block;width:100%;padding:12px 13px;border:1px solid #9cbcb2;border-radius:9px;font:inherit}
+.member-panel input:focus{outline:3px solid #aedbd2;outline-offset:1px}
+.member-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px;align-items:center}
+.member-secondary{background:#e4f0ec;color:#073f3d}.member-secondary:hover{background:#d4e7df}
+.member-status{margin:14px 0;padding:12px 14px;border-radius:9px;background:#eef5f1;line-height:1.5;white-space:pre-wrap}
+.member-status.error{background:#fff0ee;color:#842a25}.member-status.success{background:#e4f5e9;color:#14552d}
+.member-panel [hidden]{display:none!important}.member-hint{font-size:14px;color:#506863;line-height:1.5}
+.member-panel fieldset{border:0;margin:0;padding:0}.member-panel button:disabled{opacity:.6;cursor:wait}
+@media(max-width:650px){.member-panel{padding:18px}.member-panel h2{font-size:28px}}
+</style></head>
+<body>
+<header>
+<div class="bar">
+<a class="logo" href="#home">
+<span class="brand-line"><span aria-hidden="true">🏡</span><span>SHON</span></span>
+<small>
       Supported Housing Opportunity Network
      </small>
-    </a>
-    <nav aria-label="Main navigation">
-     <a href="#home">
+</a>
+<nav aria-label="Main navigation">
+<a href="#member-access">Join / Sign in</a><a href="#home">
       Home
      </a>
-     <a href="#connect">
+<a href="#connect">
       Find &amp; Connect
      </a>
-     <a href="#learning">
+<a href="#learning">
       Learning
      </a>
-     <a href="#communities">
+<a href="#communities">
       Communities
      </a>
-     <a href="#partnership">
+<a href="#partnership">
       Partnership
      </a>
-     <a href="#about">
+<a href="#about">
       About
      </a>
-     <a class="support" href="mailto:info@shonnetwork.org?subject=Supporting%20SHON">
+<a class="support" href="mailto:info@shonnetwork.org?subject=Supporting%20SHON">
       ♥ Support SHON
      </a>
-    </nav>
-   </div>
-  </header>
-  <main>
-   <section class="hero" id="home">
-    <div class="eyebrow">
+</nav>
+</div>
+</header>
+<main>
+<section class="hero" id="home">
+<div class="eyebrow">
      People. Places. Possibilities.
     </div>
-    <h1>
+<h1>
      Everyone needs something.
      <br/>
      Everyone has something to offer.
     </h1>
-    <p>
+<p>
      A free, nationwide network connecting people across the United States with housing opportunities, companionship, skills, learning, and community. Not about profit. About people.
     </p>
-    <a class="button" href="#pathways">
+<a class="button" href="#pathways">
      Explore the possibilities ↓
     </a>
-   </section>
-   <section class="section" id="pathways">
-    <h2>
+</section>
+<section class="section" id="pathways">
+<h2>
      Everyone belongs
     </h2>
-    <p class="muted">
+<p class="muted">
      SHON is designed for people who need something, people who can offer something, and organizations that can bring opportunities together.
     </p>
-    <div class="grid">
-     <article class="card green">
-      <div class="icon">
+<div class="grid">
+<article class="card green">
+<div class="icon">
        🏠
       </div>
-      <h3>
+<h3>
        I need a place
       </h3>
-      <p>
+<p>
        Explore future housing-linked opportunities, shared living, and arrangements offering a safe place to stay.
       </p>
-     </article>
-     <article class="card blue">
-      <div class="icon">
+</article>
+<article class="card blue">
+<div class="icon">
        👥
       </div>
-      <h3>
+<h3>
        I have space to share
       </h3>
-      <p>
+<p>
        Connect unused space, a spare room, or a property-presence opportunity with someone who needs it.
       </p>
-     </article>
-     <article class="card pink">
-      <div class="icon">
+</article>
+<article class="card pink">
+<div class="icon">
        💗
       </div>
-      <h3>
+<h3>
        I can offer help
       </h3>
-      <p>
+<p>
        Share skills, time, companionship, mentorship, and other forms of mutual support.
       </p>
-     </article>
-     <article class="card gold">
-      <div class="icon">
+</article>
+<article class="card gold">
+<div class="icon">
        🤝
       </div>
-      <h3>
+<h3>
        I'm looking for someone
       </h3>
-      <p>
+<p>
        Find a housemate, companion, collaborator, apprentice, or another mutually beneficial connection.
       </p>
-     </article>
-    </div>
-   </section>
-   <section class="section" id="connect">
-    <div class="strip">
-     <h2>
+</article>
+</div>
+</section>
+<section aria-labelledby="member-title" class="section" id="member-access">
+<div class="member-panel">
+<h2 id="member-title">SHON member access</h2>
+<p class="muted">Create a free account or sign in. Member accounts are in testing; housing listings, matching, and messaging are not yet available.</p>
+<div aria-live="polite" class="member-status" id="member-status" role="status">Connecting to SHON member services…</div>
+<div hidden="" id="member-signed-out">
+<form id="member-auth-form">
+<fieldset id="member-fields">
+<label for="member-email">Email address</label><input autocomplete="email" id="member-email" maxlength="254" required="" type="email"/>
+<label for="member-password">Password</label><input autocomplete="current-password" id="member-password" minlength="6" required="" type="password"/>
+<div hidden="" id="member-name-wrap"><label for="member-name">Display name</label><input autocomplete="nickname" id="member-name" maxlength="80" minlength="2" type="text"/></div>
+</fieldset>
+<div class="member-actions">
+<button class="button" id="member-submit" type="submit">Sign in</button>
+<button class="button member-secondary" id="member-toggle" type="button">Create an account instead</button>
+</div>
+<p class="member-hint" id="member-mode-hint">Use the email address and password for your SHON account.</p>
+</form>
+</div>
+<div hidden="" id="member-signed-in">
+<p id="member-welcome"></p>
+<form hidden="" id="member-profile-form">
+<label for="member-profile-name">Your display name</label>
+<input autocomplete="nickname" id="member-profile-name" maxlength="80" minlength="2" required="" type="text"/>
+<p class="member-hint">Only your own account can read this profile through the current database policy. Public discovery is not enabled.</p>
+<div class="member-actions"><button class="button" id="member-save-profile" type="submit">Save my profile</button></div>
+</form>
+<div class="member-actions"><button class="button member-secondary" id="member-signout" type="button">Sign out</button></div>
+</div>
+</div>
+</section><section class="section" id="connect">
+<div class="strip">
+<h2>
       Find people. Offer support. Build connections.
      </h2>
-     <p>
+<p>
       Nationwide discovery, direct contact, and thoughtful matching are central to SHON's planned platform.
      </p>
-    </div>
-    <div class="pills">
-     <span class="pill">
+</div>
+<div class="pills">
+<span class="pill">
       Housing needed
      </span>
-     <span class="pill">
+<span class="pill">
       Housing offered
      </span>
-     <span class="pill">
+<span class="pill">
       Companionship
      </span>
-     <span class="pill">
+<span class="pill">
       Help &amp; skills
      </span>
-     <span class="pill">
+<span class="pill">
       Property presence
      </span>
-     <span class="pill">
+<span class="pill">
       No rent required
      </span>
-     <span class="pill">
+<span class="pill">
       Shared costs
      </span>
-     <span class="pill">
+<span class="pill">
       Remote / online
      </span>
-    </div>
-    <div class="notice">
-     <strong>
-      Platform under development.
-     </strong>
-     Public listings, account registration, private messaging, and matching are not available yet. This preview illustrates the planned experience; no participant listings are displayed.
-    </div>
-   </section>
-   <section class="section" id="learning">
-    <h2>
+</div>
+<div class="notice"><strong>Platform under development.</strong> Member account registration is being tested. Public listings, private messaging, and matching are not yet available; no participant listings are displayed.</div>
+</section>
+<section class="section" id="learning">
+<h2>
      Learning &amp; communities
     </h2>
-    <p class="muted">
+<p class="muted">
      Knowledge and connection can open doors. SHON aims to bring people and institutions together across the country.
     </p>
-    <div class="grid">
-     <article class="card blue">
-      <div class="icon">
+<div class="grid">
+<article class="card blue">
+<div class="icon">
        🎓
       </div>
-      <h3>
+<h3>
        Free remote courses
       </h3>
-      <p>
+<p>
        Discover learning resources from universities, libraries, and other educational providers.
       </p>
-     </article>
-     <article class="card green">
-      <div class="icon">
+</article>
+<article class="card green">
+<div class="icon">
        🛠️
       </div>
-      <h3>
+<h3>
        Skills &amp; tutoring
       </h3>
-      <p>
+<p>
        Share practical knowledge, teach apprentices, and find people eager to learn.
       </p>
-     </article>
-     <article class="card pink" id="communities">
-      <div class="icon">
+</article>
+<article class="card pink" id="communities">
+<div class="icon">
        🫶
       </div>
-      <h3>
+<h3>
        Local communities
       </h3>
-      <p>
+<p>
        Build connections among individuals, nonprofits, charities, faith communities, and other participating organizations.
       </p>
-     </article>
-     <article class="card gold">
-      <div class="icon">
+</article>
+<article class="card gold">
+<div class="icon">
        🌱
       </div>
-      <h3>
+<h3>
        Residential opportunities
       </h3>
-      <p>
+<p>
        Explore future accommodation-linked volunteer, service, educational, and employment opportunities.
       </p>
-     </article>
-    </div>
-   </section>
-   <!-- SHON: Community Creation & Land Restoration -->
-   <section aria-labelledby="community-creation-title" class="section" id="community-creation">
-    <div class="strip">
-     <div class="eyebrow">
+</article>
+</div>
+</section>
+<!-- SHON: Community Creation & Land Restoration -->
+<section aria-labelledby="community-creation-title" class="section" id="community-creation">
+<div class="strip">
+<div class="eyebrow">
       Imagine what could exist
      </div>
-     <h2 id="community-creation-title">
+<h2 id="community-creation-title">
       Create communities, not just find them.
      </h2>
-     <p>
+<p>
       Some housing opportunities begin with an empty building, underused land, or a shared idea. SHON envisions connecting prospective residents, landowners, developers, conservation groups, educators, and supporters to explore new residential communities.
      </p>
-    </div>
-    <div class="grid">
-     <article class="card green">
-      <div class="icon">
+</div>
+<div class="grid">
+<article class="card green">
+<div class="icon">
        🌵
       </div>
-      <h3>
+<h3>
        Desert restoration settlements
       </h3>
-      <p>
+<p>
        Explore housing-linked projects that combine sustainable water management, ecological restoration, agriculture, and new residential communities.
       </p>
-     </article>
-     <article class="card blue">
-      <div class="icon">
+</article>
+<article class="card blue">
+<div class="icon">
        🌲
       </div>
-      <h3>
+<h3>
        Reforestation &amp; conservation villages
       </h3>
-      <p>
+<p>
        Connect potential residents with proposals for woodland restoration, habitat stewardship, and conservation-focused living.
       </p>
-     </article>
-     <article class="card gold">
-      <div class="icon">
+</article>
+<article class="card gold">
+<div class="icon">
        🏘️
       </div>
-      <h3>
+<h3>
        Small-home &amp; cooperative communities
       </h3>
-      <p>
+<p>
        Imagine walkable neighborhoods with compact homes, shared facilities, internet access, and attainable housing arrangements.
       </p>
-     </article>
-     <article class="card pink">
-      <div class="icon">
+</article>
+<article class="card pink">
+<div class="icon">
        🏚️
       </div>
-      <h3>
+<h3>
        Revitalize existing places
       </h3>
-      <p>
+<p>
        Consider vacant buildings, underused properties, and declining towns as starting points for new residential opportunities.
       </p>
-     </article>
-    </div>
-    <p class="muted">
+</article>
+</div>
+<p class="muted">
      Future SHON tools could help project organizers gauge interest, identify needed skills, discuss accommodation and relocation, and distinguish early proposals from approved developments and move-in-ready homes.
     </p>
-    <div class="notice">
-     <strong>
+<div class="notice">
+<strong>
       Ideas, not current listings.
      </strong>
      These examples illustrate potential housing-related projects. Any real proposal would need verified housing terms, lawful land use, sustainable infrastructure, financing, and appropriate resident protections before being presented as available accommodation.
     </div>
-   </section>
-   <section class="section" id="partnership" aria-labelledby="partnership-title">
-    <div class="partnership">
-     <div class="eyebrow">Two independent networks. Different purposes. Shared possibilities.</div>
-     <h2 id="partnership-title">SHON &amp; SHANE: A partnership in development</h2>
-     <p class="muted">SHONnetwork and SHANEnetwork have distinct missions. SHON is being developed as a free, nonprofit-oriented housing opportunity network. SHANE is a separate commercial collaboration and opportunity network, also in development.</p>
-     <img class="identity-art" src="assets/SHON_SHANE_emblems.png" alt="SHON green house and sunset emblem alongside SHANE blue and gold rising-sun opportunity emblem, with a combined partnership design" loading="lazy" />
-     <div class="partner-grid">
-      <div>
-       <h3>SHONnetwork</h3>
-       <p><strong>Supported Housing Opportunity Network</strong></p>
-       <p>Housing possibilities, companionship, community building, and resource discovery. The planned network is free to members and focused on people rather than commercial rental transactions.</p>
-      </div>
-      <div>
-       <span class="partner-label">In development</span>
-       <h3>SHANEnetwork</h3>
-       <p><strong>Shared Human Ambitions, Networks &amp; Enterprises</strong></p>
-       <p>A separate, planned commercial network for opportunities, partnerships, events, employment, enterprise, and collaboration.</p>
-       <p>Future website: <a href="https://shanenetwork.org/" rel="noopener noreferrer">shanenetwork.org</a></p>
-      </div>
-     </div>
-     <h3>How the networks intend to work together</h3>
-     <p>SHON may introduce people to relevant opportunities through appropriate, optional links. SHANE intends to support SHON through awareness and future revenue contributions. SHON's charitable mission and decisions will remain independent of SHANE's commercial interests.</p>
-     <p><strong>SHANE's initial goal</strong> is to contribute 20% of qualifying gross revenue to SHON, subject to future circumstances and appropriate organizational arrangements. This is a prospective goal, not a claim that contributions are currently being made.</p>
-     <p class="muted"><strong>Different missions. Shared possibilities.</strong> Neither network is yet represented here as a registered tax-exempt charity or an operating commercial platform.</p>
-    </div>
-   </section>
-   <section class="section" id="about">
-    <h2>
+</section>
+<section aria-labelledby="partnership-title" class="section" id="partnership">
+<div class="partnership">
+<div class="eyebrow">Two independent networks. Different purposes. Shared possibilities.</div>
+<h2 id="partnership-title">SHON &amp; SHANE: A partnership in development</h2>
+<p class="muted">SHONnetwork and SHANEnetwork have distinct missions. SHON is being developed as a free, nonprofit-oriented housing opportunity network. SHANE is a separate commercial collaboration and opportunity network, also in development.</p>
+<img alt="SHON green house and sunset emblem alongside SHANE blue and gold rising-sun opportunity emblem, with a combined partnership design" class="identity-art" loading="lazy" src="assets/SHON_SHANE_emblems.png"/>
+<div class="partner-grid">
+<div>
+<h3>SHONnetwork</h3>
+<p><strong>Supported Housing Opportunity Network</strong></p>
+<p>Housing possibilities, companionship, community building, and resource discovery. The planned network is free to members and focused on people rather than commercial rental transactions.</p>
+</div>
+<div>
+<span class="partner-label">In development</span>
+<h3>SHANEnetwork</h3>
+<p><strong>Shared Human Ambitions, Networks &amp; Enterprises</strong></p>
+<p>A separate, planned commercial network for opportunities, partnerships, events, employment, enterprise, and collaboration.</p>
+<p>Future website: <a href="https://shanenetwork.org/" rel="noopener noreferrer">shanenetwork.org</a></p>
+</div>
+</div>
+<h3>How the networks intend to work together</h3>
+<p>SHON may introduce people to relevant opportunities through appropriate, optional links. SHANE intends to support SHON through awareness and future revenue contributions. SHON's charitable mission and decisions will remain independent of SHANE's commercial interests.</p>
+<p><strong>SHANE's initial goal</strong> is to contribute 20% of qualifying gross revenue to SHON, subject to future circumstances and appropriate organizational arrangements. This is a prospective goal, not a claim that contributions are currently being made.</p>
+<p class="muted"><strong>Different missions. Shared possibilities.</strong> Neither network is yet represented here as a registered tax-exempt charity or an operating commercial platform.</p>
+</div>
+</section>
+<section class="section" id="about">
+<h2>
      Not about profit. About people.
     </h2>
-    <p class="muted">
+<p class="muted">
      SHON, the Supported Housing Opportunity Network, is a proposed free, nationwide, noncommercial initiative. Its purpose is to make underused opportunities visible and help people and institutions find mutually beneficial arrangements. No advertising, platform fees, property sales, or conventional rental marketplace.
     </p>
-    <div class="notice">
-     <strong>
+<div class="notice">
+<strong>
       Development notice:
      </strong>
      SHON is a proposed initiative, not yet an operational participant service. Legal protections, moderation, verification, and confidential reporting processes must be established before public matching features launch.
     </div>
-    <p class="preview">
+<p class="preview">
      Institutional collaboration inquiries:
      <a href="mailto:info@shonnetwork.org">
       info@shonnetwork.org
      </a>
-    </p>
-   </section>
-  </main>
-  <footer>
-   <strong>
+</p>
+</section>
+</main>
+<footer>
+<strong>
     SHON
    </strong>
    · Supported Housing Opportunity Network
    <br/>
    People. Places. Possibilities. · © 2026 SHON project
   </footer>
- </body>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.0/dist/umd/supabase.min.js"></script><script>(() => {
+  'use strict';
+  // Public browser credentials only. Never add a service_role or secret key here.
+  const SUPABASE_URL = 'https://wqcninwqeyfoyxllwdy.supabase.co';
+  const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_YTHhpIPiKKHGBLMdkj_4og_Uyq_t_SX';
+  const byId = (id) => document.getElementById(id);
+  const status = byId('member-status');
+  const signedOut = byId('member-signed-out');
+  const signedIn = byId('member-signed-in');
+  const form = byId('member-auth-form');
+  const profileForm = byId('member-profile-form');
+  let client, mode = 'signin', busy = false, currentUser = null;
+  function report(message, kind = '') {
+    status.textContent = message;
+    status.className = 'member-status' + (kind ? ' ' + kind : '');
+  }
+  function setBusy(value) {
+    busy = value;
+    for (const id of ['member-submit', 'member-toggle', 'member-signout', 'member-save-profile']) {
+      byId(id).disabled = value;
+    }
+  }
+  function setMode(next) {
+    mode = next;
+    const registering = mode === 'signup';
+    byId('member-name-wrap').hidden = !registering;
+    byId('member-name').required = registering;
+    byId('member-password').autocomplete = registering ? 'new-password' : 'current-password';
+    byId('member-submit').textContent = registering ? 'Create free account' : 'Sign in';
+    byId('member-toggle').textContent = registering ? 'I already have an account' : 'Create an account instead';
+    byId('member-mode-hint').textContent = registering
+      ? 'You may need to confirm your email before signing in. Your display name will be saved after authentication.'
+      : 'Use the email address and password for your SHON account.';
+  }
+  async function loadProfile(user) {
+    const { data, error } = await client.from('member_profiles')
+      .select('display_name').eq('user_id', user.id).maybeSingle();
+    if (error) throw error;
+    return data;
+  }
+  async function showUser(user) {
+    currentUser = user;
+    signedOut.hidden = Boolean(user);
+    signedIn.hidden = !user;
+    if (!user) {
+      profileForm.hidden = true;
+      return;
+    }
+    byId('member-welcome').textContent = 'Signed in as ' + (user.email || 'SHON member') + '.';
+    const profile = await loadProfile(user);
+    profileForm.hidden = false;
+    if (profile) {
+      byId('member-profile-name').value = profile.display_name;
+      report('You are signed in. Your member profile is saved. You can update your display name below.', 'success');
+    } else {
+      byId('member-profile-name').value = (user.user_metadata && user.user_metadata.display_name) || '';
+      report('You are signed in. Please save your display name to finish setting up your member profile.');
+    }
+  }
+  async function refresh() {
+    if (!client) return;
+    const { data, error } = await client.auth.getUser();
+    if (error && !/session missing/i.test(error.message || '')) throw error;
+    await showUser(data?.user || null);
+    if (!data?.user) report('Member access is ready. Sign in or create a free account.');
+  }
+  byId('member-toggle').addEventListener('click', () => {
+    if (busy) return;
+    setMode(mode === 'signin' ? 'signup' : 'signin');
+    report(mode === 'signup' ? 'Enter your details to create a free SHON account.' : 'Enter your account details to sign in.');
+  });
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    if (busy || !client) return;
+    setBusy(true);
+    const email = byId('member-email').value.trim();
+    const password = byId('member-password').value;
+    const displayName = byId('member-name').value.trim();
+    try {
+      if (mode === 'signup') {
+        if (displayName.length < 2) throw new Error('Please enter a display name of at least 2 characters.');
+        const { data, error } = await client.auth.signUp({
+          email, password, options: { data: { display_name: displayName } }
+        });
+        if (error) throw error;
+        if (data.session) {
+          await showUser(data.user);
+        } else {
+          report('Registration request received. If confirmation is required, check your email for a confirmation link. After confirming, return here to sign in.', 'success');
+        }
+      } else {
+        const { data, error } = await client.auth.signInWithPassword({ email, password });
+        if (error) throw error;
+        await showUser(data.user);
+      }
+      byId('member-password').value = '';
+    } catch (error) {
+      report('Account action could not be completed: ' + (error.message || String(error)), 'error');
+    } finally { setBusy(false); }
+  });
+  profileForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    if (busy || !currentUser || !client) return;
+    const displayName = byId('member-profile-name').value.trim();
+    if (displayName.length < 2) return report('Please enter at least 2 characters.', 'error');
+    setBusy(true);
+    try {
+      const { data: existing, error: readError } = await client.from('member_profiles')
+        .select('id').eq('user_id', currentUser.id).maybeSingle();
+      if (readError) throw readError;
+      const result = existing
+        ? await client.from('member_profiles').update({ display_name: displayName }).eq('user_id', currentUser.id)
+        : await client.from('member_profiles').insert({ user_id: currentUser.id, display_name: displayName, profile_discoverable: false });
+      if (result.error) throw result.error;
+      report('Your SHON member profile has been saved successfully.', 'success');
+    } catch (error) {
+      report('Could not save your profile: ' + (error.message || String(error)) + '. The database may need authenticated API grants.', 'error');
+    } finally { setBusy(false); }
+  });
+  byId('member-signout').addEventListener('click', async () => {
+    if (busy || !client) return;
+    setBusy(true);
+    try {
+      const { error } = await client.auth.signOut();
+      if (error) throw error;
+      await showUser(null);
+      report('You have signed out.', 'success');
+    } catch (error) { report('Sign-out failed: ' + error.message, 'error'); }
+    finally { setBusy(false); }
+  });
+  try {
+    if (!window.supabase || !window.supabase.createClient) throw new Error('Supabase client library could not be loaded. Check your internet connection.');
+    client = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+    signedOut.hidden = false;
+    client.auth.onAuthStateChange(() => {
+      // Defer database operations outside the auth callback to avoid SDK deadlocks.
+      setTimeout(() => { if (!busy) refresh().catch(e => report('Member access error: ' + e.message, 'error')); }, 0);
+    });
+    refresh().catch(e => report('Member access error: ' + e.message, 'error'));
+  } catch (error) {
+    report('Member access is temporarily unavailable: ' + error.message, 'error');
+  }
+})();</script></body>
 </html>
