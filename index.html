@@ -149,9 +149,21 @@
 <div hidden="" id="member-signed-out">
 <form id="member-auth-form">
 <fieldset id="member-fields">
-<label for="member-email">Email address</label><input autocomplete="email" id="member-email" maxlength="254" required="" type="email"/>
-<label for="member-password">Password</label><input autocomplete="current-password" id="member-password" minlength="6" required="" type="password"/>
-<div hidden="" id="member-name-wrap"><label for="member-name">Display name</label><input autocomplete="nickname" id="member-name" maxlength="80" minlength="2" type="text"/></div>
+<label for="member-email">Email address</label>
+<input autocomplete="email" id="member-email" maxlength="254" required="" type="email"/>
+<label for="member-password">Password</label>
+<input autocomplete="current-password" id="member-password" minlength="8" required="" type="password"/>
+
+<div hidden="" id="member-confirm-wrap">
+  <label for="member-password-confirm">Confirm password</label>
+  <input autocomplete="new-password" id="member-password-confirm" minlength="8" type="password"/>
+  <p class="member-hint">Use at least 8 characters and enter the same password twice.</p>
+</div>
+
+<div hidden="" id="member-name-wrap">
+  <label for="member-name">Display name</label>
+  <input autocomplete="nickname" id="member-name" maxlength="80" minlength="2" type="text"/>
+</div>
 </fieldset>
 <div class="member-actions">
 <button class="button" id="member-submit" type="submit">Sign in</button>
@@ -411,14 +423,31 @@
   function setMode(next) {
     mode = next;
     const registering = mode === 'signup';
+
     byId('member-name-wrap').hidden = !registering;
     byId('member-name').required = registering;
-    byId('member-password').autocomplete = registering ? 'new-password' : 'current-password';
-    byId('member-submit').textContent = registering ? 'Create free account' : 'Sign in';
-    byId('member-toggle').textContent = registering ? 'I already have an account' : 'Create an account instead';
+
+    byId('member-confirm-wrap').hidden = !registering;
+    byId('member-password-confirm').required = registering;
+
+    byId('member-password').minLength = registering ? 8 : 6;
+
+    byId('member-password').autocomplete =
+      registering ? 'new-password' : 'current-password';
+
+    byId('member-submit').textContent =
+      registering ? 'Create free account' : 'Sign in';
+
+    byId('member-toggle').textContent =
+      registering ? 'I already have an account' : 'Create an account instead';
+
     byId('member-mode-hint').textContent = registering
-      ? 'You may need to confirm your email before signing in. Your display name will be saved after authentication.'
+      ? 'Create your SHON account using a password of at least 8 characters. You will need to confirm your email address before signing in.'
       : 'Use the email address and password for your SHON account.';
+
+    if (!registering) {
+      byId('member-password-confirm').value = '';
+    }
   }
   async function loadProfile(user) {
     const { data, error } = await client.from('member_profiles')
@@ -463,12 +492,18 @@
     setBusy(true);
     const email = byId('member-email').value.trim();
     const password = byId('member-password').value;
+    const confirmPassword = byId('member-password-confirm').value;
     const displayName = byId('member-name').value.trim();
     try {
       if (mode === 'signup') {
         if (displayName.length < 2) throw new Error('Please enter a display name of at least 2 characters.');
-        const { data, error } = await client.auth.signUp({
-          email, password, options: { data: { display_name: displayName } }
+        if (password.length < 8) throw new Error('Your password must contain at least 8 characters.');
+        if (password !== confirmPassword) throw new Error('The two passwords do not match.');
+      const { data, error } = await client.auth.signUp({
+          email, password, options: {
+  emailRedirectTo: 'https://shonnetwork.github.io/shon-website/',
+  data: { display_name: displayName }
+}
         });
         if (error) throw error;
         if (data.session) {
@@ -482,6 +517,7 @@
         await showUser(data.user);
       }
       byId('member-password').value = '';
+      byId('member-password-confirm').value = '';
     } catch (error) {
       report('Account action could not be completed: ' + (error.message || String(error)), 'error');
     } finally { setBusy(false); }
@@ -520,6 +556,7 @@
     if (!window.supabase || !window.supabase.createClient) throw new Error('Supabase client library could not be loaded. Check your internet connection.');
     client = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
     signedOut.hidden = false;
+    setMode('signin');
     client.auth.onAuthStateChange(() => {
       // Defer database operations outside the auth callback to avoid SDK deadlocks.
       setTimeout(() => { if (!busy) refresh().catch(e => report('Member access error: ' + e.message, 'error')); }, 0);
@@ -530,3 +567,4 @@
   }
 })();</script></body>
 </html>
+
