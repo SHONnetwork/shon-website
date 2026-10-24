@@ -10,13 +10,24 @@
   </title>
   <style>
    :root{font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:#103b3c;background:#f7f9f5}*{box-sizing:border-box}body{margin:0}a{color:inherit}header{background:#fff;box-shadow:0 1px 9px #0c45451a;position:sticky;top:0;z-index:2}.bar{max-width:1150px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:15px 22px;flex-wrap:wrap}.logo{font-family:Georgia,serif;font-size:38px;font-weight:bold;text-decoration:none;letter-spacing:1px}.logo small{display:block;font:12px system-ui;letter-spacing:0}nav{display:flex;gap:20px;flex-wrap:wrap}nav a{text-decoration:none;font-weight:600;font-size:14px}nav a:hover{text-decoration:underline}.support{background:#f4c56e;padding:10px 16px;border-radius:12px}main{max-width:1150px;margin:auto;padding:0 22px}.hero{padding:75px 25px;text-align:center;background:linear-gradient(140deg,#e4f0d9,#e3f5f4 50%,#ffe6b8);border-radius:0 0 24px 24px}.eyebrow{font-weight:700;letter-spacing:2px;text-transform:uppercase;font-size:12px}.hero h1{font:clamp(38px,5vw,66px) Georgia,serif;line-height:1.08;margin:18px 0}.hero p{font-size:19px;max-width:730px;margin:20px auto;line-height:1.6}.button{display:inline-block;background:#07504b;color:white;border:0;border-radius:10px;padding:13px 22px;text-decoration:none;font-weight:700;cursor:pointer}.button:hover{background:#086e66}.section{padding:55px 0}.section h2{font:36px Georgia,serif;margin:0 0 10px}.muted{color:#4e6666;line-height:1.6}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:25px}.card{border-radius:18px;padding:28px;background:white;box-shadow:0 4px 22px #15463c12}.card h3{margin:0 0 10px;font-size:22px}.card p{line-height:1.6;margin-bottom:0}.green{background:#e3f0d7}.blue{background:#e0f0fc}.pink{background:#fae0e5}.gold{background:#ffedc7}.icon{font-size:30px;margin-bottom:14px}.strip{background:#073f3d;color:white;border-radius:20px;padding:35px;margin:25px 0}.strip h2{margin:0 0 8px}.pills{display:flex;gap:9px;flex-wrap:wrap;margin:20px 0}.pill{border:1px solid #bfd5cc;border-radius:30px;padding:9px 13px;background:white;font-size:13px}.wide{grid-column:1/-1}.notice{border-left:4px solid #dfad53;background:#fff9ea;padding:18px;border-radius:8px;line-height:1.6}.search{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.search input{flex:1;min-width:210px;padding:13px;border:1px solid #abc7c1;border-radius:9px;font:inherit}.preview{font-size:14px;margin-top:12px;color:#496460}.footer{background:#073f3d;color:white;text-align:center;padding:30px 15px;margin-top:30px}@media(max-width:650px){.grid{grid-template-columns:1fr}.hero{padding:45px 12px}.bar{justify-content:center}nav{justify-content:center}.section h2{font-size:30px}}
+
+/* Approved SHON and SHANE identity */
+.brand-mark{width:56px;height:56px;object-fit:contain;object-position:left center;vertical-align:middle;margin-right:8px}
+.brand-line{display:flex;align-items:center;gap:8px}.brand-line span{font-family:Georgia,serif}
+.identity-art{width:min(100%,860px);height:auto;display:block;margin:25px auto 0;border-radius:14px}
+.partnership{background:#fff;border-radius:22px;padding:32px;box-shadow:0 4px 22px #15463c12}
+.partnership .identity-art{margin:10px auto 20px}.partner-label{display:inline-block;border-radius:20px;background:#e0f0fc;color:#164b78;font-size:13px;font-weight:700;padding:7px 12px}
+.partner-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;margin:22px 0}
+.partner-grid>div{border-radius:14px;padding:22px;background:#eaf4e6}.partner-grid>div+div{background:#e8f2fc}
+.partner-grid h3{margin-top:0}.partner-grid p{line-height:1.6}
+@media(max-width:650px){.partner-grid{grid-template-columns:1fr}.partnership{padding:18px}.brand-mark{width:45px;height:45px}}
   </style>
  </head>
  <body>
   <header>
    <div class="bar">
     <a class="logo" href="#home">
-     🌳 SHON
+     <span class="brand-line"><span aria-hidden="true">🏡</span><span>SHON</span></span>
      <small>
       Supported Housing Opportunity Network
      </small>
@@ -310,4 +321,3 @@
   </footer>
  </body>
 </html>
-
