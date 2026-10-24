@@ -35,6 +35,12 @@
 .member-panel [hidden]{display:none!important}.member-hint{font-size:14px;color:#506863;line-height:1.5}
 .member-panel fieldset{border:0;margin:0;padding:0}.member-panel button:disabled{opacity:.6;cursor:wait}
 @media(max-width:650px){.member-panel{padding:18px}.member-panel h2{font-size:28px}}
+
+/* SHON Phase 2 member network */
+.member-panel textarea,.member-panel select{display:block;width:100%;padding:12px 13px;border:1px solid #9cbcb2;border-radius:9px;font:inherit;background:white}
+.member-panel textarea{min-height:105px;resize:vertical}.member-panel textarea:focus,.member-panel select:focus{outline:3px solid #aedbd2;outline-offset:1px}
+.check-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:10px 0 4px}.check-card{display:flex!important;align-items:flex-start;gap:9px;margin:0!important;padding:12px;border:1px solid #cfe0d8;border-radius:10px;background:#f8fbf9;font-weight:600!important}.check-card input{width:auto!important;margin:3px 0 0}.member-subsection{border-top:1px solid #dce8e2;margin-top:25px;padding-top:22px}.member-subsection h3{margin:0 0 6px;font:25px Georgia,serif}.two-col{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.listing-card{border:1px solid #d5e4dd;border-radius:14px;padding:18px;background:white;margin:12px 0}.listing-card h3{margin:0 0 7px;font-size:20px}.listing-meta{display:flex;gap:7px;flex-wrap:wrap;margin:9px 0}.tag{font-size:12px;border-radius:20px;padding:5px 9px;background:#e8f2ee}.listing-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.mini-button{border:0;border-radius:8px;padding:8px 11px;font-weight:700;cursor:pointer;background:#e4f0ec;color:#073f3d}.danger{background:#fff0ee;color:#842a25}.discover-tools{display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px;margin:18px 0}.discover-tools input,.discover-tools select{padding:12px;border:1px solid #abc7c1;border-radius:9px;font:inherit;background:white}.empty-state{padding:18px;border:1px dashed #aac7bd;border-radius:12px;color:#506863;background:#f8fbf9}.privacy-note{font-size:13px;line-height:1.5;background:#f1f7f4;border-radius:9px;padding:11px;margin-top:12px}
+@media(max-width:650px){.check-grid,.two-col,.discover-tools{grid-template-columns:1fr}}
 </style></head>
 <body>
 <header>
@@ -175,11 +181,44 @@
 <div hidden="" id="member-signed-in">
 <p id="member-welcome"></p>
 <form hidden="" id="member-profile-form">
-<label for="member-profile-name">Your display name</label>
+<div class="member-subsection" style="border-top:0;margin-top:0;padding-top:0">
+<h3>Your SHON profile</h3>
+<p class="member-hint">Choose every role that fits. Your account email stays private and is never placed in a public listing.</p>
+<label for="member-profile-name">Display name</label>
 <input autocomplete="nickname" id="member-profile-name" maxlength="80" minlength="2" required="" type="text"/>
-<p class="member-hint">Only your own account can read this profile through the current database policy. Public discovery is not enabled.</p>
-<div class="member-actions"><button class="button" id="member-save-profile" type="submit">Save my profile</button></div>
+<label>Your roles</label>
+<div class="check-grid">
+<label class="check-card"><input id="role-need-place" type="checkbox" value="need_place"/>🏠 I need a place</label>
+<label class="check-card"><input id="role-have-space" type="checkbox" value="have_space"/>👥 I have space to share</label>
+<label class="check-card"><input id="role-offer-help" type="checkbox" value="offer_help"/>💗 I can offer help</label>
+<label class="check-card"><input id="role-looking-person" type="checkbox" value="looking_person"/>🤝 I'm looking for someone</label>
+</div>
+<div class="two-col">
+<div><label for="member-region">Approximate location</label><input id="member-region" maxlength="120" placeholder="Example: Clear Lake / Houston, Texas" type="text"/></div>
+<div><label for="member-contact">Preferred contact</label><select id="member-contact"><option value="platform">SHON platform only</option><option value="email">Email may be shared after I choose to connect</option><option value="either">Either</option></select></div>
+</div>
+<label for="member-bio">About you</label><textarea id="member-bio" maxlength="1200" placeholder="A short introduction. Do not include an exact address or private information."></textarea>
+<label for="member-needs">What you need or hope to find</label><textarea id="member-needs" maxlength="1600"></textarea>
+<label for="member-offers">What you can offer</label><textarea id="member-offers" maxlength="1600"></textarea>
+<label class="check-card"><input id="member-discoverable" type="checkbox"/>Allow my display name and profile summary to accompany my published SHON listings.</label>
+<p class="privacy-note">Privacy by default: your email, account ID, and unpublished profile information are not displayed by the SHON website. Public discovery is driven by listings you deliberately publish.</p>
+<div class="member-actions"><button class="button" id="member-save-profile" type="submit">Save profile</button></div>
+</div>
 </form>
+<div class="member-subsection">
+<h3>Your listings</h3><p class="member-hint">Create a draft first, or publish it immediately. You can pause or close it later.</p>
+<form id="member-listing-form">
+<input id="listing-id" type="hidden"/>
+<div class="two-col"><div><label for="listing-type">Listing type</label><select id="listing-type"><option value="housing_needed">Housing needed</option><option value="housing_offered">Housing offered</option><option value="help_offered">Help / skills offered</option><option value="connection_sought">Connection sought</option></select></div>
+<div><label for="listing-status">Status</label><select id="listing-status"><option value="draft">Draft, private</option><option value="published">Published, discoverable</option><option value="paused">Paused, private</option><option value="closed">Closed, private</option></select></div></div>
+<label for="listing-title">Title</label><input id="listing-title" maxlength="120" required="" type="text"/>
+<label for="listing-description">Description</label><textarea id="listing-description" maxlength="3000" required=""></textarea>
+<div class="two-col"><div><label for="listing-region">Approximate location</label><input id="listing-region" maxlength="120" placeholder="City, region, or nationwide" type="text"/></div><div><label for="listing-arrangement">Cost / arrangement</label><select id="listing-arrangement"><option value="unspecified">Not specified</option><option value="no_rent">No rent required</option><option value="shared_costs">Shared costs</option><option value="rent">Rent / payment involved</option><option value="exchange">Service / mutual exchange</option><option value="flexible">Flexible / discuss</option></select></div></div>
+<div class="two-col"><div><label for="listing-housing-type">Housing / opportunity type</label><input id="listing-housing-type" maxlength="120" placeholder="Private room, caretaker presence, remote help…" type="text"/></div><div><label class="check-card" style="margin-top:37px!important"><input id="listing-remote" type="checkbox"/>Remote / online possible</label></div></div>
+<div class="member-actions"><button class="button" id="member-save-listing" type="submit">Save listing</button><button class="button member-secondary" id="member-cancel-listing" type="button">Clear form</button></div>
+</form>
+<div id="member-listings"></div>
+</div>
 <div class="member-actions"><button class="button member-secondary" id="member-signout" type="button">Sign out</button></div>
 </div>
 </div>
@@ -218,7 +257,12 @@
       Remote / online
      </span>
 </div>
-<div class="notice"><strong>Platform under development.</strong> Member account registration is being tested. Public listings, private messaging, and matching are not yet available; no participant listings are displayed.</div>
+<div class="notice"><strong>SHON network testing.</strong> Member profiles and public listings are now being tested. Listings are member-submitted and are not endorsements or guarantees by SHON. Private messaging and automated matching are still in development.</div>
+<div class="member-subsection">
+<h2>Discover published opportunities</h2><p class="muted">Search only information members have deliberately published. Exact addresses and account email addresses are not displayed here.</p>
+<div class="discover-tools"><input id="public-search" placeholder="Search listings" type="search"/><select id="public-type"><option value="">All types</option><option value="housing_needed">Housing needed</option><option value="housing_offered">Housing offered</option><option value="help_offered">Help / skills offered</option><option value="connection_sought">Connection sought</option></select><select id="public-arrangement"><option value="">All arrangements</option><option value="no_rent">No rent required</option><option value="shared_costs">Shared costs</option><option value="rent">Rent / payment</option><option value="exchange">Service / exchange</option><option value="flexible">Flexible</option></select></div>
+<div id="public-listings" class="empty-state">Loading published listings…</div>
+</div>
 </section>
 <section class="section" id="learning">
 <h2>
@@ -416,7 +460,7 @@
   }
   function setBusy(value) {
     busy = value;
-    for (const id of ['member-submit', 'member-toggle', 'member-signout', 'member-save-profile']) {
+    for (const id of ['member-submit', 'member-toggle', 'member-signout', 'member-save-profile', 'member-save-listing', 'member-cancel-listing']) {
       byId(id).disabled = value;
     }
   }
@@ -449,30 +493,39 @@
       byId('member-password-confirm').value = '';
     }
   }
+  const ROLE_IDS = { need_place:'role-need-place', have_space:'role-have-space', offer_help:'role-offer-help', looking_person:'role-looking-person' };
+  const TYPE_LABELS = { housing_needed:'Housing needed', housing_offered:'Housing offered', help_offered:'Help / skills offered', connection_sought:'Connection sought' };
+  const ARR_LABELS = { unspecified:'Not specified', no_rent:'No rent required', shared_costs:'Shared costs', rent:'Rent / payment involved', exchange:'Service / mutual exchange', flexible:'Flexible / discuss' };
+  let ownListings = [];
+  function escapeHtml(value='') { return String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
   async function loadProfile(user) {
     const { data, error } = await client.from('member_profiles')
-      .select('display_name').eq('user_id', user.id).maybeSingle();
+      .select('display_name,roles,region,bio,needs_text,offers_text,contact_preference,profile_discoverable').eq('user_id', user.id).maybeSingle();
     if (error) throw error;
     return data;
+  }
+  function fillProfile(profile, user) {
+    byId('member-profile-name').value = profile?.display_name || (user.user_metadata && user.user_metadata.display_name) || '';
+    const roles = profile?.roles || [];
+    for (const [role,id] of Object.entries(ROLE_IDS)) byId(id).checked = roles.includes(role);
+    byId('member-region').value = profile?.region || '';
+    byId('member-bio').value = profile?.bio || '';
+    byId('member-needs').value = profile?.needs_text || '';
+    byId('member-offers').value = profile?.offers_text || '';
+    byId('member-contact').value = profile?.contact_preference || 'platform';
+    byId('member-discoverable').checked = Boolean(profile?.profile_discoverable);
   }
   async function showUser(user) {
     currentUser = user;
     signedOut.hidden = Boolean(user);
     signedIn.hidden = !user;
-    if (!user) {
-      profileForm.hidden = true;
-      return;
-    }
+    if (!user) { profileForm.hidden = true; return; }
     byId('member-welcome').textContent = 'Signed in as ' + (user.email || 'SHON member') + '.';
     const profile = await loadProfile(user);
     profileForm.hidden = false;
-    if (profile) {
-      byId('member-profile-name').value = profile.display_name;
-      report('You are signed in. Your member profile is saved. You can update your display name below.', 'success');
-    } else {
-      byId('member-profile-name').value = (user.user_metadata && user.user_metadata.display_name) || '';
-      report('You are signed in. Please save your display name to finish setting up your member profile.');
-    }
+    fillProfile(profile, user);
+    await loadOwnListings();
+    report(profile ? 'You are signed in. Your SHON profile and listings are ready.' : 'You are signed in. Complete your SHON profile below.', profile ? 'success' : '');
   }
   async function refresh() {
     if (!client) return;
@@ -480,6 +533,7 @@
     if (error && !/session missing/i.test(error.message || '')) throw error;
     await showUser(data?.user || null);
     if (!data?.user) report('Member access is ready. Sign in or create a free account.');
+    await loadPublicListings();
   }
   byId('member-toggle').addEventListener('click', () => {
     if (busy) return;
@@ -499,18 +553,10 @@
         if (displayName.length < 2) throw new Error('Please enter a display name of at least 2 characters.');
         if (password.length < 8) throw new Error('Your password must contain at least 8 characters.');
         if (password !== confirmPassword) throw new Error('The two passwords do not match.');
-      const { data, error } = await client.auth.signUp({
-          email, password, options: {
-  emailRedirectTo: 'https://shonnetwork.github.io/shon-website/',
-  data: { display_name: displayName }
-}
-        });
+        const { data, error } = await client.auth.signUp({ email, password, options: { emailRedirectTo: 'https://shonnetwork.github.io/shon-website/', data: { display_name: displayName } } });
         if (error) throw error;
-        if (data.session) {
-          await showUser(data.user);
-        } else {
-          report('Registration request received. If confirmation is required, check your email for a confirmation link. After confirming, return here to sign in.', 'success');
-        }
+        if (data.session) await showUser(data.user);
+        else report('Registration request received. Check your email for the confirmation link. After confirming, SHON should return you here signed in.', 'success');
       } else {
         const { data, error } = await client.auth.signInWithPassword({ email, password });
         if (error) throw error;
@@ -518,29 +564,71 @@
       }
       byId('member-password').value = '';
       byId('member-password-confirm').value = '';
-    } catch (error) {
-      report('Account action could not be completed: ' + (error.message || String(error)), 'error');
-    } finally { setBusy(false); }
+    } catch (error) { report('Account action could not be completed: ' + (error.message || String(error)), 'error'); }
+    finally { setBusy(false); }
   });
   profileForm.addEventListener('submit', async (event) => {
     event.preventDefault();
     if (busy || !currentUser || !client) return;
     const displayName = byId('member-profile-name').value.trim();
-    if (displayName.length < 2) return report('Please enter at least 2 characters.', 'error');
+    if (displayName.length < 2) return report('Please enter at least 2 characters for your display name.', 'error');
+    const roles = Object.entries(ROLE_IDS).filter(([,id]) => byId(id).checked).map(([role]) => role);
     setBusy(true);
     try {
-      const { data: existing, error: readError } = await client.from('member_profiles')
-        .select('id').eq('user_id', currentUser.id).maybeSingle();
-      if (readError) throw readError;
-      const result = existing
-        ? await client.from('member_profiles').update({ display_name: displayName }).eq('user_id', currentUser.id)
-        : await client.from('member_profiles').insert({ user_id: currentUser.id, display_name: displayName, profile_discoverable: false });
-      if (result.error) throw result.error;
-      report('Your SHON member profile has been saved successfully.', 'success');
-    } catch (error) {
-      report('Could not save your profile: ' + (error.message || String(error)) + '. The database may need authenticated API grants.', 'error');
-    } finally { setBusy(false); }
+      const payload = { user_id: currentUser.id, display_name: displayName, roles, region: byId('member-region').value.trim(), bio: byId('member-bio').value.trim(), needs_text: byId('member-needs').value.trim(), offers_text: byId('member-offers').value.trim(), contact_preference: byId('member-contact').value, profile_discoverable: byId('member-discoverable').checked, updated_at: new Date().toISOString() };
+      const { error } = await client.from('member_profiles').upsert(payload, { onConflict:'user_id' });
+      if (error) throw error;
+      report('Your SHON profile has been saved.', 'success');
+    } catch (error) { report('Could not save your profile: ' + (error.message || String(error)), 'error'); }
+    finally { setBusy(false); }
   });
+  function clearListingForm() {
+    byId('listing-id').value=''; byId('listing-type').value='housing_needed'; byId('listing-status').value='draft'; byId('listing-title').value=''; byId('listing-description').value=''; byId('listing-region').value=byId('member-region').value.trim(); byId('listing-arrangement').value='unspecified'; byId('listing-housing-type').value=''; byId('listing-remote').checked=false; byId('member-save-listing').textContent='Save listing';
+  }
+  byId('member-cancel-listing').addEventListener('click', clearListingForm);
+  byId('member-listing-form').addEventListener('submit', async (event) => {
+    event.preventDefault(); if (busy || !currentUser || !client) return; setBusy(true);
+    try {
+      const id = byId('listing-id').value;
+      const payload = { user_id:currentUser.id, owner_display_name:byId('member-discoverable').checked ? (byId('member-profile-name').value.trim() || 'SHON member') : 'SHON member', listing_type:byId('listing-type').value, status:byId('listing-status').value, title:byId('listing-title').value.trim(), description:byId('listing-description').value.trim(), region:byId('listing-region').value.trim(), arrangement:byId('listing-arrangement').value, housing_type:byId('listing-housing-type').value.trim(), remote_possible:byId('listing-remote').checked, updated_at:new Date().toISOString() };
+      const result = id ? await client.from('listings').update(payload).eq('id', id) : await client.from('listings').insert(payload);
+      if (result.error) throw result.error;
+      clearListingForm(); await loadOwnListings(); await loadPublicListings(); report('Your listing has been saved.', 'success');
+    } catch(error) { report('Could not save listing: '+(error.message||String(error)), 'error'); }
+    finally { setBusy(false); }
+  });
+  async function loadOwnListings() {
+    if (!currentUser) return;
+    const { data,error } = await client.from('listings').select('*').eq('user_id',currentUser.id).order('updated_at',{ascending:false});
+    if (error) throw error; ownListings=data||[]; renderOwnListings();
+  }
+  function renderOwnListings() {
+    const box=byId('member-listings');
+    if (!ownListings.length) { box.innerHTML='<div class="empty-state">You have no listings yet.</div>'; return; }
+    box.innerHTML=ownListings.map(x=>`<article class="listing-card"><h3>${escapeHtml(x.title)}</h3><div class="listing-meta"><span class="tag">${escapeHtml(TYPE_LABELS[x.listing_type]||x.listing_type)}</span><span class="tag">${escapeHtml(x.status)}</span>${x.region?`<span class="tag">${escapeHtml(x.region)}</span>`:''}</div><p>${escapeHtml(x.description)}</p><div class="listing-actions"><button class="mini-button" type="button" data-edit="${x.id}">Edit</button><button class="mini-button danger" type="button" data-delete="${x.id}">Delete</button></div></article>`).join('');
+    box.querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>editListing(b.dataset.edit));
+    box.querySelectorAll('[data-delete]').forEach(b=>b.onclick=()=>deleteListing(b.dataset.delete));
+  }
+  function editListing(id) {
+    const x=ownListings.find(v=>String(v.id)===String(id)); if(!x)return;
+    byId('listing-id').value=x.id; byId('listing-type').value=x.listing_type; byId('listing-status').value=x.status; byId('listing-title').value=x.title; byId('listing-description').value=x.description; byId('listing-region').value=x.region||''; byId('listing-arrangement').value=x.arrangement||'unspecified'; byId('listing-housing-type').value=x.housing_type||''; byId('listing-remote').checked=Boolean(x.remote_possible); byId('member-save-listing').textContent='Update listing'; byId('listing-title').scrollIntoView({behavior:'smooth',block:'center'});
+  }
+  async function deleteListing(id) {
+    if (!confirm('Delete this listing permanently?')) return;
+    const {error}=await client.from('listings').delete().eq('id',id); if(error)return report('Could not delete listing: '+error.message,'error'); await loadOwnListings(); await loadPublicListings(); report('Listing deleted.','success');
+  }
+  async function loadPublicListings() {
+    if (!client) return;
+    let q=client.from('listings').select('id,owner_display_name,listing_type,title,description,region,arrangement,housing_type,remote_possible,updated_at').eq('status','published').order('updated_at',{ascending:false}).limit(100);
+    const {data,error}=await q; const box=byId('public-listings'); if(error){box.className='empty-state';box.textContent='Published listings are temporarily unavailable.';return;} window.shonPublicListings=data||[]; renderPublicListings();
+  }
+  function renderPublicListings() {
+    const box=byId('public-listings'), term=byId('public-search').value.trim().toLowerCase(), type=byId('public-type').value, arr=byId('public-arrangement').value;
+    const rows=(window.shonPublicListings||[]).filter(x=>(!type||x.listing_type===type)&&(!arr||x.arrangement===arr)&&(!term||[x.title,x.description,x.region,x.owner_display_name,x.housing_type].join(' ').toLowerCase().includes(term)));
+    if(!rows.length){box.className='empty-state';box.textContent='No published listings match this search yet.';return;} box.className='';
+    box.innerHTML=rows.map(x=>`<article class="listing-card"><h3>${escapeHtml(x.title)}</h3><div class="listing-meta"><span class="tag">${escapeHtml(TYPE_LABELS[x.listing_type]||x.listing_type)}</span>${x.region?`<span class="tag">${escapeHtml(x.region)}</span>`:''}<span class="tag">${escapeHtml(ARR_LABELS[x.arrangement]||x.arrangement)}</span>${x.remote_possible?'<span class="tag">Remote possible</span>':''}</div><p>${escapeHtml(x.description)}</p>${x.housing_type?`<p><strong>Type:</strong> ${escapeHtml(x.housing_type)}</p>`:''}<p class="member-hint">Posted by ${escapeHtml(x.owner_display_name||'SHON member')}</p></article>`).join('');
+  }
+  ['public-search','public-type','public-arrangement'].forEach(id=>byId(id).addEventListener(id==='public-search'?'input':'change',renderPublicListings));
   byId('member-signout').addEventListener('click', async () => {
     if (busy || !client) return;
     setBusy(true);
@@ -566,5 +654,7 @@
     report('Member access is temporarily unavailable: ' + error.message, 'error');
   }
 })();</script></body>
+</html>
+
 </html>
 
