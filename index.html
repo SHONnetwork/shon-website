@@ -49,6 +49,44 @@ main{max-width:1200px}.hero{position:relative;overflow:hidden;margin-top:16px;pa
 @media(max-width:480px){main{padding:0 12px}.hero{margin-top:10px;border-radius:18px}.hero:before,.hero:after{opacity:.3}.hero p{font-size:16px}.section h2{font-size:29px}.grid{grid-template-columns:1fr}.member-panel{padding:15px}.story-card{padding:18px}.logo{font-size:29px}nav{width:100%;justify-content:flex-start}.support{padding:7px 10px!important}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.card,.button{transition:none}.card:hover,.button:hover{transform:none}}
 </style>
+
+<style id="shon-community-upgrade">
+:root{--forest:#06483e;--mint:#e9f4e6;--warm:#fff8e8}
+header .bar{align-items:center}
+.hero{padding:55px 26px 62px}
+.hero h1{font-size:clamp(35px,5vw,58px)}
+.hero-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:24px}
+.button-alt{background:#fff;color:#075348;border:1px solid #9bc6b0}
+.button-alt:hover{background:#eaf5e9;color:#075348}
+.community-banner{border-radius:23px;overflow:hidden;background:#073f3d;color:white;display:grid;grid-template-columns:1.2fr 1fr;margin:18px 0 8px}
+.community-banner .intro{padding:34px}
+.community-banner h2{font:clamp(27px,3vw,40px) Georgia,serif;color:white;margin:0 0 12px}
+.community-banner p{line-height:1.65}
+.community-banner .mosaic{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:17px;background:linear-gradient(130deg,#cfe6ce,#f7e6b7)}
+.community-banner .mosaic div{display:grid;place-items:center;background:#fffdf3;border-radius:14px;font-size:43px;min-height:100px}
+.feature-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:22px}
+.feature-card{border:1px solid #dbe7d8;background:#fff;border-radius:18px;padding:22px}
+.feature-card h3{color:#134b3c;margin:8px 0}
+.feature-card p{line-height:1.55;color:#4c665c}
+.feature-card .emoji{font-size:34px}
+.section-kicker{font-size:12px;text-transform:uppercase;letter-spacing:.13em;color:#317a5b;font-weight:800}
+.future-label{display:inline-block;background:#fff0c7;color:#674c14;border-radius:30px;font-size:12px;padding:5px 10px;font-weight:700}
+.impact-panel{background:#f0f7f1;border:1px solid #d5e5d7;border-radius:22px;padding:28px;margin:18px 0}
+.impact-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0}
+.impact-stat{background:white;border-radius:14px;padding:20px}
+.impact-stat strong{font:clamp(23px,3vw,34px) Georgia,serif;color:#064d42;display:block}
+.impact-stat span{font-size:13px;line-height:1.5}
+.impact-panel p{line-height:1.65}
+.impact-panel small{display:block;line-height:1.6;color:#486259}
+#pathways .card{position:relative}
+#pathways .card a{display:inline-block;margin-top:15px;color:#064e40;font-weight:750}
+#pathways .grid{margin-top:18px}
+.section-nav{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0}
+.section-nav a{background:#e6f1e9;border-radius:999px;padding:9px 14px;text-decoration:none;font-weight:650;font-size:14px}
+@media(max-width:780px){.community-banner{grid-template-columns:1fr}.community-banner .mosaic{grid-template-columns:repeat(4,1fr)}.community-banner .mosaic div{min-height:65px;font-size:30px}.feature-grid{grid-template-columns:1fr 1fr}.impact-stats{grid-template-columns:1fr}}
+@media(max-width:540px){.feature-grid{grid-template-columns:1fr}.community-banner .intro{padding:22px}.impact-panel{padding:20px}.hero-actions a{width:100%;max-width:330px}.hero{padding:45px 18px}}
+</style>
+
 </head>
 <body>
 <header>
@@ -69,7 +107,7 @@ main{max-width:1200px}.hero{position:relative;overflow:hidden;margin-top:16px;pa
 <a href="#learning">
       Learning
      </a>
-<a href="#communities">
+<a href="#social">Social &amp; Games</a><a href="#communities">
       Communities
      </a>
 <a href="#partnership">
@@ -97,7 +135,7 @@ main{max-width:1200px}.hero{position:relative;overflow:hidden;margin-top:16px;pa
 <p>
      Discover people, homes, households, extended families, and communities. Find what you need, share what you can, and imagine what we might create together. Free to participate. People before profit.
     </p>
-<a class="button" href="#pathways">
+<div class="hero-actions"><a class="button" href="#pathways">
      Explore the possibilities ↓
     </a>
 </section>
@@ -156,6 +194,25 @@ main{max-width:1200px}.hero{position:relative;overflow:hidden;margin-top:16px;pa
 </div>
 </section>
 <section class="section story-section" id="belonging"><div class="story-heading"><span class="eyebrow">A different kind of network</span><h2>More than a roof. A life shared on your own terms.</h2><p>SHON is a people-centered network for discovering, forming, and sustaining compatible homes, households, extended families, and communities through voluntary, mutually beneficial relationships.</p></div><div class="story-grid"><article class="story-card"><span class="story-emoji" aria-hidden="true">👨‍👩‍👧</span><h3>Families belong here</h3><p>Parents with children, couples, grandparents, and chosen families all deserve opportunities to stay together and thrive.</p></article><article class="story-card"><span class="story-emoji" aria-hidden="true">🌻</span><h3>Room for one another</h3><p>A quiet home may welcome laughter, shared meals, companionship, or an extended household, without requiring caregiving or employment.</p></article><article class="story-card"><span class="story-emoji" aria-hidden="true">🪴</span><h3>Every person brings something</h3><p>Presence, stories, experience, skills, kindness, and creativity can enrich a household. Not every contribution has a price tag.</p></article></div><p class="story-footer">A good home can be peaceful or lively, independent or communal. You choose what to share and what belonging means to you.</p></section>
+
+<section class="section" id="social" aria-labelledby="social-title">
+ <div class="community-banner">
+  <div class="intro">
+   <span class="future-label">Community features in development</span>
+   <h2 id="social-title">Come for an opportunity. Stay for the people.</h2>
+   <p>SHON is growing into a place where people can meet, talk, make friends, and discover what they might share. You should not need a housing listing to belong.</p>
+   <p>Imagine welcoming chat rooms, private messenger contacts, interest groups, and friendly games, connected across SHON and SHANE while protecting each network's independence.</p>
+   <a class="button button-alt" href="#connect">Explore current listings</a>
+  </div>
+  <div class="mosaic" aria-hidden="true"><div>💬</div><div>🏡</div><div>🎲</div><div>🌻</div></div>
+ </div>
+ <div class="feature-grid">
+  <article class="feature-card"><div class="emoji" aria-hidden="true">💬</div><h3>Community rooms</h3><p>Future conversations for families, shared living, friendship, gardening, community building, and everyday life.</p><span class="future-label">Planned, not live</span></article>
+  <article class="feature-card"><div class="emoji" aria-hidden="true">👥</div><h3>Friends &amp; messenger</h3><p>Future contact lists, private conversations, and optional online presence, with blocking and privacy controls.</p><span class="future-label">Planned, not live</span></article>
+  <article class="feature-card"><div class="emoji" aria-hidden="true">♟️</div><h3>Play together</h3><p>Future shared SHON–SHANE game spaces: chess, puzzles, trivia, and cooperative play. Free participation comes first.</p><span class="future-label">Planned, not live</span></article>
+ </div>
+</section>
+
 <section aria-labelledby="member-title" class="section" id="member-access">
 <div class="member-panel">
 <h2 id="member-title">Your place in SHON</h2><p class="member-hint">A single account for your story, your opportunities, and the households you hope to discover.</p>
@@ -422,6 +479,22 @@ main{max-width:1200px}.hero{position:relative;overflow:hidden;margin-top:16px;pa
 <p class="muted"><strong>Different missions. Shared possibilities.</strong> Neither network is yet represented here as a registered tax-exempt charity or an operating commercial platform.</p>
 </div>
 </section>
+
+<section class="section" id="why-shon">
+ <div class="impact-panel">
+  <span class="section-kicker">Why connections matter</span>
+  <h2>Abundant resources. Too many people without a home.</h2>
+  <p>In the United States, housing insecurity exists alongside substantial national wealth and underused spaces. SHON asks a practical question: what becomes possible when people, households, property owners, and communities can find one another?</p>
+  <div class="impact-stats">
+   <div class="impact-stat"><strong>771,480</strong><span>People counted experiencing homelessness on a single night in January 2024, according to HUD.</span></div>
+   <div class="impact-stat"><strong>~1 in 440</strong><span>Approximate share of the U.S. population represented by that one-night count.</span></div>
+   <div class="impact-stat"><strong>$77.1B</strong><span>Illustrative total at $100,000 per person. Not a housing cost estimate or proposed spending program.</span></div>
+  </div>
+  <p><strong>The home is the opportunity. The people are the heart of it.</strong> SHON aims to make compatible relationships and overlooked possibilities easier to discover, without claiming that matching alone can solve homelessness.</p>
+  <small>Source: HUD, <em>2024 Annual Homelessness Assessment Report, Part 1</em> (January 2024 point-in-time count). Population comparison is approximate. The 745,652 figure in the SHON concept artwork is a separate year-specific count; do not mix counts from different reporting years.</small>
+ </div>
+</section>
+
 <section class="section" id="about">
 <h2>
      Not about profit. About people.
