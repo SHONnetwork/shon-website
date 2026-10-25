@@ -599,6 +599,16 @@ tional online presence and additional tools are planned.</p><span class="future-
 <button class="button member-secondary" id="member-toggle" type="button">Create an account instead</button>
 </div>
 <p class="member-hint" id="member-mode-hint">Use the email address and password for your SHON account.</p>
+<button type="button" id="shon-forgot-password" class="mini-button">Forgot password? Email me a reset link</button>
+</form>
+<form id="shon-password-recovery" hidden>
+<h3>Choose a new password</h3>
+<p class="member-hint">You opened a password-recovery link. Choose a new password for your existing SHONnetwork account.</p>
+<label for="shon-new-password">New password (8 characters minimum)</label>
+<input id="shon-new-password" type="password" autocomplete="new-password" minlength="8" required>
+<label for="shon-confirm-new-password">Confirm new password</label>
+<input id="shon-confirm-new-password" type="password" autocomplete="new-password" minlength="8" required>
+<button class="button" type="submit">Save new password</button>
 </form>
 </div>
 <div hidden="" id="member-signed-in"><nav class="shon-app-nav" aria-label="Your SHON dashboard"><a href="#member-profile-form">👤 My profile</a><a href="#member-listing-form">🏡 My listings</a><a href="#browse-members" data-shon-view="saved">♡ My saved</a><a href="#browse-members" data-shon-view="people">🔎 Discover people</a><a href="#shon-mail">✉️ Messages</a><a href="#shon-preferences">💞 Preferences</a></nav>
@@ -1146,6 +1156,57 @@ acant buildings, underused properties, and declining towns as starting points fo
     }
 
   }
+
+  let recoveringPassword = false;
+  const recoveryForm = byId('shon-password-recovery');
+  function showRecoveryForm() {
+    recoveringPassword = true;
+    signedOut.hidden = false;
+    signedIn.hidden = true;
+    form.hidden = true;
+    recoveryForm.hidden = false;
+    report('Password recovery link accepted. Enter a new password below.', 'success');
+  }
+  byId('shon-forgot-password').addEventListener('click', async () => {
+    if (busy || !client) return;
+    const email = byId('member-email').value.trim();
+    if (!email || !byId('member-email').checkValidity()) {
+      report('Enter your account email address above, then click Forgot password.', 'error');
+      byId('member-email').focus();
+      return;
+    }
+    setBusy(true);
+    try {
+      const redirectTo = window.location.origin + window.location.pathname + '#member-access';
+      const {error} = await client.auth.resetPasswordForEmail(email, {redirectTo});
+      if (error) throw error;
+      report('If that email belongs to an account, a password-reset link will arrive shortly. Check your inbox and spam folder. Open the link in this browser.', 'success');
+    } catch (error) { report('Could not request password reset: ' + (error.message || String(error)), 'error'); }
+    finally { setBusy(false); }
+  });
+  recoveryForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    if (busy || !client) return;
+    const password = byId('shon-new-password').value;
+    if (password.length < 8 || password !== byId('shon-confirm-new-password').value) {
+      report('Use at least 8 characters and make sure both passwords match.', 'error');
+      return;
+    }
+    setBusy(true);
+    try {
+      const {error} = await client.auth.updateUser({password});
+      if (error) throw error;
+      recoveringPassword = false;
+      recoveryForm.hidden = true;
+      form.hidden = false;
+      byId('shon-new-password').value = '';
+      byId('shon-confirm-new-password').value = '';
+      const {data} = await client.auth.getUser();
+      await showUser(data?.user || null);
+      report('Password changed successfully. You are signed in.', 'success');
+    } catch (error) { report('Could not update password: ' + (error.message || String(error)), 'error'); }
+    finally { setBusy(false); }
+  });
 
   const ROLE_IDS = { need_place:'role-need-place', have_space:'role-have-space', offer_help:'role-offer-help', looking_person:'role-looking-person' };
 
@@ -1779,7 +1840,9 @@ function stateFromRegion(value){
 
     setMode('signin');
 
-    client.auth.onAuthStateChange(() => {
+    client.auth.onAuthStateChange((event) => {
+      if (event === 'PASSWORD_RECOVERY') { showRecoveryForm(); return; }
+      if (recoveringPassword) return;
 
 
       setTimeout(() => { if (!busy
@@ -1787,7 +1850,7 @@ function stateFromRegion(value){
 
     });
 
-    refresh().catch(e => report('Member access error: ' + e.message, 'error'));
+    if (!recoveringPassword) refresh().catch(e => report('Member access error: ' + e.message, 'error'));
 
   } catch (error) {
 
