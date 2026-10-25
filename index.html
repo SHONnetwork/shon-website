@@ -392,7 +392,18 @@ bf8d31;padding:13px;border-radius:8px;line-height:1.55}@media(max-width:760px){#
 </style><style>
 .shon-photo-tools{margin:16px 0;padding:17px;border:1px solid #cfe1d6;border-radius:14px;background:#f4faf6}.shon-photo-tools input[type=file]{display:block;margin:10px 0;max-width:100%}.shon-photo-gallery{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}.shon-photo-tile{width:126px;position:relative}.shon-photo-tile img{width:126px;height:115px;object-fit:cover;border-radius:12px;border:1px solid #d3e3d9}.shon-photo-tile button{display:block;width:100%;margin-top:4px}.shon-result-photos{display:flex;gap:8px;overflow-x:auto;margin:12px 0}.shon-result-photos img{width:135px;height:115px;object-fit:cover;border-radius:10px;flex:none}.shon-match-note{font-size:13px;color:#285e4a;background:#e9f6ee;border-radius:9px;padding:8px 10px;display:inline-block;margin-top:8px}
 </style>
-</head>
+<style id="shon-app-improvements">
+.shon-app-nav,.shon-discover-shortcuts{display:flex;gap:9px;flex-wrap:wrap;margin:14px 0 20px;align-items:center}
+.shon-app-nav a,.shon-discover-shortcuts a{display:inline-flex;padding:10px 13px;border:1px solid #bed8c8;border-radius:999px;background:#f5faf5;color:#155544;text-decoration:none;font-weight:700;font-size:14px}
+.shon-app-nav a:hover,.shon-discover-shortcuts a:hover{background:#dcefe3}
+.shon-match-explainer{background:#eff8f0;border-left:4px solid #276e52;padding:13px 16px;border-radius:9px;line-height:1.6}
+.shon-card-details{margin:10px 0;border:1px solid #d8e7dc;border-radius:10px;padding:10px 12px;background:#f8fcf9}
+.shon-card-details summary{cursor:pointer;font-weight:700;color:#155544}
+.shon-card-details p{margin:9px 0;line-height:1.5}
+.shon-message-member{margin:8px 0 0 7px}
+#shon-mail,#browse-members,#member-access{scroll-margin-top:105px}
+@media(max-width:650px){.shon-app-nav a,.shon-discover-shortcuts a{font-size:13px;padding:9px 10px}.shon-message-member{margin-left:0}}
+</style></head>
 <body>
 <a class="shon-skip-link" href="#connect">Skip to opportunities</a>
 <header>
@@ -590,7 +601,7 @@ tional online presence and additional tools are planned.</p><span class="future-
 <p class="member-hint" id="member-mode-hint">Use the email address and password for your SHON account.</p>
 </form>
 </div>
-<div hidden="" id="member-signed-in">
+<div hidden="" id="member-signed-in"><nav class="shon-app-nav" aria-label="Your SHON dashboard"><a href="#member-profile-form">👤 My profile</a><a href="#member-listing-form">🏡 My listings</a><a href="#browse-members" data-shon-view="saved">♡ My saved</a><a href="#browse-members" data-shon-view="people">🔎 Discover people</a><a href="#shon-mail">✉️ Messages</a></nav>
 <p id="member-welcome"></p>
 <form hidden="" id="member-profile-form">
 <div class="member-subsection" style="border-top:0;margin-top:0;padding-top:0">
@@ -645,7 +656,7 @@ s</option></select></div></div>
 </form>
 <div id="member-listings"></div>
 </div>
-<section aria-labelledby="shon-mail-title" hidden="" id="shon-mail"><h3 id="shon-mail-title">✉️ Your SHON mailbox &amp; connections</h3><p class="mail-muted">Private member conversations and friend requests. Your email address is not shared. To contact someone new, find them in the opt-in people directory below.</p><div aria-live="polite" id="shon-mail-status" role="status">Preparing mailbox…</div><div class="mail-columns"><div><h4>Find a member</h4><label for="shon-find-name">Search public members by name or region</label><input id="shon-find-name" maxlength="80" placeholder="Name or area"/><button id="shon-find-button" type="button">Find people</button><div id="shon-find-results"></div><h4>Friends &amp; requests</h4><div id="shon-friends"></div><h4>Conversations</h4><button id="shon-mail-refresh" type="button">Refresh mailbox</button><div id="shon-conversations"></div></div><div><h4 id="shon-thread-title">Select a conversation</h4><div aria-live="polite" class="mail-thread" id="shon-thread">Choose a conversation or find a member to begin.</div><label for="shon-message-body">Your message</label><textarea id="shon-message-body" maxlength="4000" placeholder="Write a private message…"></textarea><button disabled="" id="shon-send-message" type="button">Send message</button><div hidden="" id="shon-thread-actions"><button class="mail-danger" id="shon-block-member" type="button">Block member</button><button id="shon-report-member" type="button">Report concern</button></div><p class="mail-muted">Only participants can read a conversation. Blocking prevents new messages. Reports are stored privately for authorized moderation; human review requires an administrator.</p></div></div></section><div class="member-actions"><button class="button member-secondary" id="member-signout" type="button">
+<section aria-labelledby="shon-mail-title" hidden="" id="shon-mail"><h3 id="shon-mail-title">✉️ Your SHON mailbox &amp; connections</h3><p class="mail-muted">Private member conversations and friend requests. Your email address is not shared. To contact someone new, choose Message member from the directory, or use Find a member below.</p><div aria-live="polite" id="shon-mail-status" role="status">Preparing mailbox…</div><div class="mail-columns"><div><h4>Find a member</h4><label for="shon-find-name">Search public members by name or region</label><input id="shon-find-name" maxlength="80" placeholder="Name or area"/><button id="shon-find-button" type="button">Find people</button><div id="shon-find-results"></div><h4>Friends &amp; requests</h4><div id="shon-friends"></div><h4>Conversations</h4><button id="shon-mail-refresh" type="button">Refresh mailbox</button><div id="shon-conversations"></div></div><div><h4 id="shon-thread-title">Select a conversation</h4><div aria-live="polite" class="mail-thread" id="shon-thread">Choose a conversation or find a member to begin.</div><label for="shon-message-body">Your message</label><textarea id="shon-message-body" maxlength="4000" placeholder="Write a private message…"></textarea><button disabled="" id="shon-send-message" type="button">Send message</button><div hidden="" id="shon-thread-actions"><button class="mail-danger" id="shon-block-member" type="button">Block member</button><button id="shon-report-member" type="button">Report concern</button></div><p class="mail-muted">Only participants can read a conversation. Blocking prevents new messages. Reports are stored privately for authorized moderation; human review requires an administrator.</p></div></div></section><div class="member-actions"><button class="button member-secondary" id="member-signout" type="button">
 Sign out</button></div>
 </div>
 </div>
@@ -707,7 +718,7 @@ Sign out</button></div>
 <div class="notice"><strong>SHONnetwork testing.</strong> Member profiles and public listings are now being tested. Listings are member-submitted and are not endorsements or guarantees by SHON. Private messaging and automated matching are still in development.</div>
 <div class="member-subsection" id="browse-members">
 <h2>Browse people and opportunities</h2><p class="muted">Discover what members have chosen to share. Look for homes, welcoming households, companionship, and ways to contribute. Exact addresses and account emails are not displayed.</p>
-<div aria-label="Explore people or opportunities" class="directory-tabs" role="group"><button aria-pressed="true" class="mini-button selected" id="show-opportunities" type="button">🏡 Homes &amp; opportunities</button><button aria-pressed="false" class="mini-button" id="show-people" type="button">👥 People &amp; households</button></div>
+<p class="shon-match-explainer">Browse profiles and opportunities, open more details, save favorites, and contact members through SHON's private mailbox. Photos are optional. Interest marks are private bookmarks, not mutual matches yet.</p><div class="shon-discover-shortcuts"><a href="#member-access">👤 Edit my profile</a><a href="#shon-mail">✉️ Messages</a><button type="button" class="mini-button" id="shon-discover-saved-shortcut">♡ Saved &amp; interested</button></div><div aria-label="Explore people or opportunities" class="directory-tabs" role="group"><button aria-pressed="true" class="mini-button selected" id="show-opportunities" type="button">🏡 Homes &amp; opportunities</button><button aria-pressed="false" class="mini-button" id="show-people" type="button">👥 People &amp; households</button></div>
 <div class="discover-tools discover-expanded">
 <label>Keywords<input id="public-search" placeholder="Home, cats, gardening, companionship…" type="search"/></label>
 
@@ -1594,10 +1605,20 @@ function stateFromRegion(value){
     const box=isPeople?peopleBox:listBox;
     if(!pageRows.length){box.className='empty-state';box.textContent=savedOnly?'No saved or interested items match these filters.':isPeople?'No discoverable members match. Try fewer filters.':'No opportunities match. Try broader filters.';return;}
     box.className='';
-    if(isPeople)box.innerHTML=pageRows.map(x=>`<article class="listing-card"><h3>👤 ${escapeHtml(x.display_name||'SHON member')}</h3><div class="listing-meta">${x.region?`<span class="tag">${escapeHtml(x.region)}</span>`:''}${(x.roles||[]).map(r=>`<span class="tag">${escapeHtml(({need_place:'Seeking a home',have_space:'Space to share',offer_help:'Skills to share',looking_person:'Connection & companionship'})[r]||r)}</span>`).join('')}</div>${x.bio?`<p>${escapeHtml(x.bio)}</p>`:''}${shonPhotoHtml('person',x.directory_id)}<p class="member-hint">${escapeHtml(dateLabel(x.last_active_at))} · Public profile</p>${markButtons('person',x.directory_id)}</article>`).join('');
-    else box.innerHTML=pageRows.map(x=>`<article class="listing-card"><h3>${escapeHtml(x.title)}</h3><div class="listing-meta"><span class="tag">${escapeHtml(TYPE_LABELS[x.listing_type]||x.listing_type)}</span>${x.region?`<span class="tag">${escapeHtml(x.region)}</span>`:''}${x.arrangement!=='unspecified'?`<span class="tag">${escapeHtml(ARR_LABELS[x.arrangement]||x.arrangement)}</span>`:''}${x.remote_possible?'<span class="tag">Remote contribution possible</span>':''}</div><p>${escapeHtml(x.description)}</p>${x.housing_type?`<p><strong>Type:</strong> ${escapeHtml(x.housing_type)}</p>`:''}${shonPhotoHtml('listing',x.id)}<p class="member-hint">Shared by ${escapeHtml(x.owner_display_name||'SHON member')}</p>${markButtons('listing',x.id)}</article>`).join('');
+    if(isPeople)box.innerHTML=pageRows.map(x=>`<article class="listing-card"><h3>👤 ${escapeHtml(x.display_name||'SHON member')}</h3><div class="listing-meta">${x.region?`<span class="tag">${escapeHtml(x.region)}</span>`:''}${(x.roles||[]).map(r=>`<span class="tag">${escapeHtml(({need_place:'Seeking a home',have_space:'Space to share',offer_help:'Skills to share',looking_person:'Connection & companionship'})[r]||r)}</span>`).join('')}</div>${x.bio?`<p>${escapeHtml(x.bio)}</p>`:''}${shonPhotoHtml('person',x.directory_id)}<details class="shon-card-details"><summary>View profile details</summary><p><strong>Location:</strong> ${escapeHtml(x.region||'Not provided')}</p><p><strong>Interests:</strong> ${(x.roles||[]).map(r=>escapeHtml(({need_place:'Seeking housing',have_space:'Offering space',offer_help:'Offering skills',looking_person:'Companionship / connection'})[r]||r)).join(', ')||'Not specified'}</p><p>Members choose what to publish. Private stories and contact details are not displayed.</p></details><p class="member-hint">${escapeHtml(dateLabel(x.last_active_at))} · Public profile</p>${markButtons('person',x.directory_id)}<button class="mini-button shon-message-member" type="button" data-shon-message-name="${escapeHtml(x.display_name||'')}" aria-label="Find ${escapeHtml(x.display_name||'this member')} in SHON mailbox">✉️ Message member</button></article>`).join('');
+    else box.innerHTML=pageRows.map(x=>`<article class="listing-card"><h3>${escapeHtml(x.title)}</h3><div class="listing-meta"><span class="tag">${escapeHtml(TYPE_LABELS[x.listing_type]||x.listing_type)}</span>${x.region?`<span class="tag">${escapeHtml(x.region)}</span>`:''}${x.arrangement!=='unspecified'?`<span class="tag">${escapeHtml(ARR_LABELS[x.arrangement]||x.arrangement)}</span>`:''}${x.remote_possible?'<span class="tag">Remote contribution possible</span>':''}</div><p>${escapeHtml(x.description)}</p>${x.housing_type?`<p><strong>Type:</strong> ${escapeHtml(x.housing_type)}</p>`:''}${shonPhotoHtml('listing',x.id)}<details class="shon-card-details"><summary>Opportunity details</summary><p><strong>Area:</strong> ${escapeHtml(x.region||'Not specified')}</p><p><strong>Arrangement:</strong> ${escapeHtml(ARR_LABELS[x.arrangement]||'Not specified')}</p><p><strong>Remote contribution:</strong> ${x.remote_possible?'Possible':'Not indicated'}</p><p>Contact the advertiser through the member directory. Do not send payments or sensitive documents before verifying an opportunity.</p></details><p class="member-hint">Shared by ${escapeHtml(x.owner_display_name||'SHON member')}</p>${markButtons('listing',x.id)}<button class="mini-button shon-message-member" type="button" data-shon-message-name="${escapeHtml(x.owner_display_name||'')}" aria-label="Find advertiser in SHON mailbox">✉️ Contact advertiser</button></article>`).join('');
   }
   byId('browse-members').addEventListener('click',event=>{
+    const message=event.target.closest('button[data-shon-message-name]');
+    if(message){
+      const name=message.dataset.shonMessageName.trim();
+      if(!currentUser){byId('shon-save-status').textContent='Sign in to contact a member through SHON.';location.hash='#member-access';return;}
+      if(!name||name==='SHON member'){byId('shon-save-status').textContent='This listing does not disclose a searchable advertiser name. Save it for now.';return;}
+      byId('shon-find-name').value=name;
+      location.hash='#shon-mail';
+      byId('shon-find-button').click();
+      return;
+    }
     const b=event.target.closest('button[data-shon-mark]');if(!b)return;
     toggleMark(b.dataset.itemType,b.dataset.itemId,b.dataset.shonMark);
   });
@@ -1607,6 +1628,11 @@ function stateFromRegion(value){
   function setSavedMode(v){savedOnly=v;byId('show-all-results').setAttribute('aria-pressed',String(!v));byId('show-saved-results').setAttribute('aria-pressed',String(v));renderDiscovery(true);}
   byId('show-all-results').addEventListener('click',()=>setSavedMode(false));
   byId('show-saved-results').addEventListener('click',()=>{if(!currentUser){byId('shon-save-status').textContent='Sign in to view your saved items.';location.hash='#member-access';return;}setSavedMode(true);});
+  byId('shon-discover-saved-shortcut').addEventListener('click',()=>byId('show-saved-results').click());
+  document.querySelectorAll('[data-shon-view]').forEach(link=>link.addEventListener('click',()=>{
+    if(link.dataset.shonView==='saved')byId('show-saved-results').click();
+    if(link.dataset.shonView==='people')setDiscoveryMode('people');
+  }));
   byId('show-opportunities').addEventListener('click',()=>setDiscoveryMode('opportunities'));
 
   byId('show-people').addEventListener('click',()=>setDiscoveryMode('people'));
