@@ -368,6 +368,58 @@ button,.button,.mini-button,.support{min-height:44px}
 
 </style>
 
+<style id="shon-targeted-contrast-fixes-2026">
+
+/* Light-gold development badge must not inherit pale text from the dark banner. */
+
+.community-banner .intro .future-label {
+
+  background:#FFF0C7 !important;
+
+  color:#382909 !important;
+
+  font-weight:800;
+
+}
+
+/* Keep action buttons consistently legible on their green backgrounds. */
+
+#member-cancel-listing,
+
+#member-signout {
+
+  background:#16604C !important;
+
+  color:#FFFFFF !important;
+
+  border:1px solid #16604C;
+
+}
+
+#member-cancel-listing:hover,
+
+#member-signout:hover { background:#0D493B !important; color:#FFFFFF !important; }
+
+#member-cancel-listing:focus-visible,
+
+#member-signout:focus-visible { outline:3px solid #F4C56E; outline-offset:3px; }
+
+/* Override the global green eyebrow text inside the dark forest banner. */
+
+#community-creation > .strip .eyebrow { color:#FFF0D4 !important; }
+
+@media(max-width:650px) {
+
+  .community-banner .intro .future-label { font-size:14px; line-height:1.5; }
+
+  #member-cancel-listing, #member-signout { min-height:46px; font-size:16px; }
+
+  #community-creation > .strip .eyebrow { font-size:14px; line-height:1.5; }
+
+}
+
+</style>
+
 </head>
 
 <body>
