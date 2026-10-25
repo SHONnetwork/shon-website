@@ -87,6 +87,9 @@ header .bar{align-items:center}
 @media(max-width:540px){.feature-grid{grid-template-columns:1fr}.community-banner .intro{padding:22px}.impact-panel{padding:20px}.hero-actions a{width:100%;max-width:330px}.hero{padding:45px 18px}}
 </style>
 
+<style id="shon-human-upgrade">
+:root{--shon-ink:#163e36}body{font-size:16px}main{max-width:1220px}.hero{min-height:330px}.hero h1{max-width:850px}.hero-actions{margin-top:25px}.member-panel{max-width:1040px}.story-fields{background:#f5faf4;border:1px solid #d6e9d8;border-radius:18px;padding:22px;margin:22px 0}.story-fields h3{font:26px Georgia,serif;color:#1a5641}.story-fields p{line-height:1.6}.story-fields details{background:white;border:1px solid #dce9df;border-radius:12px;padding:16px;margin:12px 0}.story-fields summary{cursor:pointer;font-weight:750;color:#174d3d;font-size:17px}.story-fields textarea{min-height:78px}.story-fields .two-col{margin-top:12px}.profile-note{font-size:14px;color:#4c675e}.quick-nav{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 0;justify-content:center}.quick-nav a{background:#fff;border:1px solid #cde0d0;border-radius:999px;padding:10px 15px;text-decoration:none;font-weight:700;font-size:14px}.quick-nav a:hover{background:#e8f4e8}.pathway-link{display:inline-block;margin-top:14px;font-weight:750;color:#075347}.welcome-photo{position:relative;margin:18px auto 0;max-width:930px;min-height:185px;border-radius:22px;background:linear-gradient(110deg,#145848d9,#14584840),url('assets/shon-community.jpg') center 42%/cover,linear-gradient(135deg,#cce5d4,#f9e9b4);overflow:hidden;display:flex;align-items:flex-end;text-align:left}.welcome-photo p{color:white;background:#13473bcc;margin:0;padding:14px 20px;font-size:17px;max-width:100%;font-weight:700}.welcome-photo:not(:has(img)){box-shadow:0 7px 24px #174f3c1c}.member-panel label{line-height:1.4}.member-panel textarea{width:100%}@media(max-width:650px){.story-fields{padding:14px}.story-fields details{padding:12px}.quick-nav a{font-size:13px}.welcome-photo{min-height:120px}}
+</style>
 </head>
 <body>
 <header>
@@ -137,8 +140,8 @@ header .bar{align-items:center}
     </p>
 <div class="hero-actions">
 <a class="button" href="#pathways">Explore the possibilities ↓</a>
-<a class="button button-alt" href="#connect">Meet the community</a>
-</div>
+<a class="button button-alt" href="#social">Meet the community</a>
+</div><div class="quick-nav" aria-label="Explore SHON"><a href="#connect">Find opportunities</a><a href="#social">Community</a><a href="#member-access">My profile</a><a href="#learning">Learning</a></div>
 </section>
 <section class="section" id="pathways">
 <h2>
@@ -157,7 +160,7 @@ header .bar{align-items:center}
       </h3>
 <p>
        Look for a stable home, shared living, a welcoming family household, or another arrangement that fits your life.
-      </p>
+      </p><a class="pathway-link" href="#connect">Explore opportunities →</a>
 </article>
 <article class="card blue">
 <div class="icon">
@@ -168,7 +171,7 @@ header .bar{align-items:center}
       </h3>
 <p>
        Welcome someone into a spare room, a family home, or a household where companionship matters.
-      </p>
+      </p><a class="pathway-link" href="#connect">Explore opportunities →</a>
 </article>
 <article class="card pink">
 <div class="icon">
@@ -179,7 +182,7 @@ header .bar{align-items:center}
       </h3>
 <p>
        Share knowledge, creativity, conversation, skills, companionship, and everyday kindness.
-      </p>
+      </p><a class="pathway-link" href="#connect">Explore opportunities →</a>
 </article>
 <article class="card gold">
 <div class="icon">
@@ -190,10 +193,11 @@ header .bar{align-items:center}
       </h3>
 <p>
        Find housemates, companions, extended family, or people who want to create a lasting household together.
-      </p>
+      </p><a class="pathway-link" href="#connect">Explore opportunities →</a>
 </article>
 </div>
 </section>
+<div class="welcome-photo" role="img" aria-label="Warm green and golden welcome banner"><p>Different lives. Shared possibilities. A place for everyone to belong. 🌻</p></div>
 <section class="section story-section" id="belonging"><div class="story-heading"><span class="eyebrow">A different kind of network</span><h2>More than a roof. A life shared on your own terms.</h2><p>SHON is a people-centered network for discovering, forming, and sustaining compatible homes, households, extended families, and communities through voluntary, mutually beneficial relationships.</p></div><div class="story-grid"><article class="story-card"><span class="story-emoji" aria-hidden="true">👨‍👩‍👧</span><h3>Families belong here</h3><p>Parents with children, couples, grandparents, and chosen families all deserve opportunities to stay together and thrive.</p></article><article class="story-card"><span class="story-emoji" aria-hidden="true">🌻</span><h3>Room for one another</h3><p>A quiet home may welcome laughter, shared meals, companionship, or an extended household, without requiring caregiving or employment.</p></article><article class="story-card"><span class="story-emoji" aria-hidden="true">🪴</span><h3>Every person brings something</h3><p>Presence, stories, experience, skills, kindness, and creativity can enrich a household. Not every contribution has a price tag.</p></article></div><p class="story-footer">A good home can be peaceful or lively, independent or communal. You choose what to share and what belonging means to you.</p></section>
 
 <section class="section" id="social" aria-labelledby="social-title">
@@ -264,9 +268,18 @@ header .bar{align-items:center}
 <div><label for="member-region">Approximate location</label><input id="member-region" maxlength="120" placeholder="Example: Clear Lake / Houston, Texas" type="text"/></div>
 <div><label for="member-contact">Preferred contact</label><select id="member-contact"><option value="platform">SHON platform only</option><option value="email">Email may be shared after I choose to connect</option><option value="either">Either</option></select></div>
 </div>
-<label for="member-bio">About you</label><textarea id="member-bio" maxlength="1200" placeholder="What makes a place feel like home? What do you enjoy? Share only what you are comfortable publishing."></textarea>
+<label for="member-bio">Introduce yourself, in your own words (optional)</label><textarea id="member-bio" maxlength="1200" placeholder="What makes a place feel like home? What do you enjoy? Share only what you are comfortable publishing."></textarea>
 <label for="member-needs">What you need or hope to find</label><textarea id="member-needs" maxlength="1600"></textarea>
 <label for="member-offers">What you can offer</label><textarea id="member-offers" maxlength="1600"></textarea>
+<div class="story-fields" id="story-questions"><span class="eyebrow">The person behind the profile</span><h3>What makes you, you?</h3><p>These questions are invitations, not requirements. Skip any or all. Your answers are saved privately to your account, <strong>not displayed in public discovery</strong>. No diagnoses, medical history, child identities, or exact home addresses, please.</p>
+<details><summary>Interests and personality (optional)</summary><label for="story-interests">What do you enjoy? Hobbies, interests, favorite ways to spend a day, and what friends appreciate about you.</label><textarea id="story-interests" maxlength="700" placeholder="Share only what feels right to you."></textarea></details>
+<details><summary>Your ideal home atmosphere (optional)</summary><label for="story-household">Quiet or lively? Independent or shared meals? Privacy, visitors, sleep routines, cleanliness, smoking, pets, and other everyday preferences.</label><textarea id="story-household" maxlength="700" placeholder="Share only what feels right to you."></textarea></details>
+<details><summary>People and household possibilities (optional)</summary><label for="story-family">Would you like to live alone, with housemates, as a couple, with children, with older adults, or as an extended or chosen family? No names or identifying details about children.</label><textarea id="story-family" maxlength="700" placeholder="Share only what feels right to you."></textarea></details>
+<details><summary>Friendship and companionship (optional)</summary><label for="story-companionship">What kinds of friendship, conversation, shared activities, or companionship would you enjoy? What boundaries matter to you?</label><textarea id="story-companionship" maxlength="700" placeholder="Share only what feels right to you."></textarea></details>
+<details><summary>Skills and everyday contributions (optional)</summary><label for="story-contributions">What do you enjoy bringing to a household or community? Presence, conversation, knowledge, creative work, practical skills, or something else.</label><textarea id="story-contributions" maxlength="700" placeholder="Share only what feels right to you."></textarea></details>
+<details><summary>Practical living needs (optional)</summary><label for="story-practical">Private sleeping space, daytime access, utilities, Wi-Fi, laundry, pets, accessibility, transportation, location, long-term stability, or financial arrangements.</label><textarea id="story-practical" maxlength="700" placeholder="Share only what feels right to you."></textarea></details>
+<details><summary>Hopes and possibilities (optional)</summary><label for="story-future">What would you love to build or experience with others? What does a good future feel like to you?</label><textarea id="story-future" maxlength="700" placeholder="Share only what feels right to you."></textarea></details>
+<p class="profile-note">Your existing public listing descriptions remain separate. Saving this personal story requires the accompanying one-time database setup. You can leave every answer blank.</p></div>
 <label class="check-card"><input id="member-discoverable" type="checkbox"/>Allow my display name and profile summary to accompany my published SHON listings.</label>
 <p class="privacy-note">Privacy by default: your email, account ID, and unpublished profile information are not displayed by the SHON website. Public discovery is driven by listings you deliberately publish.</p>
 <div class="member-actions"><button class="button" id="member-save-profile" type="submit">Save profile</button></div>
@@ -507,7 +520,7 @@ header .bar{align-items:center}
 <strong>
       Development notice:
      </strong>
-     SHON is a proposed initiative, not yet an operational participant service. Legal protections, moderation, verification, and confidential reporting processes must be established before public matching features launch.
+     SHON is an early-stage network with account and listing features in testing. Legal protections, moderation, verification, and confidential reporting processes must be established before public matching features launch.
     </div>
 <p class="preview">
      Institutional collaboration inquiries:
@@ -598,6 +611,19 @@ header .bar{align-items:center}
     byId('member-contact').value = profile?.contact_preference || 'platform';
     byId('member-discoverable').checked = Boolean(profile?.profile_discoverable);
   }
+  const STORY_KEYS = ['interests','household','family','companionship','contributions','practical','future'];
+  async function loadPrivateStory(user) {
+    STORY_KEYS.forEach(k => byId('story-'+k).value = '');
+    const { data, error } = await client.from('member_private_stories').select('answers').eq('user_id',user.id).maybeSingle();
+    if (error) { report('Profile loaded, but personal story questions require the one-time database setup. ' + error.message, 'error'); return; }
+    const answers = data?.answers || {};
+    STORY_KEYS.forEach(k => byId('story-'+k).value = typeof answers[k] === 'string' ? answers[k] : '');
+  }
+  async function savePrivateStory(user) {
+    const answers = Object.fromEntries(STORY_KEYS.map(k => [k,byId('story-'+k).value.trim()]));
+    const { error } = await client.from('member_private_stories').upsert({user_id:user.id,answers,updated_at:new Date().toISOString()},{onConflict:'user_id'});
+    if (error) throw new Error('Basic profile saved, but private story could not be saved. Run the included SQL setup first. ' + error.message);
+  }
   async function showUser(user) {
     currentUser = user;
     signedOut.hidden = Boolean(user);
@@ -607,6 +633,7 @@ header .bar{align-items:center}
     const profile = await loadProfile(user);
     profileForm.hidden = false;
     fillProfile(profile, user);
+    await loadPrivateStory(user);
     await loadOwnListings();
     report(profile ? 'You are signed in. Your SHON profile and listings are ready.' : 'You are signed in. Complete your SHON profile below.', profile ? 'success' : '');
   }
@@ -661,7 +688,8 @@ header .bar{align-items:center}
       const payload = { user_id: currentUser.id, display_name: displayName, roles, region: byId('member-region').value.trim(), bio: byId('member-bio').value.trim(), needs_text: byId('member-needs').value.trim(), offers_text: byId('member-offers').value.trim(), contact_preference: byId('member-contact').value, profile_discoverable: byId('member-discoverable').checked, updated_at: new Date().toISOString() };
       const { error } = await client.from('member_profiles').upsert(payload, { onConflict:'user_id' });
       if (error) throw error;
-      report('Your SHON profile has been saved.', 'success');
+      await savePrivateStory(currentUser);
+      report('Your SHON profile and private personal story have been saved.', 'success');
     } catch (error) { report('Could not save your profile: ' + (error.message || String(error)), 'error'); }
     finally { setBusy(false); }
   });
