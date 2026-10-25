@@ -15,6 +15,8 @@
    :root{font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:#103b3c;background:#f7f9f5}*{box-sizing:border-box}body{margin:0}a{color:inherit}header{background:#fff;box-shadow:0 1px 9px #0c45451a;position:sticky;top:0;z-index:2}.bar{max-width:1150px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:15px 22px;flex-wrap:wrap}.logo{font-family:Georgia,serif;font-size:38px;font-weight:bold;text-decoration:none;letter-spacing:1px}.logo small{display:block;font:12px system-ui;letter-spacing:0}nav{display:flex;gap:20px;flex-wrap:wrap}nav a{text-decoration:none;font-weight:600;font-size:14px}nav a:hover{text-decoration:underline}.support{background:#f4c56e;padding:10px 16px;border-radius:12px}main{max-width:1150px;margin:auto;padding:0 22px}.hero{padding:75px 25px;text-align:center;background:linear-gradient(140deg,#e4f0d9,#e3f5f4 50%,#ffe6b8);border-radius:0 0 24px 24px}.eyebrow{font-weight:700;letter-spacing:2px;text-transform:uppercase;font-size:12px}.hero h1{font:clamp(38px,5vw,66px) Georgia,serif;line-height:1.08;margin:18px 0}.hero p{font-size:19px;max-width:730px;margin:20px auto;line-height:1.6}.button{display:inline-block;background:#07504b;color:white;border:0;border-radius:10px;padding:13px 22px;text-decoration:none;font-weight:700;cursor:pointer}.button:hover{background:#086e66}.section{padding:55px 0}.section h2{font:36px Georgia,serif;margin:0 0 10px}.muted{color:#4e6666;line-height:1.6}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:25px}.card{border-radius:18px;padding:28px;background:white;box-shadow:0 4px 22px #15463c12}.card h3{margin:0 0 10px;font-size:22px}.card p{line-height:1.6;margin-bottom:0}.green{background:#e3f0d7}.blue{background:#e0f0fc}.pink{background:#fae0e5}.gold{background:#ffedc7}.icon{font-size:30px;margin-bottom:14px}.strip{background:#073f3d;color:white;border-radius:20px;padding:35px;margin:25px 0}.strip h2{margin:0 0 8px}.pills{display:flex;gap:9px;flex-wrap:wrap;margin:20px 0}.pill{border
 :1px solid #bfd5cc;border-radius:30px;padding:9px 13px;background:white;font-size:13px}.wide{grid-column:1/-1}.notice{border-left:4px solid #dfad53;background:#fff9ea;padding:18px;border-radius:8px;line-height:1.6}.search{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.search input{flex:1;min-width:210px;padding:13px;border:1px solid #abc7c1;border-radius:9px;font:inherit}.preview{font-size:14px;margin-top:12px;color:#496460}.footer{background:#073f3d;color:white;text-align:center;padding:30px 15px;margin-top:30px}@media(max-width:650px){.grid{grid-template-columns:1fr}.hero{padding:45px 12px}.bar{justify-content:center}nav{justify-content:center}.section h2{font-size:30px}}
 
+ 
+
 /* Approved SHON and SHANE identity */
 
 .brand-mark{width:56px;height:56px;object-fit:contain;object-position:left center;vertical-align:middle;margin-right:8px}
@@ -34,6 +36,8 @@
 .partner-grid h3{margin-top:0}.partner-grid p{line-height:1.6}
 
 @media(max-width:650px){.partner-grid{grid-template-columns:1fr}.partnership{padding:18px}.brand-mark{width:45px;height:45px}}
+
+  
 
 /* Find & Connect: responsive, clear controls and professional wordmark */
 
@@ -70,6 +74,8 @@
 .member-panel fieldset{border:0;margin:0;padding:0}.member-panel button:disabled{opacity:.6;cursor:wait}
 
 @media(max-width:650px){.member-panel{padding:18px}.member-panel h2{font-size:28px}}
+
+ 
 
 /* SHON Phase 2 member network */
 
@@ -359,7 +365,27 @@ bf8d31;padding:13px;border-radius:8px;line-height:1.55}@media(max-width:760px){#
 #help-near-me textarea{min-height:104px}#help-near-me .help-actions{display:flex;gap:10px;flex-wrap:wrap;margin:15px 0}#help-near-me button{min-height:46px;padding:10px 16px;border:0;border-radius:10px;background:#16604c;color:white;font-weight:750;cursor:pointer}#help-near-me button.secondary{background:white;color:#164c3d;border:1px solid #a0bdae}
 #help-near-me .help-chips{display:flex;gap:9px;flex-wrap:wrap;margin:16px 0}#help-near-me .help-chips button{background:#fff;color:#164c3d;border:1px solid #9bb8a8;font-size:14px}#help-near-me .help-results{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:16px}#help-near-me .help-result{background:#fff;border:1px solid #d5e5d9;border-radius:13px;padding:17px}#help-near-me .help-result h3{margin:0 0 6px;color:#174638}#help-near-me .help-result p{font-size:14px;margin:0 0 9px}#help-near-me .help-result a{color:#0b5442;font-weight:700;overflow-wrap:anywhere}#help-near-me .help-note{font-size:14px;color:#405d50}#help-near-me .help-status{font-weight:650;min-height:25px}#help-near-me [hidden]{display:none!important}
 @media(max-width:700px){#help-near-me .help-fields,#help-near-me .help-results{grid-template-columns:1fr}#help-near-me .help-actions button{flex:1 1 190px}}
-</style></head>
+</style><style id="shon-navigation-clarity-2026">
+/* Preserve the original rainbow-green hero and reduce empty space after removing redundant actions. */
+.hero{min-height:0;padding-top:clamp(42px,5vw,66px);padding-bottom:clamp(42px,5vw,66px)}
+.shon-mobile-nav{display:none}
+.shon-desktop-nav{display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:3px 9px}
+.shon-desktop-nav a{white-space:nowrap;font-size:13px;min-height:36px;display:inline-flex;align-items:center;padding:6px 7px}
+.shon-mobile-nav summary{cursor:pointer;list-style:none;border:1px solid #9ebfae;border-radius:10px;padding:10px 13px;color:#164c3d;background:#f5faf4;font-weight:750;min-height:44px;display:flex;align-items:center;gap:9px}
+.shon-mobile-nav summary::-webkit-details-marker{display:none}
+.shon-mobile-nav summary:focus-visible,.shon-mobile-nav a:focus-visible{outline:3px solid #b45f15;outline-offset:3px}
+@media(max-width:980px){
+ .bar{display:flex;align-items:center;justify-content:space-between;flex-wrap:nowrap;gap:12px}
+ .shon-desktop-nav{display:none}
+ .shon-mobile-nav{display:block;position:relative;margin-left:auto;flex-shrink:0}
+ .shon-mobile-nav nav{position:absolute;right:0;top:calc(100% + 6px);width:min(310px,calc(100vw - 24px));max-height:min(70vh,560px);overflow-y:auto;background:#fffef9;border:1px solid #cdded1;border-radius:13px;box-shadow:0 12px 32px #143e322b;padding:9px;display:flex;flex-direction:column;align-items:stretch;gap:2px;z-index:1000}
+ .shon-mobile-nav nav a{display:flex;align-items:center;min-height:44px;padding:10px 13px;font-size:15px;color:#174a3c;text-decoration:none;border-radius:8px}
+ .shon-mobile-nav nav a:hover{background:#e8f3e9}
+ .shon-mobile-nav nav .support{justify-content:center;margin-top:5px}
+}
+@media(max-width:480px){.hero{padding:38px 17px 42px}.logo small{font-size:10px}.shon-mobile-nav summary{padding:9px 11px}}
+</style>
+</head>
 <body>
 <a class="shon-skip-link" href="#connect">Skip to opportunities</a>
 <header>
@@ -372,44 +398,34 @@ bf8d31;padding:13px;border-radius:8px;line-height:1.55}@media(max-width:760px){#
 
      </small>
 </a>
-<nav aria-label="Main navigation">
-<a href="#help-near-me">Help Near Me</a><a href="#member-access">Join / Sign in</a><a href="#home">
-
-      Home
-
-     </a>
-<a href="#connect">
-
-      Find &amp; Connect
-
-     </a>
-<a href="#resources">Useful Resources</a> <a href="#learning">
-
-      Learning
-
-     </a>
-<a href="#social">Social &amp; Games</a><a href="#communities">
-
-      Communities
-
-     </a>
-<a href="#build-with-us">Build with us</a>
-<a href="#partnership">
-
-      Partnership
-
-     </a>
-<a href="#about">
-
-      About
-
-     </a>
-<a class="support" href="mailto:info@shonnetwork.org?subject=Supporting%20SHON">
-
-      ♥ Support SHON
-
-     </a>
+<nav class="shon-desktop-nav" aria-label="Main navigation">
+<a href="#home">Home</a>
+<a href="#connect">Find & Connect</a>
+<a href="#help-near-me">Free Help Near Me</a>
+<a href="#resources">Useful Resources</a>
+<a href="#learning">Learning & Communities</a>
+<a href="#social">Social & Games</a>
+<a href="#community-creation">Create Communities</a>
+<a href="#member-access">Join / Sign In</a>
+<a href="#build-with-us">Build With Us</a>
+<a href="#partnership">Partnerships</a>
+<a href="#about">About SHON</a>
+<a class="support" href="mailto:info@shonnetwork.org?subject=Supporting%20SHON">♥ Support SHON</a>
 </nav>
+<details class="shon-mobile-nav"><summary aria-label="Open site navigation">Menu <span aria-hidden="true">☰</span></summary><nav aria-label="Mobile navigation">
+<a href="#home">Home</a>
+<a href="#connect">Find & Connect</a>
+<a href="#help-near-me">Free Help Near Me</a>
+<a href="#resources">Useful Resources</a>
+<a href="#learning">Learning & Communities</a>
+<a href="#social">Social & Games</a>
+<a href="#community-creation">Create Communities</a>
+<a href="#member-access">Join / Sign In</a>
+<a href="#build-with-us">Build With Us</a>
+<a href="#partnership">Partnerships</a>
+<a href="#about">About SHON</a>
+<a class="support" href="mailto:info@shonnetwork.org?subject=Supporting%20SHON">♥ Support SHON</a>
+</nav></details>
 </div>
 </header>
 <main>
@@ -433,10 +449,7 @@ bf8d31;padding:13px;border-radius:8px;line-height:1.55}@media(max-width:760px){#
      Discover people, homes, households, extended families, and communities. Find what you need, share what you can, and imagine what we might create together. Free to participate. People before profit.
 
     </p>
-<div class="hero-actions">
-<a class="button" href="#pathways">Explore the possibilities ↓</a>
-<a class="button button-alt" href="#social">Meet the community</a>
-<a class="button button-alt" href="#help-near-me">Find free help near me 📍</a></div><div aria-label="Explore SHON" class="quick-nav"><a href="#connect">Find opportunities</a><a href="#social">Community</a><a href="#member-access">My profile</a><a href="#learning">Learning</a></div>
+
 </section>
 <section class="section" id="pathways">
 <h2>
@@ -527,7 +540,7 @@ ore than a roof. A life shared on your own terms.</h2><p>SHON is a people-center
 <div class="community-banner">
 <div class="intro">
 <span class="future-label">Community features in development</span>
-<h2 id="social-title">Come for an opportunity. Stay for the people.</h2>
+<h2 id="social-title">Social &amp; Games</h2><p class="muted">Come for an opportunity. Stay for the people.</p>
 <p>SHON is growing into a place where people can meet, talk, make friends, and discover what they might share. You should not need a housing listing to belong.</p>
 <p>Private member messaging and friendship requests are in testing. Community rooms, interest groups, and friendly games remain planned. SHON and SHANE will have independent member data.</p>
 <a class="button button-alt" href="#connect">Explore current listings</a>
@@ -543,7 +556,7 @@ tional online presence and additional tools are planned.</p><span class="future-
 </section>
 <section aria-labelledby="member-title" class="section" id="member-access">
 <div class="member-panel">
-<h2 id="member-title">Your place in SHON</h2><p class="member-hint">A single account for your story, your opportunities, and the households you hope to discover.</p>
+<h2 id="member-title">Join / Sign In</h2><p class="member-hint">A single account for your story, your opportunities, and the households you hope to discover.</p>
 <p class="muted">Create a free account or sign in. Member accounts and listings are in testing. Private mailboxes and friend requests are available after the Mail &amp; Connections database setup; automated matching is still being developed.</p>
 <div aria-live="polite" class="member-status" id="member-status" role="status">Connecting to SHON member services…</div>
 <div hidden="" id="member-signed-out">
@@ -712,7 +725,7 @@ k</option><option value="NC">North Carolina</option><option value="ND">North Dak
 <section class="section" id="learning">
 <h2>
 
-     Learning &amp; communities
+     Learning &amp; Communities
 
     </h2>
 <p class="muted">
@@ -800,11 +813,7 @@ ders.
       Imagine what could exist
 
      </div>
-<h2 id="community-creation-title">
-
-      Create communities, not just find them.
-
-     </h2>
+<h2 id="community-creation-title">Create Communities</h2><p class="muted">Create communities, not just find them.</p>
 <p>
 
       Some housing opportunities begin with an empty building, underused land, or a shared idea. SHON envisions connecting prospective residents, landowners, developers, conservation groups, educators, and supporters to explore new residential communities.
@@ -900,7 +909,7 @@ acant buildings, underused properties, and declining towns as starting points fo
 </section>
 <section aria-labelledby="build-title" class="section" id="build-with-us">
 <div class="shon-build"><span class="section-kicker">Founding collaborators welcome</span>
-<h2 id="build-title">Build with us. Help people find one another.</h2>
+<h2 id="build-title">Build With Us</h2><p class="muted">Help people find one another.</p>
 <p>SHON is an emerging, free-to-participate network for housing possibilities, companionship, community, and practical opportunities. We are inviting organizations and individuals to help shape and strengthen it. Some member tools are being tested; advanced matching, organization accounts, community rooms, and shared games are planned, not yet operating services.</p>
 <div class="shon-build-grid">
 <article><h3>🏡 Housing &amp; community partners</h3><p>Share suitable housing leads, homeshare possibilities, space, introductions, referrals, or other sustainable living opportunities. We welcome arrangements that work for people with no current income.</p></article>
@@ -911,8 +920,8 @@ acant buildings, underused properties, and declining towns as starting points fo
 <div class="sho n-build-cta"><h3>Let's explore a practical partnership</h3><p>We welcome proposals for in-kind support, introductions, development contributions, community resources, or funding. Please tell us what your organization can offer, what it hopes to accomplish, and any requirements or limitations. There is no obligation or existing partnership implied by this invitation.</p>
 <a class="button" href="mailto:info@shonnetwork.org?subject=SHON%20collaboration%20inquiry">Email SHON about collaborating</a>
 <p class="shon-build-small">SHON and SHANE are independent initiatives. No member data is transferred between them. We do not sell private messages, member stories, or personal contact information to prospective partners. Please do not send confidential member information in initial inquiries.</p></div></div></section>
-<section aria-labelledby="help-title" class="section" id="help-near-me"><span class="section-kicker">Free Resources &amp; Possibilities</span><h2 id="help-title">💚 Help near me. Start with what you need.</h2><p>“I am broke. I am homeless. I have no food. What can I reach?” Describe your situation in your own words, or choose a need below. No SHON account is required. This first version opens live searches at outside providers; a unified, verified SHON resource database is still being developed.</p><label for="help-need">What do you need?</label><textarea id="help-need" maxlength="500" placeholder="Example: I have no money and need a free meal, somewhere indoors to spend the day, and a bus route.">I have no money and need food and a safe place to spend the day.</textarea><div aria-label="Common needs" class="help-chips"><button data-need="free meals food pantries community fridges" type="button">🍲 Food</button><button data-need="free day centers libraries indoor public spaces" type="button">🏛️ Indoors today</button><button data-need="free transportation assistance bus stops transit stations" type="button">🚌 Transportation</button><button data-need="free public restrooms showers laundry water charging WiFi" type="button">🚿 Essentials</button><button data-need="free parks beaches museums community events activities" type="button">🌳 Free activities</button><button data-need="free camping legal dispersed camping public lands" type="button">⛺ Camping</button></div><div class="help-fields"><div><label for="help-location">Your city, ZIP, or nearby landmark</label><input autocomplete="off" id="help-location" maxlength="160" placeholder="Or choose Use my location"/><p class="help-note">Your precise location is optional. It is not saved by this page.</p></div><div><label for="help-travel">How can you get around?</label><select id="help-travel"><option value="walking">Walking</option><option value="public transit">Bus / train</option><option value="limited mobility">Limited mobility / cannot travel far</option><option value="driving">Vehicle</option></select><label for="help-cost">Cost preference</label><select id="help-cost"><option value="free">Free only first</option><option value="discounted">Free and discounted</option><option value="all">All options, clearly labeled</option></select></div></div><div class="help-actions"><button class="secondary" id="help-detect" type="button">📍 Use my location</button><button id="help-search" type="button">🔎 Find options</button><button class="secondary" id="help-reset" type="button">Clear location</button></div><p aria-live="polite" class="help-status" id="help-status" role="status">Searches open in a new tab. Confirm hours, eligibility, availability and actual costs with providers.</p><div aria-live="polite" class="help-results" id="help-results"></div><p class="help-note"><strong>Privacy:</strong> Browser location requires permission. If you choose a third-party search, the destination site receives the search terms and may process your location according to its own policies. SHON does not send your description to an AI service. <strong>Safety:</strong> A free entrance does not guarantee free parking, food, or overnight access. Campgrounds have stay limits and may not allow residential use.</p><p class="help-note"><strong>Resource sources and future partnerships:</strong> <a href="https://www.211.org/">211</a> · <a href="https://www.hud.gov/findshelter">HUD Find Shelter</a> · <a href="https://mobilitydatabase.org/">Mobility Database</a> · <a href="https://museums4all.org/">Museums for All</a> · <a href="https://www.blm.gov/programs/recreation/camping">BLM camping</a> · <a href="https://www.fs.usda.gov/">U.S. Forest Service</a> · <a href="https://www.nps.gov/">National Park Service</a>. Listings, reuse permissions, schedules and eligibility must be verified before direct database integration.</p></section><section aria-labelledby="resources-title" class="section" id="resources">
-<span class="section-kicker">Useful Resources</span><h2 id="resources-title">Find helpful places and services near you</h2>
+<section aria-labelledby="help-title" class="section" id="help-near-me"><span class="section-kicker">Free Resources &amp; Possibilities</span><h2 id="help-title">💚 Free Help Near Me</h2><p class="muted">Start with what you need.</p><p>“I am broke. I am homeless. I have no food. What can I reach?” Describe your situation in your own words, or choose a need below. No SHON account is required. This first version opens live searches at outside providers; a unified, verified SHON resource database is still being developed.</p><label for="help-need">What do you need?</label><textarea id="help-need" maxlength="500" placeholder="Example: I have no money and need a free meal, somewhere indoors to spend the day, and a bus route.">I have no money and need food and a safe place to spend the day.</textarea><div aria-label="Common needs" class="help-chips"><button data-need="free meals food pantries community fridges" type="button">🍲 Food</button><button data-need="free day centers libraries indoor public spaces" type="button">🏛️ Indoors today</button><button data-need="free transportation assistance bus stops transit stations" type="button">🚌 Transportation</button><button data-need="free public restrooms showers laundry water charging WiFi" type="button">🚿 Essentials</button><button data-need="free parks beaches museums community events activities" type="button">🌳 Free activities</button><button data-need="free camping legal dispersed camping public lands" type="button">⛺ Camping</button></div><div class="help-fields"><div><label for="help-location">Your city, ZIP, or nearby landmark</label><input autocomplete="off" id="help-location" maxlength="160" placeholder="Or choose Use my location"/><p class="help-note">Your precise location is optional. It is not saved by this page.</p></div><div><label for="help-travel">How can you get around?</label><select id="help-travel"><option value="walking">Walking</option><option value="public transit">Bus / train</option><option value="limited mobility">Limited mobility / cannot travel far</option><option value="driving">Vehicle</option></select><label for="help-cost">Cost preference</label><select id="help-cost"><option value="free">Free only first</option><option value="discounted">Free and discounted</option><option value="all">All options, clearly labeled</option></select></div></div><div class="help-actions"><button class="secondary" id="help-detect" type="button">📍 Use my location</button><button id="help-search" type="button">🔎 Find options</button><button class="secondary" id="help-reset" type="button">Clear location</button></div><p aria-live="polite" class="help-status" id="help-status" role="status">Searches open in a new tab. Confirm hours, eligibility, availability and actual costs with providers.</p><div aria-live="polite" class="help-results" id="help-results"></div><p class="help-note"><strong>Privacy:</strong> Browser location requires permission. If you choose a third-party search, the destination site receives the search terms and may process your location according to its own policies. SHON does not send your description to an AI service. <strong>Safety:</strong> A free entrance does not guarantee free parking, food, or overnight access. Campgrounds have stay limits and may not allow residential use.</p><p class="help-note"><strong>Resource sources and future partnerships:</strong> <a href="https://www.211.org/">211</a> · <a href="https://www.hud.gov/findshelter">HUD Find Shelter</a> · <a href="https://mobilitydatabase.org/">Mobility Database</a> · <a href="https://museums4all.org/">Museums for All</a> · <a href="https://www.blm.gov/programs/recreation/camping">BLM camping</a> · <a href="https://www.fs.usda.gov/">U.S. Forest Service</a> · <a href="https://www.nps.gov/">National Park Service</a>. Listings, reuse permissions, schedules and eligibility must be verified before direct database integration.</p></section><section aria-labelledby="resources-title" class="section" id="resources">
+<span class="section-kicker">Places, services and possibilities</span><h2 id="resources-title">Useful Resources</h2><p class="muted">Find helpful places and services near you.</p>
 <p>Search for public libraries, fitness centers, laundromats, free meals, food pantries, shelters, and more. Enter a city or ZIP code. Results open in a current map search rather than a SHON-maintained directory.</p>
 <label for="resource-location">City, state, or ZIP code</label><input autocomplete="address-level2" id="resource-location" maxlength="120" placeholder="For example: Webster, TX or 77598" type="text"/>
 <div class="resource-grid">
@@ -932,7 +941,7 @@ acant buildings, underused properties, and declining towns as starting points fo
 <section aria-labelledby="partnership-title" class="section" id="partnership">
 <div class="partnership">
 <div class="eyebrow">Two independent networks. Different purposes. Shared possibilities.</div>
-<h2 id="partnership-title">SHON &amp; SHANE: A partnership in development</h2>
+<h2 id="partnership-title">Partnerships</h2><p class="muted">SHON &amp; SHANE: A partnership in development.</p>
 <p class="muted">SHONnetwork and SHANEnetwork have distinct missions. SHON is being developed as a free, nonprofit-oriented housing opportunity network. SHANE is a separate commercial collaboration and opportunity network, also in development.</p>
 <img alt="SHON green house and sunset emblem alongside SHANE blue and gold rising-sun opportunity emblem, with a combined partnership design" class="identity-art" loading="lazy" src="assets/SHON_SHANE_emblems.png"/>
 <div class="partner-grid">
@@ -974,11 +983,7 @@ acant buildings, underused properties, and declining towns as starting points fo
 </div>
 </section>
 <section class="section" id="about">
-<h2>
-
-     Not about profit. About people.
-
-    </h2>
+<h2>About SHON</h2><p class="muted">Not about profit. About people.</p>
 <p class="muted">
 
      SHON, the Supported Housing Opportunity Network, is a developing, free, nationwide, people-centered initiative. We hope to connect individuals, families, households, and communities around shared living, companionship, resources, and mutually beneficial opportunities. We are not a conventional rental marketplace.
@@ -1654,5 +1659,6 @@ async function report(){if(!peer)return;const reason=prompt('Briefly describe th
 $('shon-find-button').onclick=find;$('shon-mail-refresh').onclick=refresh;$('shon-send-message').onclick=send;$('shon-block-member').onclick=block;$('shon-report-member').onclick=report;
 init().catch(e=>status('Mailbox unavailable: '+e.message));
 })();</script><script id="shon-resources-links-v1">(function(){const input=document.getElementById('resource-location');if(!input)return;document.querySelectorAll('[data-resource-query]').forEach(a=>a.addEventListener('click',function(){const place=input.value.trim();const query=this.dataset.resourceQuery+(place?' near '+place:' near me');this.href='https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(query);}));})();</script>
-<script>(()=>{'use strict';const $=id=>document.getElementById(id);let coords=null;const providers=[['Google Maps nearby','Search for nearby places, reviews and directions. Verify whether each service is free.','https://www.google.com/maps/search/?api=1&query='],['Google Search','Search public listings, program requirements and current hours.','https://www.google.com/search?q=']];const status=$('help-status'),out=$('help-results');document.querySelectorAll('#help-near-me [data-need]').forEach(b=>b.addEventListener('click',()=>{$('help-need').value=b.dataset.need;}));$('help-detect').addEventListener('click',()=>{if(!navigator.geolocation){status.textContent='Location is unavailable in this browser. Enter a city or ZIP instead.';return;}status.textContent='Requesting your permission to locate nearby services…';navigator.geolocation.getCurrentPosition(p=>{coords={lat:p.coords.latitude,lon:p.coords.longitude};$('help-location').value='Current location (coordinates selected)';status.textContent='Location obtained. Choose Find options. Your coordinates are not stored on this page.';},e=>{status.textContent='Location not available or permission declined. You can enter a city, ZIP or landmark instead.';},{enableHighAccuracy:false,timeout:12000,maximumAge:300000});});$('help-location').addEventListener('input',()=>{coords=null;});$('help-reset').addEventListener('click',()=>{coords=null;$('help-location').value='';status.textContent='Location cleared. Enter a city or use browser location.';out.replaceChildren();});$('help-search').addEventListener('click',()=>{const description=$('help-need').value.trim().slice(0,500),where=coords?coords.lat.toFixed(5)+','+coords.lon.toFixed(5):$('help-location').value.trim();if(!where){status.textContent='Enter a city or ZIP, or choose Use my location first.';return;}if(!description){status.textContent='Describe what you need, or choose a category above.';return;}const cost=$('help-cost').value,travel=$('help-travel').value;const query=[description,cost==='free'?'free no cost':cost==='discounted'?'free or low cost':'',travel==='limited mobility'?'accessible limited mobility':travel==='public transit'?'near public transit':'',where].filter(Boolean).join(' ');out.replaceChildren();for(const [name,desc,base] of providers){const card=document.createElement('article');card.className='help-result';const h=document.createElement('h3');h.textContent=name;const p=document.createElement('p');p.textContent=desc;const a=document.createElement('a');a.href=base+encodeURIComponent(query);a.target='_blank';a.rel='noopener noreferrer';a.textContent='Open search ↗';card.append(h,p,a);out.append(card);}const ref=document.createElement('article');ref.className='help-result';const h=document.createElement('h3');h.textContent='Public assistance directories';const p=document.createElement('p');p.textContent='Explore official and nonprofit directories. These sites may require their own location entry.';const links=[['211','https://www.211.org/'],['HUD Find Shelter','https://www.hud.gov/findshelter'],['Findhelp','https://www.findhelp.org/']];ref.append(h,p);for(const [name,url] of links){const a=document.createElement('a');a.href=url;a.target='_blank';a.rel='noopener noreferrer';a.textContent=name+' ↗';a.style.marginRight='14px';ref.append(a);}out.append(ref);status.textContent='Search links ready. These are live external searches, not verified availability or SHON-generated results.';});})();</script></body>
+<script>(()=>{'use strict';const $=id=>document.getElementById(id);let coords=null;const providers=[['Google Maps nearby','Search for nearby places, reviews and directions. Verify whether each service is free.','https://www.google.com/maps/search/?api=1&query='],['Google Search','Search public listings, program requirements and current hours.','https://www.google.com/search?q=']];const status=$('help-status'),out=$('help-results');document.querySelectorAll('#help-near-me [data-need]').forEach(b=>b.addEventListener('click',()=>{$('help-need').value=b.dataset.need;}));$('help-detect').addEventListener('click',()=>{if(!navigator.geolocation){status.textContent='Location is unavailable in this browser. Enter a city or ZIP instead.';return;}status.textContent='Requesting your permission to locate nearby services…';navigator.geolocation.getCurrentPosition(p=>{coords={lat:p.coords.latitude,lon:p.coords.longitude};$('help-location').value='Current location (coordinates selected)';status.textContent='Location obtained. Choose Find options. Your coordinates are not stored on this page.';},e=>{status.textContent='Location not available or permission declined. You can enter a city, ZIP or landmark instead.';},{enableHighAccuracy:false,timeout:12000,maximumAge:300000});});$('help-location').addEventListener('input',()=>{coords=null;});$('help-reset').addEventListener('click',()=>{coords=null;$('help-location').value='';status.textContent='Location cleared. Enter a city or use browser location.';out.replaceChildren();});$('help-search').addEventListener('click',()=>{const description=$('help-need').value.trim().slice(0,500),where=coords?coords.lat.toFixed(5)+','+coords.lon.toFixed(5):$('help-location').value.trim();if(!where){status.textContent='Enter a city or ZIP, or choose Use my location first.';return;}if(!description){status.textContent='Describe what you need, or choose a category above.';return;}const cost=$('help-cost').value,travel=$('help-travel').value;const query=[description,cost==='free'?'free no cost':cost==='discounted'?'free or low cost':'',travel==='limited mobility'?'accessible limited mobility':travel==='public transit'?'near public transit':'',where].filter(Boolean).join(' ');out.replaceChildren();for(const [name,desc,base] of providers){const card=document.createElement('article');card.className='help-result';const h=document.createElement('h3');h.textContent=name;const p=document.createElement('p');p.textContent=desc;const a=document.createElement('a');a.href=base+encodeURIComponent(query);a.target='_blank';a.rel='noopener noreferrer';a.textContent='Open search ↗';card.append(h,p,a);out.append(card);}const ref=document.createElement('article');ref.className='help-result';const h=document.createElement('h3');h.textContent='Public assistance directories';const p=document.createElement('p');p.textContent='Explore official and nonprofit directories. These sites may require their own location entry.';const links=[['211','https://www.211.org/'],['HUD Find Shelter','https://www.hud.gov/findshelter'],['Findhelp','https://www.findhelp.org/']];ref.append(h,p);for(const [name,url] of links){const a=document.createElement('a');a.href=url;a.target='_blank';a.rel='noopener noreferrer';a.textContent=name+' ↗';a.style.marginRight='14px';ref.append(a);}out.append(ref);status.textContent='Search links ready. These are live external searches, not verified availability or SHON-generated results.';});})();</script><script>document.querySelectorAll('.shon-mobile-nav nav a').forEach(link=>link.addEventListener('click',()=>{const menu=link.closest('details');if(menu)menu.open=false;}));</script>
+</body>
 </html>
