@@ -1,1 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#174c3c">
+<meta name="description" content="Find food, housing assistance, libraries, laundry, healthcare and other useful resources through SHONnetwork.">
+<title>Useful Resources | SHONnetwork</title>
 
+<style>
+:root{
+font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif;
+color:#1b3c31;
+background:#fbfcf8
+}
+*{box-sizing:border-box}
+body{margin:0;line-height:1.55}
+a{color:#155d47}
+button,input,select{font:inherit}
+:focus-visible{outline:3px solid #a75b13;outline-offset:3px}
+
+header{
+background:#fffdf7;
+border-bottom:1px solid #d8e7d8
+}
+.bar{
+max-width:1160px;
+margin:auto;
+padding:13px 20px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:15px;
+flex-wrap:wrap
+}
+.brand{
+color:#111;
+text-decoration:none;
+font-size:27px;
+font-weight:850;
+white-space:nowrap
+}
+.brand span{font-weight:400}
+nav{
+display:flex;
+gap:12px;
+flex-wrap:wrap
+}
+nav a{
+font-size:13px;
+font-weight:700;
+text-decoration:none
+}
+nav a:hover{text-decoration:underline}
+
+main{
+max-width:1120px;
+margin:auto;
+padding:25px 16px 65px
+}
+.hero{
+background:linear-gradient(
+120deg,#e4f2df,#e3f4f1,#fff0d0
+);
+padding:35px 24px;
+border-radius:19px;
+text-align:center
+}
+h1{
+font:clamp(31px,4vw,46px)/1.2 Georgia,serif;
+color:#174c3c;
+margin:5px 0 12px
+}
+h2{
+font:clamp(25px,3vw,34px) Georgia,serif;
+color:#174c3c;
+margin:0 0 12px
+}
+h3{
+font-size:19px;
+margin:8px 0
+}
+.eyebrow{
+font-size:12px;
+text-transform:uppercase;
+letter-spacing:.12em;
+font-weight:800;
+color:#337356
+}
+.hero p{
+max-width:760px;
+margin:12px auto
+}
+.panel{
+background:#fff;
+border:1px solid #d7e6da;
+border-radius:17px;
+padding:23px;
+margin-top:22px
+}
+.grid{
+display:grid;
+grid-template-columns:repeat(3,minmax(0,1fr));
+gap:13px;
+margin:18px 0
+}
+.card{
+background:#edf5e8;
+border:1px solid #d9e6d9;
+border-radius:14px;
+padding:19px
+}
+.card:nth-child(3n+2){background:#e9f3fc}
+.card:nth-child(3n+3){background:#fff0df}
+.card p{margin:8px 0 13px}
+.emoji{font-size:28px}
+.btn{
+display:inline-block;
+background:#17624c;
+border:1px solid #145a44;
+color:#fff;
+padding:10px 15px;
+border-radius:9px;
+font-weight:750;
+text-decoration:none;
+cursor:pointer;
+min-height:44px
+}
+.btn.secondary{
+background:#fff;
+color:#15543f
+}
+.form-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+margin:18px 0
+}
+label{
+font-size:14px;
+font-weight:750
+}
+input,select{
+display:block;
+width:100%;
+min-height:44px;
+padding:10px;
+margin-top:5px;
+border:1px solid #91ac9b;
+border-radius:9px;
+background:#fff;
+color:#1b3c31
+}
+.actions{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+margin-top:15px
+}
+.note{
+font-size:14px;
+color:#4b6357
+}
+.notice{
+background:#e9f4f0;
+padding:18px;
+border-radius:12px;
+margin-top:15px
+}
+footer{
+background:#123e32;
+color:#fff1d8;
+text-align:center;
+padding:26px 16px
+}
+footer a{color:#fff1d8}
+@media(max-width:720px){
+.grid,.form-grid{grid-template-columns:1fr}
+.panel{padding:16px}
+.bar{align-items:flex-start}
+.hero{padding:27px 16px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="bar">
+<a class="brand" href="index.html">
+🏡 SHON<span>network</span>
+</a>
+
+<nav aria-label="Site navigation">
+<a href="index.html">Home</a>
+<a href="discover.html">Discover</a>
+<a href="members.html">My SHONnetwork</a>
+<a href="profile.html">Profile</a>
+<a href="listings.html">Listings</a>
+<a href="connections.html">Connections</a>
+<a href="community.html">Community</a>
+<a href="resources.html" aria-current="page">Resources</a>
+<a href="partners.html">Partners</a>
+</nav>
+</div>
+</header>
+
+<main>
+
+<section class="hero">
+<div class="eyebrow">
+Practical support · Everyday resources
+</div>
+
+<h1>Useful Resources</h1>
+
+<p>
+Find places and services that can make everyday life
+easier, whether you're looking for food, shelter,
+healthcare, libraries, fitness facilities, laundry,
+or other assistance.
+</p>
+
+<p>
+<strong>
+Everyone is welcome to explore.
+No SHONnetwork account required.
+</strong>
+</p>
+</section>
+
+<section class="panel" id="near-me">
+<h2>📍 Find Resources Near a Location</h2>
+
+<p>
+Enter a city, state, ZIP code, or other location,
+then choose what you want to find.
+</p>
+
+<form id="resource-form">
+
+<div class="form-grid">
+
+<label for="location">
+Location
+<input
+id="location"
+name="location"
+placeholder="City, state, or ZIP code"
+required
+>
+</label>
+
+<label for="category">
+What are you looking for?
+<select id="category" name="category">
+<option value="free food pantry">
+Free food and food pantries
+</option>
+<option value="free community meals">
+Free community meals
+</option>
+<option value="homeless shelters">
+Homeless shelters
+</option>
+<option value="emergency housing assistance">
+Emergency housing assistance
+</option>
+<option value="public libraries">
+Public libraries
+</option>
+<option value="laundromats">
+Laundromats
+</option>
+<option value="fitness centers gyms">
+Fitness centers and gyms
+</option>
+<option value="public showers">
+Public showers
+</option>
+<option value="community health clinics">
+Community health clinics
+</option>
+<option value="free medical clinics">
+Free medical clinics
+</option>
+<option value="public parks">
+Public parks
+</option>
+<option value="community centers">
+Community centers
+</option>
+<option value="public swimming pools">
+Public swimming pools
+</option>
+<option value="social services assistance">
+Social services and assistance
+</option>
+<option value="food banks">
+Food banks
+</option>
+<option value="low cost housing">
+Affordable housing
+</option>
+<option value="homesharing programs">
+Homesharing programs
+</option>
+<option value="free wifi">
+Free Wi-Fi
+</option>
+<option value="charging stations">
+Charging stations
+</option>
+</select>
+</label>
+
+</div>
+
+<div class="actions">
+<button class="btn" type="submit">
+Find Resources
+</button>
+
+<button class="btn secondary"
+type="button" id="clear-form">
+Clear
+</button>
+</div>
+
+</form>
+
+<p class="note">
+Searches open Google Maps in a new tab.
+Results are supplied by Google, not verified
+or maintained by SHONnetwork.
+</p>
+</section>
+
+<section class="panel" id="categories">
+<h2>Explore Everyday Resources</h2>
+
+<p>
+Choose a category below. Enter your location
+in the search form above to search for nearby services.
+</p>
+
+<div class="grid">
+
+<article class="card">
+<div class="emoji">🥫</div>
+<h3>Food & Meals</h3>
+<p>
+Food banks, food pantries, free meals,
+and community food programs.
+</p>
+<button class="btn" data-category="free food pantry">
+Find Food
+</button>
+</article>
+
+<article class="card">
+<div class="emoji">🏠</div>
+<h3>Shelter & Housing</h3>
+<p>
+Emergency shelter, housing assistance,
+and housing-support organizations.
+</p>
+<button class="btn" data-category="emergency housing assistance">
+Find Housing Help
+</button>
+</article>
+
+<article class="card">
+<div class="emoji">📚</div>
+<h3>Libraries</h3>
+<p>
+Public libraries offering reading,
+computers, internet access, and learning resources.
+</p>
+<button class="btn" data-category="public libraries">
+Find Libraries
+</button>
+</article>
+
+<article class="card">
+<div class="emoji">🧺</div>
+<h3>Laundry</h3>
+<p>
+Laundromats and other local laundry facilities.
+</p>
+<button class="btn" data-category="laundromats">
+Find Laundry
+</button>
+</article>
+
+<article class="card">
+<div class="emoji">🏋️</div>
+<h3>Fitness & Recreation</h3>
+<p>
+Fitness centers, gyms, recreation centers,
+and exercise facilities.
+</p>
+<button class="btn" data-category="fitness centers gyms">
+Find Fitness Centers
+</button>
+</article>
+
+<article class="card">
+<div class="emoji">🚿</div>
+<h3>Showers & Hygiene</h3>
+<p>
+Public showers, hygiene services,
+and community facilities.
+</p>
+<button class="btn" data-category="public showers">
+Find Showers
+</button>
+</article>
+
+<article class="card">
+<div class="emoji">🏥</div>
+<h3>Healthcare</h3>
+<p>
+Community health centers,
+clinics, and other medical services.
+</p>
+<button class="btn" data-category="community health clinics">
+Find Clinics
+</button>
+</article>
+
+<article class="card">
+<div class="emoji">🌳</div>
+<h3>Parks & Community Spaces</h3>
+<p>
+Parks, public recreation areas,
+and places to enjoy community activities.
+</p>
+<button class="btn" data-category="public parks">
+Find Parks
+</button>
+</article>
+
+<article class="card">
+<div class="emoji">🤝</div>
+<h3>Community Assistance</h3>
+<p>
+Nonprofits, community centers,
+social services, and local assistance programs.
+</p>
+<button class="btn" data-category="social services assistance">
+Find Assistance
+</button>
+</article>
+
+</div>
+</section>
+
+<section class="panel" id="directories">
+<h2>National Resource Directories</h2>
+
+<p>
+These organizations and services provide
+additional ways to search for assistance.
+</p>
+
+<div class="grid">
+
+<article class="card">
+<div class="emoji">🤲</div>
+<h3>Findhelp</h3>
+<p>
+Search for local food, housing, healthcare,
+financial assistance, and other social services.
+</p>
+<a class="btn"
+href="https://www.findhelp.org/"
+target="_blank" rel="noopener noreferrer">
+Open Findhelp
+</a>
+</article>
+
+<article class="card">
+<div class="emoji">☎️</div>
+<h3>211</h3>
+<p>
+Community resource information
+covering many types of local assistance.
+</p>
+<a class="btn"
+href="https://www.211.org/"
+target="_blank" rel="noopener noreferrer">
+Open 211
+</a>
+</article>
+
+<article class="card">
+<div class="emoji">🏘️</div>
+<h3>HUD Find Shelter</h3>
+<p>
+Search for shelter, healthcare,
+clothing, and food assistance resources.
+</p>
+<a class="btn"
+href="https://www.hud.gov/findshelter"
+target="_blank" rel="noopener noreferrer">
+Open HUD Resources
+</a>
+</article>
+
+<article class="card">
+<div class="emoji">🥕</div>
+<h3>Feeding America</h3>
+<p>
+Locate food banks and food assistance
+through a national food-bank network.
+</p>
+<a class="btn"
+href="https://www.feedingamerica.org/find-your-local-foodbank"
+target="_blank" rel="noopener noreferrer">
+Find Food Banks
+</a>
+</article>
+
+<article class="card">
+<div class="emoji">🏥</div>
+<h3>HRSA Health Centers</h3>
+<p>
+Find federally supported health centers
+and community healthcare services.
+</p>
+<a class="btn"
+href="https://findahealthcenter.hrsa.gov/"
+target="_blank" rel="noopener noreferrer">
+Find Health Centers
+</a>
+</article>
+
+<article class="card">
+<div class="emoji">📚</div>
+<h3>Public Libraries</h3>
+<p>
+Explore library systems, branches,
+and their available services.
+</p>
+<a class="btn"
+href="https://www.google.com/maps/search/?api=1&query=public%20libraries"
+target="_blank" rel="noopener noreferrer">
+Find Libraries
+</a>
+</article>
+
+</div>
+</section>
+
+<section class="panel" id="housing">
+<h2>🏡 Housing Beyond Emergency Shelter</h2>
+
+<p>
+Not everyone is looking for a nightly shelter.
+Some people need a permanent home, a compatible
+household, or an arrangement where people
+share space and support one another voluntarily.
+</p>
+
+<p>
+SHONnetwork is being developed to help people
+discover those possibilities, including
+homesharing, companionship, cooperative
+households, and community-building opportunities.
+</p>
+
+<div class="actions">
+<a class="btn" href="discover.html">
+Explore Housing Opportunities
+</a>
+
+<a class="btn secondary" href="listings.html">
+Share an Opportunity
+</a>
+
+<a class="btn secondary" href="community.html">
+Explore Communities
+</a>
+</div>
+</section>
+
+<section class="panel" id="future">
+<h2>🌐 Building a Better Resource Network</h2>
+
+<p>
+Our longer-term goal is to make SHONnetwork
+a useful gateway to verified resources
+from national, state, local, nonprofit,
+and community organizations.
+</p>
+
+<p>
+We envision searchable assistance directories,
+regularly updated program information,
+and tools that help people discover services
+relevant to their actual circumstances.
+</p>
+
+<div class="notice">
+<strong>Development status</strong>
+<p>
+The location searches on this page currently
+open external map results. SHONnetwork does not
+yet operate its own continuously updated
+national assistance database or AI resource
+search engine.
+</p>
+</div>
+
+<p>
+Organizations interested in contributing
+resource information or collaborating
+with SHONnetwork can visit our partnership page.
+</p>
+
+<a class="btn" href="partners.html">
+Explore Partnerships
+</a>
+</section>
+
+</main>
+
+<footer>
+<strong>🏡 SHONnetwork</strong>
+<p>
+The home is the opportunity.
+The people are the heart of it.
+</p>
+<p>
+<a href="index.html">Home</a> ·
+<a href="discover.html">Discover</a> ·
+<a href="community.html">Community</a> ·
+<a href="partners.html">Partners</a>
+</p>
+</footer>
+
+<script>
+(function(){
+"use strict";
+
+const locationInput =
+document.getElementById("location");
+
+const categoryInput =
+document.getElementById("category");
+
+function searchResources(category){
+
+const location = locationInput.value.trim();
+
+if(!location){
+locationInput.focus();
+locationInput.reportValidity();
+return;
+}
+
+const query = category + " near " + location;
+
+const url =
+"https://www.google.com/maps/search/?api=1&query="
++ encodeURIComponent(query);
+
+window.open(url,"_blank","noopener,noreferrer");
+
+}
+
+document.getElementById("resource-form")
+.addEventListener("submit",function(event){
+
+event.preventDefault();
+searchResources(categoryInput.value);
+
+});
+
+document.getElementById("clear-form")
+.addEventListener("click",function(){
+
+locationInput.value="";
+categoryInput.selectedIndex=0;
+locationInput.focus();
+
+});
+
+document.querySelectorAll("[data-category]")
+.forEach(function(button){
+
+button.addEventListener("click",function(){
+
+const category =
+button.getAttribute("data-category");
+
+categoryInput.value=category;
+
+locationInput.scrollIntoView({
+behavior:"smooth",
+block:"center"
+});
+
+if(locationInput.value.trim()){
+searchResources(category);
+}else{
+locationInput.focus();
+}
+
+});
+
+});
+
+})();
+</script>
+
+</body>
+</html>
