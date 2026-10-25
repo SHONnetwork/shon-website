@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 
 <html lang="en">
 
@@ -110,8 +110,6 @@ main{max-width:1200px}.hero{position:relative;overflow:hidden;margin-top:16px;pa
 
 </style>
 
- 
-
 <style id="shon-community-upgrade">
 
 :root{--forest:#06483e;--mint:#e9f4e6;--warm:#fff8e8}
@@ -184,8 +182,6 @@ header .bar{align-items:center}
 
 </style>
 
- 
-
 <style id="shon-human-upgrade">
 
 :root{--shon-ink:#163e36}body{font-size:16px}main{max-width:1220px}.hero{min-height:330px}.hero h1{max-width:850px}.hero-actions{margin-top:25px}.member-panel{max-width:1040px}.story-fields{background:#f5faf4;border:1px solid #d6e9d8;border-radius:18px;padding:22px;margin:22px 0}.story-fields h3{font:26px Georgia,serif;color:#1a5641}.story-fields p{line-height:1.6}.story-fields details{background:white;border:1px solid #dce9df;border-radius:12px;padding:16px;margin:12px 0}.story-fields summary{cursor:pointer;font-weight:750;color:#174d3d;font-size:17px}.story-fields textarea{min-height:78px}.story-fields .two-col{margin-top:12px}.profile-note{font-size:14px;color:#4c675e}.quick-nav{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 0;justify-content:center}.quick-nav a{background:#fff;border:1px solid #cde0d0;border-radius:999px;padding:10px 15px;text-decoration:none;font-weight:700;font-size:14px}.quick-nav a:hover{background:#e8f4e8}.pathway-link{display:inline-block;margin-top:14px;font-weight:750;color:#075347}.welcome-photo{position:relative;margin:18px auto 0;max-width:930px;min-height:185px;border-radius:22px;background:linear-gradient(110deg,#145848d9,#14584840),url('assets/shon-community.jpg') center 42%/cover,linear-gradient(135deg,#cce5d4,#f9e9b4);overflow:hidden;display:flex;align-items:flex-end;text-align:left}.welcome-photo p{color:white;background:#13473bcc;margin:0;padding:14px 20px;font-size:17px;max-width:100%;font-weight:700}.welcome-photo:not(:has(img)){box-shadow:0 7px 24px #174f3c1c}.member-panel label{line-height:1.4}.member-panel textarea{width:100%}@media(max-width:650px){.story-fields{padding:14px}.story-fields details{padding:12px}.quick-nav a{font-size:13px}.welcome-photo{min-height:120px}}
@@ -196,7 +192,49 @@ header .bar{align-items:center}
 
 </style>
 
-</head>
+<style id="shon-contrast-and-impact">
+
+/* Unified readable cards and six-panel comparison */
+
+.card.green,.story-card:nth-child(2),.partner-grid>div:first-child,.impact-stat:nth-child(2){color:#132e28!important}
+
+.card.green h3,.card.green p,.card.green a,.story-card:nth-child(2) h3,.story-card:nth-child(2) p,.partner-grid>div:first-child h3,.partner-grid>div:first-child p{color:#132e28!important}
+
+.impact-panel{background:#f8fbf6;color:#182f2c}
+
+.impact-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:14px 0}
+
+.impact-stat{background:#e4f1db;color:#132e28!important;border:1px solid #d2e2cd;min-width:0;box-shadow:0 3px 10px #123b3010}
+
+.impact-row-one .impact-stat:nth-child(1){background:#0b3f5e;color:#fff!important}
+
+.impact-row-one .impact-stat:nth-child(1) strong,.impact-row-one .impact-stat:nth-child(1) span{color:#fff!important}
+
+.impact-row-one .impact-stat:nth-child(2){background:#fff0cd}
+
+.impact-row-one .impact-stat:nth-child(3){background:#e5f1fc}
+
+.impact-row-two .impact-stat:nth-child(1){background:#f9edcf}
+
+.impact-row-two .impact-stat:nth-child(2){background:#fae0e5}
+
+.impact-row-two .impact-stat:nth-child(3){background:#e1f0df}
+
+.impact-stat strong{color:#143a33!important;overflow-wrap:anywhere;font-size:clamp(21px,2.5vw,31px)}
+
+.impact-stat span{color:#20352e!important;display:block;font-size:15px;line-height:1.55;margin-top:8px}
+
+.impact-statement{text-align:center;background:#fff8e9;border:1px solid #ead9b5;border-radius:16px;padding:23px 24px;margin:24px 0 18px}
+
+.impact-statement .impact-assertion{font:700 clamp(20px,2.4vw,28px)/1.35 Georgia,serif;color:#173d35;margin:0 0 13px}
+
+.impact-statement .impact-response{font-size:17px;line-height:1.55;color:#203d34;margin:0}
+
+@media(max-width:800px){.impact-stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+@media(max-width:500px){.impact-stats{grid-template-columns:1fr}.impact-statement{padding:19px 14px}}
+
+</style></head>
 
 <body>
 
@@ -298,7 +336,7 @@ header .bar{align-items:center}
 
 <a class="button button-alt" href="#social">Meet the community</a>
 
-</div><div class="quick-nav" aria-label="Explore SHON"><a href="#connect">Find opportunities</a><a href="#social">Community</a><a href="#member-access">My profile</a><a href="#learning">Learning</a></div>
+</div><div aria-label="Explore SHON" class="quick-nav"><a href="#connect">Find opportunities</a><a href="#social">Community</a><a href="#member-access">My profile</a><a href="#learning">Learning</a></div>
 
 </section>
 
@@ -410,47 +448,43 @@ header .bar{align-items:center}
 
 </section>
 
-<div class="welcome-photo" role="img" aria-label="Warm green and golden welcome banner"><p>Different lives. Shared possibilities. A place for everyone to belong. 🌻</p></div>
+<div aria-label="Warm green and golden welcome banner" class="welcome-photo" role="img"><p>Different lives. Shared possibilities. A place for everyone to belong. 🌻</p></div>
 
-<section class="section story-section" id="belonging"><div class="story-heading"><span class="eyebrow">A different kind of network</span><h2>More than a roof. A life shared on your own terms.</h2><p>SHON is a people-centered network for discovering, forming, and sustaining compatible homes, households, extended families, and communities through voluntary, mutually beneficial relationships.</p></div><div class="story-grid"><article class="story-card"><span class="story-emoji" aria-hidden="true">👨‍👩‍👧</span><h3>Families belong here</h3><p>Parents with children, couples, grandparents, and chosen families all deserve opportunities to stay together and thrive.</p></article><article class="story-card"><span class="story-emoji" aria-hidden="true">🌻</span><h3>Room for one another</h3><p>A quiet home may welcome laughter, shared meals, companionship, or an extended household, without requiring caregiving or employment.</p></article><article class="story-card"><span class="story-emoji" aria-hidden="true">🪴</span><h3>Every person brings something</h3><p>Presence, stories, experience, skills, kindness, and creativity can enrich a household. Not every contribution has a price tag.</p></article></div><p class="story-footer">A good home can be peaceful or lively, independent or communal. You choose what to share and what belonging means to you.</p></section>
+<section class="section story-section" id="belonging"><div class="story-heading"><span class="eyebrow">A different kind of network</span><h2>More than a roof. A life shared on your own terms.</h2><p>SHON is a people-centered network for discovering, forming, and sustaining compatible homes, households, extended families, and communities through voluntary, mutually beneficial relationships.</p></div><div class="story-grid"><article class="story-card"><span aria-hidden="true" class="story-emoji">👨‍👩‍👧</span><h3>Families belong here</h3><p>Parents with children, couples, grandparents, and chosen families all deserve opportunities to stay together and thrive.</p></article><article class="story-card"><span aria-hidden="true" class="story-emoji">🌻</span><h3>Room for one another</h3><p>A quiet home may welcome laughter, shared meals, companionship, or an extended household, without requiring caregiving or employment.</p></article><article class="story-card"><span aria-hidden="true" class="story-emoji">🪴</span><h3>Every person brings something</h3><p>Presence, stories, experience, skills, kindness, and creativity can enrich a household. Not every contribution has a price tag.</p></article></div><p class="story-footer">A good home can be peaceful or lively, independent or communal. You choose what to share and what belonging means to you.</p></section>
 
- 
+<section aria-labelledby="social-title" class="section" id="social">
 
-<section class="section" id="social" aria-labelledby="social-title">
+<div class="community-banner">
 
- <div class="community-banner">
+<div class="intro">
 
-  <div class="intro">
+<span class="future-label">Community features in development</span>
 
-   <span class="future-label">Community features in development</span>
+<h2 id="social-title">Come for an opportunity. Stay for the people.</h2>
 
-   <h2 id="social-title">Come for an opportunity. Stay for the people.</h2>
+<p>SHON is growing into a place where people can meet, talk, make friends, and discover what they might share. You should not need a housing listing to belong.</p>
 
-   <p>SHON is growing into a place where people can meet, talk, make friends, and discover what they might share. You should not need a housing listing to belong.</p>
+<p>Imagine welcoming chat rooms, private messenger contacts, interest groups, and friendly games, connected across SHON and SHANE while protecting each network's independence.</p>
 
-   <p>Imagine welcoming chat rooms, private messenger contacts, interest groups, and friendly games, connected across SHON and SHANE while protecting each network's independence.</p>
+<a class="button button-alt" href="#connect">Explore current listings</a>
 
-   <a class="button button-alt" href="#connect">Explore current listings</a>
+</div>
 
-  </div>
+<div aria-hidden="true" class="mosaic"><div>💬</div><div>🏡</div><div>🎲</div><div>🌻</div></div>
 
-  <div class="mosaic" aria-hidden="true"><div>💬</div><div>🏡</div><div>🎲</div><div>🌻</div></div>
+</div>
 
- </div>
+<div class="feature-grid">
 
- <div class="feature-grid">
+<article class="feature-card"><div aria-hidden="true" class="emoji">💬</div><h3>Community rooms</h3><p>Future conversations for families, shared living, friendship, gardening, community building, and everyday life.</p><span class="future-label">Planned, not live</span></article>
 
-  <article class="feature-card"><div class="emoji" aria-hidden="true">💬</div><h3>Community rooms</h3><p>Future conversations for families, shared living, friendship, gardening, community building, and everyday life.</p><span class="future-label">Planned, not live</span></article>
+<article class="feature-card"><div aria-hidden="true" class="emoji">👥</div><h3>Friends &amp; messenger</h3><p>Future contact lists, private conversations, and optional online presence, with blocking and privacy controls.</p><span class="future-label">Planned, not live</span></article>
 
-  <article class="feature-card"><div class="emoji" aria-hidden="true">👥</div><h3>Friends &amp; messenger</h3><p>Future contact lists, private conversations, and optional online presence, with blocking and privacy controls.</p><span class="future-label">Planned, not live</span></article>
+<article class="feature-card"><div aria-hidden="true" class="emoji">♟️</div><h3>Play together</h3><p>Future shared SHON–SHANE game spaces: chess, puzzles, trivia, and cooperative play. Free participation comes first.</p><span class="future-label">Planned, not live</span></article>
 
-  <article class="feature-card"><div class="emoji" aria-hidden="true">♟️</div><h3>Play together</h3><p>Future shared SHON–SHANE game spaces: chess, puzzles, trivia, and cooperative play. Free participation comes first.</p><span class="future-label">Planned, not live</span></article>
-
- </div>
+</div>
 
 </section>
-
- 
 
 <section aria-labelledby="member-title" class="section" id="member-access">
 
@@ -476,25 +510,21 @@ header .bar{align-items:center}
 
 <input autocomplete="current-password" id="member-password" minlength="8" required="" type="password"/>
 
- 
-
 <div hidden="" id="member-confirm-wrap">
 
-  <label for="member-password-confirm">Confirm password</label>
+<label for="member-password-confirm">Confirm password</label>
 
-  <input autocomplete="new-password" id="member-password-confirm" minlength="8" type="password"/>
+<input autocomplete="new-password" id="member-password-confirm" minlength="8" type="password"/>
 
-  <p class="member-hint">Use at least 8 characters and enter the same password twice.</p>
+<p class="member-hint">Use at least 8 characters and enter the same password twice.</p>
 
 </div>
 
- 
-
 <div hidden="" id="member-name-wrap">
 
-  <label for="member-name">Display name</label>
+<label for="member-name">Display name</label>
 
-  <input autocomplete="nickname" id="member-name" maxlength="80" minlength="2" type="text"/>
+<input autocomplete="nickname" id="member-name" maxlength="80" minlength="2" type="text"/>
 
 </div>
 
@@ -698,33 +728,33 @@ header .bar{align-items:center}
 
 <h2>Discover people and possibilities</h2><p class="muted">Discover what members have chosen to share. Look for homes, welcoming households, companionship, and ways to contribute. Exact addresses and account emails are not displayed.</p>
 
-<div class="directory-tabs" role="group" aria-label="Explore people or opportunities"><button id="show-opportunities" class="mini-button selected" type="button" aria-pressed="true">🏡 Homes & opportunities</button><button id="show-people" class="mini-button" type="button" aria-pressed="false">👥 People & households</button></div>
+<div aria-label="Explore people or opportunities" class="directory-tabs" role="group"><button aria-pressed="true" class="mini-button selected" id="show-opportunities" type="button">🏡 Homes &amp; opportunities</button><button aria-pressed="false" class="mini-button" id="show-people" type="button">👥 People &amp; households</button></div>
 
 <div class="discover-tools discover-expanded">
 
- <label>Keywords<input id="public-search" placeholder="Home, cats, gardening, companionship…" type="search"/></label>
+<label>Keywords<input id="public-search" placeholder="Home, cats, gardening, companionship…" type="search"/></label>
 
- <label>City, state or region<input id="public-region" placeholder="e.g. Texas, Webster, nationwide" type="search"/></label>
+<label>City, state or region<input id="public-region" placeholder="e.g. Texas, Webster, nationwide" type="search"/></label>
 
- <label>Opportunity type<select id="public-type"><option value="">All opportunities</option><option value="housing_needed">Seeking a home</option><option value="housing_offered">Offering a home</option><option value="help_offered">Skills & contributions</option><option value="connection_sought">Friendship & connection</option></select></label>
+<label>Opportunity type<select id="public-type"><option value="">All opportunities</option><option value="housing_needed">Seeking a home</option><option value="housing_offered">Offering a home</option><option value="help_offered">Skills &amp; contributions</option><option value="connection_sought">Friendship &amp; connection</option></select></label>
 
- <label>Living arrangement<select id="public-arrangement"><option value="">Any arrangement</option><option value="no_rent">Room and board / shared home</option><option value="shared_costs">Shared costs</option><option value="rent">Rent / payment</option><option value="exchange">Mutual exchange</option><option value="flexible">Flexible / discuss</option></select></label>
+<label>Living arrangement<select id="public-arrangement"><option value="">Any arrangement</option><option value="no_rent">Room and board / shared home</option><option value="shared_costs">Shared costs</option><option value="rent">Rent / payment</option><option value="exchange">Mutual exchange</option><option value="flexible">Flexible / discuss</option></select></label>
 
- <label>Member interest<select id="public-role"><option value="">Any interest</option><option value="need_place">Seeking a place</option><option value="have_space">Space to share</option><option value="offer_help">Skills to share</option><option value="looking_person">Connection & companionship</option></select></label>
+<label>Member interest<select id="public-role"><option value="">Any interest</option><option value="need_place">Seeking a place</option><option value="have_space">Space to share</option><option value="offer_help">Skills to share</option><option value="looking_person">Connection &amp; companionship</option></select></label>
 
- <label>Recently active<select id="public-active"><option value="">Any time</option><option value="7">Past 7 days</option><option value="30">Past 30 days</option><option value="90">Past 90 days</option><option value="365">Past year</option></select></label>
+<label>Recently active<select id="public-active"><option value="">Any time</option><option value="7">Past 7 days</option><option value="30">Past 30 days</option><option value="90">Past 90 days</option><option value="365">Past year</option></select></label>
 
- <label>Sort by<select id="public-sort"><option value="newest">Newest first</option><option value="oldest">Oldest first</option><option value="name">Name / title A–Z</option><option value="location">Location A–Z</option><option value="active">Recently active (people)</option></select></label>
+<label>Sort by<select id="public-sort"><option value="newest">Newest first</option><option value="oldest">Oldest first</option><option value="name">Name / title A–Z</option><option value="location">Location A–Z</option><option value="active">Recently active (people)</option></select></label>
 
- <button id="public-clear" class="mini-button" type="button">Clear filters</button>
+<button class="mini-button" id="public-clear" type="button">Clear filters</button>
 
 </div>
 
 <p class="member-hint" id="discovery-count" role="status">Loading discovery…</p>
 
-<div id="public-people" class="empty-state" hidden>Loading members who chose to be discoverable…</div>
+<div class="empty-state" hidden="" id="public-people">Loading members who chose to be discoverable…</div>
 
-<div id="public-listings" class="empty-state">Loading published listings…</div>
+<div class="empty-state" id="public-listings">Loading published listings…</div>
 
 </div>
 
@@ -1028,49 +1058,41 @@ header .bar{align-items:center}
 
 </section>
 
- 
-
 <section class="section" id="why-shon">
 
- <div class="impact-panel">
+<div class="impact-panel">
 
-  <span class="section-kicker">Why connections matter</span>
+<span class="section-kicker">Why connections matter</span>
 
-  <h2>Extraordinary wealth. Hundreds of thousands without a home.</h2>
+<h2>The numbers, side by side</h2>
 
-  <p>In the United States, extraordinary fortunes exist alongside people who cannot obtain even a place to sleep. Elon Musk is among the world's wealthiest people. The figures below place one such estimated fortune beside the number of people counted experiencing homelessness.</p>
+<p>A comparison of the number of Americans experiencing homelessness, illustrative amounts per person, and an estimated personal fortune.</p>
 
-  <div class="impact-stats">
+<div class="impact-stats impact-row-one">
 
-   <div class="impact-stat"><strong>771,480</strong><span>People experiencing homelessness counted on one night in January 2024, according to HUD.</span></div>
+<div class="impact-stat"><strong>745,652</strong><span>People counted experiencing homelessness on one night in January 2025 (HUD).</span></div>
 
-   <div class="impact-stat"><strong>~1 in 440</strong><span>Approximate share of the U.S. population represented by that one-night count.</span></div>
+<div class="impact-stat"><strong>~1 in 460</strong><span>Approximate share of the U.S. population represented by that count.</span></div>
 
-   <div class="impact-stat"><strong>$77.1B</strong><span>At an illustrative $100,000 for each of those 771,480 people. Not an actual housing cost estimate.</span></div>
+<div class="impact-stat"><strong>$74.6 billion</strong><span>If each of those 745,652 people received $100,000, the total would be about $74.6 billion.</span></div>
 
-  </div>
+</div>
 
-  <div class="impact-stats">
+<div class="impact-stats impact-row-two">
 
-   <div class="impact-stat"><strong>$771.5B</strong><span>At an illustrative $1 million for each person counted. A comparison of scale, not a proposed expenditure.</span></div>
+<div class="impact-stat"><strong>$745.7 billion</strong><span>If each received $1,000,000, the total would be about $745.7 billion.</span></div>
 
-   <div class="impact-stat"><strong>$924.7B</strong><span>Elon Musk, estimated net worth (October 2026).</span></div>
+<div class="impact-stat"><strong>$922.9 billion</strong><span>Estimated net worth of Elon Musk (USA), Forbes Real-Time Billionaires, October 24, 2026, 8:55 p.m. EDT.</span></div>
 
-   <div class="impact-stat"><strong>Why?</strong><span>The comparison speaks for itself: immense private wealth alongside widespread homelessness.</span></div>
+<div class="impact-stat"><strong>SHON</strong><span>Making existing opportunities visible, connecting people, and helping communities create solutions.</span></div>
 
-  </div>
+</div><div class="impact-statement"><p class="impact-assertion">It is absurd that any country as wealthy as the United States cannot ensure housing for such a small percentage of the population.</p><p class="impact-response">SHON helps make existing opportunities visible, so people can find one another and create real solutions.</p></div>
 
-  <p>SHON asks a second question: what can happen when people have a free place to meet, talk, play, become friends, and genuinely want to help one another? Someone without housing may meet a household delighted to welcome them. An older or disabled homeowner may find companionship that helps them remain at home. A single parent and a childless household may discover the joy of becoming an extended family. These are voluntary possibilities, not obligations.</p>
+<small>Sources: HUD, 2025 Annual Homelessness Assessment Report, Part 1 (January 2025 point-in-time count); Forbes Real-Time Billionaires (October 24, 2026, 8:55 p.m. EDT). The dollar-per-person figures are arithmetic illustrations, not housing-cost estimates. Net-worth estimates fluctuate.</small>
 
-  <p><strong>No one should have to apologize for having nothing and asking to survive.</strong> The home is the opportunity. The people are the heart of it.</p>
-
-  <small>Source: HUD, <em>2024 Annual Homelessness Assessment Report, Part 1</em>, January 2024 point-in-time count. Ratios are approximate. Financial figures are illustrative comparisons, not housing-cost estimates. Net-worth estimates fluctuate with market valuations; the $924.7B figure is provisional pending confirmation from a dated financial source.</small>
-
- </div>
+</div>
 
 </section>
-
- 
 
 <section class="section" id="about">
 
