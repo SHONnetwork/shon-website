@@ -552,8 +552,7 @@ bf8d31;padding:13px;border-radius:8px;line-height:1.55}@media(max-width:760px){#
 </div>
 </section>
 <div aria-label="Warm green and golden welcome banner" class="welcome-photo" role="img"><p>Different lives. Shared possibilities. A place for everyone to belong. 🌻</p></div>
-<section class="section story-section" id="belonging"><div class="story-heading"><span class="eyebrow">A different kind of network</span><h2>M
-ore than a roof. A life shared on your own terms.</h2><p>SHON is a people-centered network for discovering, forming, and sustaining compatible homes, households, extended families, and communities through voluntary, mutually beneficial relationships.</p></div><div class="story-grid"><article class="story-card"><span aria-hidden="true" class="story-emoji">👨‍👩‍👧</span><h3>Families belong here</h3><p>Parents with children, couples, grandparents, and chosen families all deserve opportunities to stay together and thrive.</p></article><article class="story-card"><span aria-hidden="true" class="story-emoji">🌻</span><h3>Room for one another</h3><p>A quiet home may welcome laughter, shared meals, companionship, or an extended household, without requiring caregiving or employment.</p></article><article class="story-card"><span aria-hidden="true" class="story-emoji">🪴</span><h3>Every person brings something</h3><p>Presence, stories, experience, skills, kindness, and creativity can enrich a household. Not every contribution has a price tag.</p></article></div><p class="story-footer">A good home can be peaceful or lively, independent or communal. You choose what to share and what belonging means to you.</p></section>
+<section class="section story-section" id="belonging"><div class="story-heading"><span class="eyebrow">A different kind of network</span><h2>More than a roof. A life shared on your own terms.</h2><p>SHON is a people-centered network for discovering, forming, and sustaining compatible homes, households, extended families, and communities through voluntary, mutually beneficial relationships.</p></div><div class="story-grid"><article class="story-card"><span aria-hidden="true" class="story-emoji">👨‍👩‍👧</span><h3>Families belong here</h3><p>Parents with children, couples, grandparents, and chosen families all deserve opportunities to stay together and thrive.</p></article><article class="story-card"><span aria-hidden="true" class="story-emoji">🌻</span><h3>Room for one another</h3><p>A quiet home may welcome laughter, shared meals, companionship, or an extended household, without requiring caregiving or employment.</p></article><article class="story-card"><span aria-hidden="true" class="story-emoji">🪴</span><h3>Every person brings something</h3><p>Presence, stories, experience, skills, kindness, and creativity can enrich a household. Not every contribution has a price tag.</p></article></div><p class="story-footer">A good home can be peaceful or lively, independent or communal. You choose what to share and what belonging means to you.</p></section>
 <section aria-labelledby="social-title" class="section" id="social">
 <div class="community-banner">
 <div class="intro">
@@ -591,6 +590,7 @@ tional online presence and additional tools are planned.</p><span class="future-
 </div>
 <div hidden="" id="member-name-wrap">
 <label for="member-name">Display name</label>
+<p class="member-hint">This name is shown only in your own account form until you choose to publish a profile or listing. Your browser may also remember form entries.</p>
 <input autocomplete="nickname" id="member-name" maxlength="80" minlength="2" type="text"/>
 </div>
 </fieldset>
@@ -613,6 +613,7 @@ tional online presence and additional tools are planned.</p><span class="future-
 </div>
 <div hidden="" id="member-signed-in"><nav class="shon-app-nav" aria-label="Your SHON dashboard"><a href="#member-profile-form">👤 My profile</a><a href="#member-listing-form">🏡 My listings</a><a href="#browse-members" data-shon-view="saved">♡ My saved</a><a href="#browse-members" data-shon-view="people">🔎 Discover people</a><a href="#shon-mail">✉️ Messages</a><a href="#shon-preferences">💞 Preferences</a></nav>
 <p id="member-welcome"></p>
+<button type="button" id="shon-change-password" class="mini-button">Change my password</button>
 <form hidden="" id="member-profile-form">
 <div class="member-subsection" style="border-top:0;margin-top:0;padding-top:0">
 <h3>Tell us about yourself, in your own words</h3>
@@ -1157,7 +1158,11 @@ acant buildings, underused properties, and declining towns as starting points fo
 
   }
 
-  let recoveringPassword = false;
+  const recoveryUrl = new URL(window.location.href);
+  const recoveryRequested = recoveryUrl.searchParams.get('shon_recovery') === '1'
+    || /(?:^|[&#])type=recovery(?:&|$)/.test(window.location.hash)
+    || recoveryUrl.searchParams.get('type') === 'recovery';
+  let recoveringPassword = recoveryRequested;
   const recoveryForm = byId('shon-password-recovery');
   function showRecoveryForm() {
     recoveringPassword = true;
@@ -1165,8 +1170,10 @@ acant buildings, underused properties, and declining towns as starting points fo
     signedIn.hidden = true;
     form.hidden = true;
     recoveryForm.hidden = false;
-    report('Password recovery link accepted. Enter a new password below.', 'success');
+    report('Choose a new password below. Your existing account information will not be deleted.', 'success');
+    document.getElementById('member-access').scrollIntoView({block:'start'});
   }
+  byId('shon-change-password').addEventListener('click', showRecoveryForm);
   byId('shon-forgot-password').addEventListener('click', async () => {
     if (busy || !client) return;
     const email = byId('member-email').value.trim();
@@ -1177,7 +1184,7 @@ acant buildings, underused properties, and declining towns as starting points fo
     }
     setBusy(true);
     try {
-      const redirectTo = window.location.origin + window.location.pathname + '#member-access';
+      const redirectTo = window.location.origin + window.location.pathname + '?shon_recovery=1#member-access';
       const {error} = await client.auth.resetPasswordForEmail(email, {redirectTo});
       if (error) throw error;
       report('If that email belongs to an account, a password-reset link will arrive shortly. Check your inbox and spam folder. Open the link in this browser.', 'success');
@@ -1197,6 +1204,10 @@ acant buildings, underused properties, and declining towns as starting points fo
       const {error} = await client.auth.updateUser({password});
       if (error) throw error;
       recoveringPassword = false;
+      const cleanUrl = new URL(window.location.href);
+      cleanUrl.searchParams.delete('shon_recovery');
+      if (cleanUrl.hash.includes('access_token=') || cleanUrl.hash.includes('type=recovery')) cleanUrl.hash = '#member-access';
+      window.history.replaceState(null, '', cleanUrl.pathname + cleanUrl.search + cleanUrl.hash);
       recoveryForm.hidden = true;
       form.hidden = false;
       byId('shon-new-password').value = '';
@@ -1851,6 +1862,9 @@ function stateFromRegion(value){
     signedOut.hidden = false;
 
     setMode('signin');
+    // Recovery links must display the password form even if the auth event
+    // is processed before the listener is attached.
+    if (recoveryRequested) showRecoveryForm();
 
     client.auth.onAuthStateChange((event) => {
       if (event === 'PASSWORD_RECOVERY') { showRecoveryForm(); return; }
