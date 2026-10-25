@@ -1,10 +1,177 @@
-$("query").value = "";
-$("region").value = "";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Discover | SHONnetwork</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f8faf6;color:#194436;font:16px/1.5 system-ui,Arial}
+header,main,footer{padding:20px}
+header{background:white;border-bottom:1px solid #d9e5db}
+nav{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px}
+a{color:#176049}
+nav a{font-size:14px;font-weight:700}
+main{max-width:1050px;margin:auto}
+h1,h2{font-family:Georgia,serif}
+h1{font-size:clamp(30px,5vw,45px)}
+.hero{background:linear-gradient(120deg,#e5f3e1,#e8f4fa,#fff0d7);padding:30px;border-radius:17px}
+.panel{background:white;border:1px solid #d9e5db;border-radius:15px;padding:22px;margin-top:20px}
+.controls{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0}
+button,input{font:inherit;padding:10px;border-radius:8px;border:1px solid #a2b9aa}
+button{cursor:pointer;background:#176049;color:white}
+input{width:100%;max-width:300px;background:white}
+#results{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:13px}
+article{padding:17px;border:1px solid #d7e4da;border-radius:12px;background:#f2f8f1;overflow-wrap:anywhere}
+article:nth-child(even){background:#eaf4fc}
+article p{white-space:pre-wrap}
+.status{padding:12px;background:#eef5ed;border-radius:8px;margin:15px 0}
+footer{text-align:center;background:#174c3c;color:white}
+footer a{color:white}
+</style>
+</head>
+<body>
+<header>
+<strong>🏡 SHONnetwork</strong>
+<nav>
+<a href="index.html">Home</a>
+<a href="discover.html">Discover</a>
+<a href="members.html">Members</a>
+<a href="profile.html">Profile</a>
+<a href="listings.html">Listings</a>
+<a href="connections.html">Connections</a>
+<a href="community.html">Community</a>
+<a href="resources.html">Resources</a>
+<a href="partners.html">Partners</a>
+</nav>
+</header>
+
+<main>
+<section class="hero">
+<h1>Discover People & Opportunities</h1>
+<p>Explore homes, households, friendships, and shared possibilities.</p>
+<p><strong>Free to browse. People before profit.</strong></p>
+</section>
+
+<section class="panel">
+<h2>Public Discovery</h2>
+<p>Browse public opportunities and member profiles without signing in.</p>
+
+<div class="controls">
+<button id="opportunities" type="button">🏡 Opportunities</button>
+<button id="people" type="button">👥 People</button>
+</div>
+
+<div class="controls">
+<input id="search" placeholder="Search words or interests" aria-label="Search words">
+<input id="location" placeholder="Location or region" aria-label="Location">
+<button id="clear" type="button">Clear</button>
+</div>
+
+<p id="status" class="status" role="status">Loading directory…</p>
+<div id="results"></div>
+
+<p>Only public information should appear here. Confirm availability and arrangements directly with the people involved.</p>
+<p><a href="members.html">Join or sign in to connect</a></p>
+</section>
+
+<section class="panel">
+<h2>More Than a Roof</h2>
+<p>The home is the opportunity. The people are the heart of it.</p>
+<p><a href="community.html">Explore Community & Games</a></p>
+</section>
+</main>
+
+<footer>
+<p>SHONnetwork · People before profit</p>
+<a href="index.html">Home</a>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+(function(){
+"use strict";
+
+const $=id=>document.getElementById(id);
+const url="https://wqcninwqeyfoyxlllwdy.supabase.co";
+const key="sb_publishable_YTHhpIPiKKHGBLMdkj_4og_Uyq_t_SX";
+
+let db,mode="listings",rows=[];
+
+function safe(v){
+return String(v??"").replace(/[&<>"']/g,c=>({
+"&":"&amp;","<":"&lt;",">":"&gt;",
+'"':"&quot;","'":"&#39;"
+})[c]);
+}
+
+function render(){
+const q=$("search").value.toLowerCase().trim();
+const loc=$("location").value.toLowerCase().trim();
+
+const matches=rows.filter(r=>{
+const text=Object.values(r).filter(v=>typeof v==="string").join(" ").toLowerCase();
+const place=String(r.region||r.location||r.city||"").toLowerCase();
+return (!q||text.includes(q))&&(!loc||place.includes(loc)||text.includes(loc));
+});
+
+$("status").textContent=matches.length+" public results found.";
+
+$("results").innerHTML=matches.slice(0,100).map(r=>{
+const title=r.title||r.display_name||r.name||"Community member";
+const desc=r.description||r.bio||r.about||"";
+const place=r.region||r.location||r.city||"";
+return `<article>
+<h3>${safe(title)}</h3>
+<small>${safe(place)}</small>
+<p>${safe(desc)}</p>
+<a href="members.html">Sign in to connect</a>
+</article>`;
+}).join("")||"<p>No matching entries found.</p>";
+}
+
+async function load(which){
+mode=which;
+$("status").textContent="Loading public "+which+"…";
+$("results").innerHTML="";
+try{
+let result;
+if(which==="listings"){
+result=await db.from("listings")
+.select("*")
+.eq("status","published")
+.limit(200);
+}else{
+result=await db.rpc("shon_public_directory");
+}
+if(result.error)throw result.error;
+rows=Array.isArray(result.data)?result.data:[];
 render();
+}catch(e){
+$("status").textContent="Directory error: "+e.message;
+}
+}
+
+$("opportunities").onclick=()=>load("listings");
+$("people").onclick=()=>load("people");
+$("search").oninput=render;
+$("location").oninput=render;
+$("clear").onclick=()=>{
+$("search").value="";
+$("location").value="";
+render();
+};
+
+if(!window.supabase){
+$("status").textContent="Unable to load the database library.";
+return;
+}
+
+db=window.supabase.createClient(url,key,{
+auth:{persistSession:false,autoRefreshToken:false}
 });
 
 load("listings");
-
 })();
 </script>
 </body>
