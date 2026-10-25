@@ -420,9 +420,113 @@ button,.button,.mini-button,.support{min-height:44px}
 
 </style>
 
+<style id="shon-final-usability-refinement">
+
+.shon-skip-link{position:absolute;left:12px;top:-90px;z-index:1000;background:#fff0cd;color:#17372b;padding:12px 16px;border-radius:8px;font-weight:750;}
+
+.shon-skip-link:focus{top:10px;}
+
+/* Restrained refinements: preserve the six fact cards and statement untouched. */
+
+:root { --shon-body-ink:#213c35; }
+
+body { color:var(--shon-body-ink); }
+
+.muted,.member-hint,.profile-note,.preview,.story-card p,.feature-card p { color:#354e46; }
+
+.member-hint,.profile-note,.privacy-note { font-size:15px; line-height:1.65; }
+
+.section > p,.member-panel > p,.impact-panel > p { max-width:78ch; line-height:1.65; }
+
+.member-panel label { color:#1b4035; }
+
+.member-panel input,.member-panel select,.member-panel textarea,
+
+.discover-tools input,.discover-tools select { color:#193a32; background-color:#fff; border-color:#7b9c91; }
+
+.member-panel input::placeholder,.member-panel textarea::placeholder,.discover-tools input::placeholder { color:#526c62; opacity:1; }
+
+.member-panel :is(input,select,textarea):focus-visible,.discover-tools :is(input,select):focus-visible { outline:3px solid #b56a17; outline-offset:2px; }
+
+.member-panel .member-subsection { margin-top:21px; padding-top:20px; }
+
+.member-panel .story-fields details { margin:9px 0; }
+
+.member-panel .story-fields summary { min-height:44px; display:list-item; padding:8px 2px; }
+
+.member-panel .story-fields summary::marker { color:#185a46; }
+
+.member-panel .member-actions { row-gap:10px; }
+
+.section-nav a,.quick-nav a,.directory-tabs button { line-height:1.4; }
+
+.footer { line-height:1.65; }
+
+@media(max-width:650px) {
+
+  html { scroll-padding-top:118px; }
+
+  header { position:relative; }
+
+  .bar { gap:8px; }
+
+  nav { width:100%; display:flex; flex-wrap:nowrap; overflow-x:auto; overscroll-behavior-x:contain; scrollbar-width:thin; padding-bottom:5px; justify-content:flex-start; }
+
+  nav a { flex:0 0 auto; font-size:14px; min-height:44px; white-space:nowrap; }
+
+  .logo small { font-size:11px; }
+
+  .section { padding-top:22px; padding-bottom:22px; }
+
+  .section h2 { line-height:1.18; }
+
+  .member-panel { padding:18px 15px; }
+
+  .member-panel .member-subsection { margin-top:18px; padding-top:17px; }
+
+  .member-panel .member-subsection h3 { font-size:23px; }
+
+  .member-panel .story-fields { padding:14px 12px; }
+
+  .member-panel .story-fields h3 { font-size:23px; }
+
+  .member-panel .story-fields details { padding:10px 12px; }
+
+  .member-panel label,.discover-expanded label { font-size:16px; }
+
+  .member-panel .member-actions > button { min-height:46px; }
+
+  .member-panel .member-actions { align-items:stretch; }
+
+  .member-panel .member-actions > button { flex:1 1 170px; }
+
+  .directory-tabs { display:grid; grid-template-columns:1fr; }
+
+  .directory-tabs button { width:100%; }
+
+  .feature-card,.card { padding:19px; }
+
+  .story-heading p { font-size:16px; }
+
+  .section-kicker,.eyebrow { font-size:13px; letter-spacing:.08em; }
+
+}
+
+@media(max-width:360px) {
+
+  .member-panel { padding:15px 12px; }
+
+  .hero h1 { font-size:30px; }
+
+}
+
+</style>
+
 </head>
 
 <body>
+
+<a class="shon-skip-link" href="#connect">Skip to opportunities</a>
 
 <header>
 
