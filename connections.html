@@ -1,1 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>My Connections | SHONnetwork</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f7f9f5;color:#173b32;font:16px/1.55 system-ui,Arial,sans-serif}
+header{background:#fff;border-bottom:1px solid #dce6dc;padding:14px 18px}
+.bar{max-width:1100px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.brand{font-size:27px;font-weight:800;color:#111;text-decoration:none}
+.brand span{font-weight:400}
+nav{display:flex;gap:12px;flex-wrap:wrap}
+nav a{color:#205342;text-decoration:none;font-weight:650}
+main{max-width:1050px;margin:auto;padding:24px 16px 65px}
+h1{font-size:clamp(29px,5vw,40px);margin:0 0 7px}
+.intro{color:#496258;max-width:760px}
+.notice{background:#e9f3e6;border-radius:11px;padding:15px;margin:18px 0}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:22px 0 15px}
+.tabs button{background:#e5eee7;color:#173b32;border:1px solid #c6d8ca}
+.tabs button.active{background:#16604c;color:#fff}
+button{border:0;border-radius:9px;padding:10px 15px;font:inherit;font-weight:700;cursor:pointer;min-height:44px}
+button.primary{background:#16604c;color:#fff}
+button.secondary{background:#e5eee7;color:#173b32}
+button.danger{background:#fff0ee;color:#842a25}
+.panel{background:white;border:1px solid #d8e6dc;border-radius:14px;padding:20px;margin:12px 0}
+.panel[hidden]{display:none}
+label{display:block;font-weight:650;margin:14px 0 5px}
+input,select,textarea{width:100%;min-height:44px;padding:11px;border:1px solid #88a69a;border-radius:8px;background:white;color:#173b32;font:inherit}
+textarea{min-height:85px;resize:vertical}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 15px}
+.entry{border:1px solid #dce7dd;border-radius:11px;padding:16px;margin:11px 0}
+.entry h3{margin:0 0 7px;font-size:19px}
+.entry p{white-space:pre-wrap;overflow-wrap:anywhere;margin:8px 0}
+.meta{font-size:14px;color:#50675e}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.empty{border:1px dashed #b7cebf;border-radius:10px;padding:17px;color:#50675e}
+#status{min-height:23px;color:#285c42}
+:focus-visible{outline:3px solid #bd7d25;outline-offset:2px}
+@media(max-width:650px){.grid{grid-template-columns:1fr}.panel{padding:15px}.tabs button{flex:1 1 140px}}
+</style>
+</head>
+<body>
+<header>
+<div class="bar">
+<a class="brand" href="index.html">🏡 SHON<span>network</span></a>
+<nav aria-label="Member navigation">
+<a href="members.html">My SHONnetwork</a>
+<a href="profile.html">My Profile</a>
+<a href="listings.html">My Listings</a>
+<a href="connections.html" aria-current="page">My Connections</a>
+</nav>
+</div>
+</header>
+<main>
+<h1>My Connections</h1>
+<p class="intro">A place to remember the people you've met, opportunities you've explored, and conversations you'd like to continue.</p>
 
+<div class="notice">🌻 Your connections belong to you. This page currently stores personal notes in this browser. Live SHONnetwork messaging and synchronization are not yet connected.</div>
+
+<div class="tabs" role="group" aria-label="Connection sections">
+<button type="button" class="active" data-tab="saved" aria-pressed="true">⭐ Saved</button>
+<button type="button" data-tab="contacts" aria-pressed="false">👥 People</button>
+<button type="button" data-tab="messages" aria-pressed="false">💬 Messages</button>
+<button type="button" data-tab="history" aria-pressed="false">🕰️ History</button>
+</div>
+
+<section id="saved" class="panel">
+<h2>Saved People & Opportunities</h2>
+<p>Keep a personal list of people, households, and opportunities you'd like to revisit.</p>
+<div id="saved-items"></div>
+</section>
+
+<section id="contacts" class="panel" hidden>
+<h2>My People</h2>
+<p>Record people you've met and the relationships you'd like to develop.</p>
+<div id="contact-items"></div>
+</section>
+
+<section id="messages" class="panel" hidden>
+<h2>Messages & Correspondence</h2>
+<p>This section is reserved for private SHONnetwork conversations. Until live messaging is connected, you can record correspondence notes here.</p>
+<div id="message-items"></div>
+</section>
+
+<section id="history" class="panel" hidden>
+<h2>My Connection History</h2>
+<p>Review the interactions and opportunities you've recorded.</p>
+<div id="history-items"></div>
+</section>
+
+<section class="panel">
+<h2>Add to My Connections</h2>
+<form id="connection-form">
+<input type="hidden" id="editing-id">
+<div class="grid">
+<div>
+<label for="category">Category</label>
+<select id="category">
+<option value="saved">Saved person or opportunity</option>
+<option value="contacts">Person or friendship</option>
+<option value="messages">Correspondence note</option>
+<option value="history">Other interaction or history</option>
+</select>
+</div>
+<div>
+<label for="name">Person, household, or opportunity</label>
+<input id="name" placeholder="Name or description">
+</div>
+<div>
+<label for="location">Location (optional)</label>
+<input id="location" placeholder="City, state, region, or online">
+</div>
+<div>
+<label for="date">Date (optional)</label>
+<input id="date" type="date">
+</div>
+</div>
+<label for="notes">Notes</label>
+<textarea id="notes" placeholder="What interested you? What did you discuss? What would you like to remember?"></textarea>
+<div class="actions">
+<button type="submit" class="primary" id="save-button">Save Connection</button>
+<button type="button" class="secondary" id="cancel-button" hidden>Cancel Editing</button>
+</div>
+<p id="status" role="status" aria-live="polite"></p>
+</form>
+</section>
+</main>
+<script>
+(function(){
+"use strict";
+const key="shon_connections_draft_v1";
+const $=id=>document.getElementById(id);
+let items=[];
+function load(){
+try{
+const stored=JSON.parse(localStorage.getItem(key)||"[]");
+items=Array.isArray(stored)?stored:[];
+}catch(e){items=[];}
+}
+function persist(){
+try{
+localStorage.setItem(key,JSON.stringify(items));
+return true;
+}catch(e){
+$("status").textContent="Unable to save in this browser.";
+return false;
+}
+}
+function el(tag,content,cls){
+const node=document.createElement(tag);
+if(cls)node.className=cls;
+node.textContent=content||"";
+return node;
+}
+function button(label,callback,cls){
+const b=document.createElement("button");
+b.type="button";
+b.textContent=label;
+b.className=cls||"secondary";
+b.addEventListener("click",callback);
+return b;
+}
+function render(){
+const roots={
+saved:$("saved-items"),
+contacts:$("contact-items"),
+messages:$("message-items"),
+history:$("history-items")
+};
+Object.values(roots).forEach(root=>root.replaceChildren());
+const counts={saved:0,contacts:0,messages:0,history:0};
+items.slice().sort((a,b)=>(b.updated||0)-(a.updated||0)).forEach(item=>{
+const root=roots[item.category];
+if(!root)return;
+counts[item.category]++;
+const card=el("article","","entry");
+card.append(el("h3",item.name||"Unnamed connection"));
+if(item.location)card.append(el("p",item.location,"meta"));
+if(item.date)card.append(el("p","Date: "+item.date,"meta"));
+if(item.notes)card.append(el("p",item.notes));
+const actions=el("div","","actions");
+actions.append(
+button("Edit",()=>edit(item.id)),
+button("Delete",()=>{
+if(!confirm("Delete this connection note?"))return;
+items=items.filter(x=>x.id!==item.id);
+if(persist())render();
+},"danger")
+);
+card.append(actions);
+root.append(card);
+});
+Object.entries(roots).forEach(([category,root])=>{
+if(!counts[category])root.append(el("div","Nothing recorded here yet.","empty"));
+});
+}
+function reset(){
+$("connection-form").reset();
+$("editing-id").value="";
+$("save-button").textContent="Save Connection";
+$("cancel-button").hidden=true;
+}
+function edit(id){
+const item=items.find(x=>x.id===id);
+if(!item)return;
+$("editing-id").value=item.id;
+["category","name","location","date","notes"].forEach(k=>$(k).value=item[k]||"");
+$("save-button").textContent="Save Changes";
+$("cancel-button").hidden=false;
+$("connection-form").scrollIntoView({behavior:"smooth",block:"start"});
+}
+$("connection-form").addEventListener("submit",event=>{
+event.preventDefault();
+const id=$("editing-id").value;
+const item={
+id:id||(crypto.randomUUID?crypto.randomUUID():String(Date.now())),
+updated:Date.now()
+};
+["category","name","location","date","notes"].forEach(k=>item[k]=$(k).value.trim());
+const previous=items.slice();
+if(id)items=items.map(x=>x.id===id?item:x);
+else items.push(item);
+if(!persist()){items=previous;return;}
+reset();
+render();
+$("status").textContent="Saved in this browser.";
+});
+$("cancel-button").addEventListener("click",reset);
+document.querySelectorAll("[data-tab]").forEach(tab=>{
+tab.addEventListener("click",()=>{
+const selected=tab.dataset.tab;
+document.querySelectorAll("[data-tab]").forEach(b=>{
+const active=b===tab;
+b.classList.toggle("active",active);
+b.setAttribute("aria-pressed",String(active));
+});
+["saved","contacts","messages","history"].forEach(id=>{
+$(id).hidden=id!==selected;
+});
+});
+});
+load();
+render();
+})();
+</script>
+</body>
+</html>
