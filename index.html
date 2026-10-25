@@ -135,9 +135,10 @@ header .bar{align-items:center}
 <p>
      Discover people, homes, households, extended families, and communities. Find what you need, share what you can, and imagine what we might create together. Free to participate. People before profit.
     </p>
-<div class="hero-actions"><a class="button" href="#pathways">
-     Explore the possibilities ↓
-    </a>
+<div class="hero-actions">
+<a class="button" href="#pathways">Explore the possibilities ↓</a>
+<a class="button button-alt" href="#connect">Meet the community</a>
+</div>
 </section>
 <section class="section" id="pathways">
 <h2>
@@ -516,7 +517,7 @@ header .bar{align-items:center}
 </p>
 </section>
 </main>
-<footer>
+<footer class="footer">
 <strong>
     SHON
    </strong>
@@ -673,7 +674,7 @@ header .bar{align-items:center}
     try {
       const id = byId('listing-id').value;
       const payload = { user_id:currentUser.id, owner_display_name:byId('member-discoverable').checked ? (byId('member-profile-name').value.trim() || 'SHON member') : 'SHON member', listing_type:byId('listing-type').value, status:byId('listing-status').value, title:byId('listing-title').value.trim(), description:byId('listing-description').value.trim(), region:byId('listing-region').value.trim(), arrangement:byId('listing-arrangement').value, housing_type:byId('listing-housing-type').value.trim(), remote_possible:byId('listing-remote').checked, updated_at:new Date().toISOString() };
-      const result = id ? await client.from('listings').update(payload).eq('id', id) : await client.from('listings').insert(payload);
+      const result = id ? await client.from('listings').update(payload).eq('id', id).eq('user_id', currentUser.id) : await client.from('listings').insert(payload);
       if (result.error) throw result.error;
       clearListingForm(); await loadOwnListings(); await loadPublicListings(); report('Your listing has been saved.', 'success');
     } catch(error) { report('Could not save listing: '+(error.message||String(error)), 'error'); }
@@ -697,7 +698,7 @@ header .bar{align-items:center}
   }
   async function deleteListing(id) {
     if (!confirm('Delete this listing permanently?')) return;
-    const {error}=await client.from('listings').delete().eq('id',id); if(error)return report('Could not delete listing: '+error.message,'error'); await loadOwnListings(); await loadPublicListings(); report('Listing deleted.','success');
+    const {error}=await client.from('listings').delete().eq('id',id).eq('user_id',currentUser.id); if(error)return report('Could not delete listing: '+error.message,'error'); await loadOwnListings(); await loadPublicListings(); report('Listing deleted.','success');
   }
   async function loadPublicListings() {
     if (!client) return;
