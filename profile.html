@@ -24,8 +24,8 @@ summary{padding:15px;cursor:pointer;font-weight:750;background:#edf4ec}
 .fields{padding:15px}
 .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 15px}
 label{display:block;font-weight:650;margin:13px 0 5px}
-input,select{width:100%;min-height:44px;padding:10px;border:1px solid #88a69a;border-radius:8px;font:inherit;background:#fff;color:#173b32}
-button{background:#16604c;color:white;border:0;border-radius:9px;padding:12px 18px;font:inherit;font-weight:700;cursor:pointer}
+input,select,textarea{width:100%;min-height:44px;padding:10px;border:1px solid #88a69a;border-radius:8px;font:inherit;background:#fff;color:#173b32}
+textarea{resize:vertical;min-height:90px}fieldset{border:1px solid #d8e6dc;border-radius:10px;margin:15px 0;padding:12px}legend{font-weight:750}.check{font-weight:400;margin:7px 0}.check input{width:auto;min-height:auto}button{background:#16604c;color:white;border:0;border-radius:9px;padding:12px 18px;font:inherit;font-weight:700;cursor:pointer}
 button.secondary{background:#e5eee7;color:#173b32}
 .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:17px}
 .notice{background:#e9f3e6;border-radius:10px;padding:14px;margin:16px 0}
@@ -65,6 +65,38 @@ Connecting to SHONnetwork...
 <div class="notice">
 All questions are optional. Your household questionnaire is saved to your account's private preferences table. It is not a public biography.
 </div>
+
+
+<section class="panel" id="personal-profile">
+<h2>👤 About Me</h2><p class="hint">Your story, in your words. Every question is optional. Public visibility is your choice.</p>
+<div class="grid">
+<div><label for="member-profile-name">Display name</label><input id="member-profile-name" maxlength="80" autocomplete="nickname"></div>
+<div><label for="member-region">My approximate location</label><input id="member-region" maxlength="120" placeholder="City or region, not a street address"></div>
+<div><label for="member-contact">How people may contact me</label><select id="member-contact"><option value="platform">SHONnetwork messages only</option><option value="email">Email only after I choose to share it</option><option value="either">Either, after I choose to connect</option></select></div>
+</div>
+<fieldset><legend>How would you like to participate? Choose any.</legend>
+<label class="check"><input type="checkbox" id="role-need-place"> I need a home or place</label>
+<label class="check"><input type="checkbox" id="role-have-space"> I have space to share</label>
+<label class="check"><input type="checkbox" id="role-offer-help"> I can offer help or companionship</label>
+<label class="check"><input type="checkbox" id="role-looking-person"> I want to build a household or community</label></fieldset>
+<label for="member-bio">About me</label><textarea id="member-bio" rows="4" placeholder="Who are you? What matters to you?"></textarea>
+<label for="member-needs">What I need</label><textarea id="member-needs" rows="3"></textarea>
+<label for="member-offers">What I can offer</label><textarea id="member-offers" rows="3"></textarea>
+<details><summary>🌱 My interests, relationships and future</summary><div class="fields">
+<label for="story-interests">Interests, hobbies, activities and habits</label><textarea id="story-interests" rows="3"></textarea>
+<label for="story-household">The kind of household and daily life I would enjoy</label><textarea id="story-household" rows="3"></textarea>
+<label for="story-family">Family, children, pets and people important to me</label><textarea id="story-family" rows="3"></textarea>
+<label for="story-companionship">Friendships, companionship and relationships</label><textarea id="story-companionship" rows="3"></textarea>
+<label for="story-contributions">Skills, strengths and contributions</label><textarea id="story-contributions" rows="3"></textarea>
+<label for="story-practical">Practical needs, accessibility and considerations I choose to share</label><textarea id="story-practical" rows="3"></textarea>
+<label for="story-future">Hopes and possibilities for the future</label><textarea id="story-future" rows="3"></textarea>
+</div></details>
+<fieldset><legend>Visibility choices</legend>
+<label class="check"><input type="checkbox" id="member-discoverable"> Allow my basic profile to appear in discovery</label>
+<label class="check"><input type="checkbox" id="member-directory-opt-in"> Include me in the member directory</label>
+<p class="hint">Private story answers are stored separately. Do not share details you would not want stored.</p></fieldset>
+<p id="personal-status" role="status" aria-live="polite"></p>
+</section>
 
 <section class="panel">
 <h2>Household Compatibility</h2>
@@ -180,7 +212,7 @@ All questions are optional. Your household questionnaire is saved to your accoun
 </details>
 
 <div class="actions">
-<button type="submit">Save Household Preferences</button>
+<button type="submit" hidden aria-hidden="true" tabindex="-1">Save Household Preferences</button>
 <button type="button" class="secondary" id="reload-household">Reload Saved Answers</button>
 </div>
 <p id="household-status" role="status" aria-live="polite"></p>
@@ -215,12 +247,13 @@ All questions are optional. Your household questionnaire is saved to your accoun
 </select></div>
 </div>
 <div class="actions">
-<button type="submit">Save Discovery Preferences</button>
+<button type="submit" hidden aria-hidden="true" tabindex="-1">Save Discovery Preferences</button>
 </div>
 <p id="match-status" role="status" aria-live="polite"></p>
 </form>
 </section>
 
+<div class="panel"><button type="button" id="save-all">Save My Complete Profile</button> <button type="button" class="secondary" id="reload-all">Reload My Saved Profile</button><p id="save-all-status" style="white-space:pre-wrap" role="status" aria-live="polite"></p></div>
 <section class="panel">
 <h2>🤝 Mutual Household Connections</h2>
 <p class="hint">Results are supplied by SHONnetwork's existing mutual-match database function. A match is a starting point for conversation, not an assurance of safety or suitability.</p>
@@ -341,6 +374,7 @@ const {data,error}=await db
 if(error)throw error;
 
 setHousehold(data);
+householdReady=true;
 message(
 "household-status",
 data?"Your saved household preferences are loaded.":
@@ -395,7 +429,7 @@ $("match-goal").value=data?.goal||"";
 $("match-location").value=data?.location||"any";
 $("match-remote").value=String(Boolean(data?.remote));
 $("match-strict").value=String(Boolean(data?.strict));
-
+matchReady=true;
 message("match-status",
 data?"Saved discovery preferences loaded.":
 "Discovery preferences are ready.");
@@ -484,6 +518,55 @@ message("matches-status",
 }
 }
 
+
+const ROLES={need_place:"role-need-place",have_space:"role-have-space",offer_help:"role-offer-help",looking_person:"role-looking-person"};
+const STORY_KEYS=["interests","household","family","companionship","contributions","practical","future"];
+let personalReady=false,householdReady=false,matchReady=false;
+async function loadPersonal(){
+  const r=await db.from("member_profiles").select("display_name,roles,region,bio,needs_text,offers_text,contact_preference,profile_discoverable,directory_opt_in").eq("user_id",currentUser.id).maybeSingle();
+  if(r.error)throw r.error;
+  const p=r.data||{};
+  $("member-profile-name").value=p.display_name||currentUser.user_metadata?.display_name||"";
+  $("member-region").value=p.region||"";
+  $("member-bio").value=p.bio||"";
+  $("member-needs").value=p.needs_text||"";
+  $("member-offers").value=p.offers_text||"";
+  $("member-contact").value=p.contact_preference||"platform";
+  $("member-discoverable").checked=Boolean(p.profile_discoverable);
+  $("member-directory-opt-in").checked=Boolean(p.directory_opt_in);
+  for(const [role,id] of Object.entries(ROLES))$(id).checked=(p.roles||[]).includes(role);
+  const story=await db.from("member_private_stories").select("answers").eq("user_id",currentUser.id).maybeSingle();
+  if(story.error)throw story.error;
+  for(const key of STORY_KEYS)$("story-"+key).value=story.data?.answers?.[key]||"";
+  personalReady=true;
+  message("personal-status", "Your personal profile and private story are loaded.");
+}
+async function savePersonal(){
+  const payload={user_id:currentUser.id,display_name:$("member-profile-name").value.trim(),roles:Object.entries(ROLES).filter(([,id])=>$(id).checked).map(([role])=>role),region:$("member-region").value.trim(),bio:$("member-bio").value.trim(),needs_text:$("member-needs").value.trim(),offers_text:$("member-offers").value.trim(),contact_preference:$("member-contact").value,profile_discoverable:$("member-discoverable").checked,directory_opt_in:$("member-directory-opt-in").checked,updated_at:new Date().toISOString()};
+  // The original database may enforce a nonempty display name. Preserve optional UI with a neutral fallback.
+  if(!payload.display_name)payload.display_name="SHON member";
+  let r=await db.from("member_profiles").upsert(payload,{onConflict:"user_id"});if(r.error)throw r.error;
+  const answers=Object.fromEntries(STORY_KEYS.map(k=>[k,$("story-"+k).value.trim()]));
+  r=await db.from("member_private_stories").upsert({user_id:currentUser.id,answers,updated_at:new Date().toISOString()},{onConflict:"user_id"});if(r.error)throw r.error;
+}
+let saving=false;
+async function saveAll(){
+ if(!currentUser||saving)return;
+ if(!personalReady||!householdReady||!matchReady){message("save-all-status","Some saved data did not load. Reload the profile before saving to avoid overwriting existing answers.");return;}
+ saving=true;$("save-all").disabled=true;
+ const results=[];
+ for(const [name,fn] of [["Personal profile and private story",savePersonal],["Household preferences",async()=>{const v=householdValues();validateHousehold(v);const r=await db.from("shon_household_preferences").upsert(v,{onConflict:"user_id"});if(r.error)throw r.error;}],["Discovery preferences",async()=>{const r=await db.from("shon_match_preferences").upsert(matchValues(),{onConflict:"user_id"});if(r.error)throw r.error;}]]){
+   try{await fn();results.push(name+": saved");}catch(e){results.push(name+": FAILED ("+errorText(e)+")");}
+ }
+ message("save-all-status",results.join("\n"));saving=false;$("save-all").disabled=false;
+}
+$("save-all").addEventListener("click",saveAll);
+$("reload-all").addEventListener("click",async()=>{
+ if(!currentUser)return;
+ const tasks=await Promise.allSettled([loadPersonal(),loadHousehold(),loadMatchPreferences()]);
+ message("save-all-status",tasks.every(x=>x.status==="fulfilled")?"Saved profile reloaded.":"Some saved information could not be reloaded. Review the section messages.");
+});
+
 async function initialize(){
 if(!window.supabase?.createClient){
 message("status","Supabase library could not load. Check your connection.");
@@ -513,23 +596,28 @@ return;
 showSignedIn(user);
 
 const results=await Promise.allSettled([
+loadPersonal(),
 loadHousehold(),
 loadMatchPreferences(),
 loadMatches()
 ]);
 
 const labels=[
+"Personal profile",
 "Household preferences",
 "Discovery preferences",
 "Mutual connections"
 ];
 
 const targets=[
+"personal-status",
 "household-status",
 "match-status",
 "matches-status"
 ];
 
+householdReady=results[1].status==="fulfilled";
+matchReady=results[2].status==="fulfilled";
 results.forEach((result,index)=>{
 if(result.status==="rejected"){
 message(targets[index],
@@ -543,8 +631,8 @@ message("status","Account check failed: "+errorText(error));
 }
 }
 
-$("household-form").addEventListener("submit",saveHousehold);
-$("match-form").addEventListener("submit",saveMatchPreferences);
+$("household-form").addEventListener("submit",e=>{e.preventDefault();saveAll();});
+$("match-form").addEventListener("submit",e=>{e.preventDefault();saveAll();});
 
 $("reload-household").addEventListener("click",()=>{
 loadHousehold().catch(error=>
