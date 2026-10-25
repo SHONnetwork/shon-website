@@ -403,7 +403,7 @@ bf8d31;padding:13px;border-radius:8px;line-height:1.55}@media(max-width:760px){#
 .shon-message-member{margin:8px 0 0 7px}
 #shon-mail,#browse-members,#member-access{scroll-margin-top:105px}
 @media(max-width:650px){.shon-app-nav a,.shon-discover-shortcuts a{font-size:13px;padding:9px 10px}.shon-message-member{margin-left:0}}
-</style><style id="shon-household-assessment-style">.shon-household-assessment{background:#fff8e7;border-left:4px solid #b4822c;padding:12px 14px;border-radius:9px;line-height:1.6;color:#253d34}</style><style id="shon-journey-style">.shon-journey-steps{padding-left:24px;line-height:1.75}.shon-journey-steps li{margin:8px 0}.shon-journey-steps a{color:#075348;font-weight:700;text-decoration:underline;text-underline-offset:3px}</style></head>
+</style><style id="shon-household-assessment-style">.shon-household-assessment{background:#fff8e7;border-left:4px solid #b4822c;padding:12px 14px;border-radius:9px;line-height:1.6;color:#253d34}</style><style id="shon-journey-style">.shon-journey-steps{padding-left:24px;line-height:1.75}.shon-journey-steps li{margin:8px 0}.shon-journey-steps a{color:#075348;font-weight:700;text-decoration:underline;text-underline-offset:3px}</style><style id="shon-password-visibility-style">.shon-password-wrap{display:flex;align-items:stretch;gap:7px;width:100%;margin-top:5px}.shon-password-wrap input{flex:1;min-width:0;width:auto!important;margin:0!important}.shon-password-eye{flex:0 0 52px;min-height:45px;border:1px solid #7b9c91;border-radius:9px;background:#f2f7f2;color:#17372b;cursor:pointer;font-size:22px}.shon-password-eye:focus-visible{outline:3px solid #b56a17;outline-offset:2px}</style></head>
 <body>
 <a class="shon-skip-link" href="#connect">Skip to opportunities</a>
 <header>
@@ -582,10 +582,10 @@ tional online presence and additional tools are planned.</p><span class="future-
 <label for="member-email">Email address</label>
 <input autocomplete="email" id="member-email" maxlength="254" required="" type="email"/>
 <label for="member-password">Password</label>
-<input autocomplete="current-password" id="member-password" minlength="8" required="" type="password"/>
+<span class="shon-password-wrap"><input autocomplete="current-password" id="member-password" minlength="8" required="" type="password"/><button type="button" class="shon-password-eye" data-password-target="member-password" aria-label="Show password" aria-pressed="false" title="Show password">👁</button></span>
 <div hidden="" id="member-confirm-wrap">
 <label for="member-password-confirm">Confirm password</label>
-<input autocomplete="new-password" id="member-password-confirm" minlength="8" type="password"/>
+<span class="shon-password-wrap"><input autocomplete="new-password" id="member-password-confirm" minlength="8" type="password"/><button type="button" class="shon-password-eye" data-password-target="member-password-confirm" aria-label="Show password" aria-pressed="false" title="Show password">👁</button></span>
 <p class="member-hint">Use at least 8 characters and enter the same password twice.</p>
 </div>
 <div hidden="" id="member-name-wrap">
@@ -605,9 +605,9 @@ tional online presence and additional tools are planned.</p><span class="future-
 <h3>Choose a new password</h3>
 <p class="member-hint">You opened a password-recovery link. Choose a new password for your existing SHONnetwork account.</p>
 <label for="shon-new-password">New password (8 characters minimum)</label>
-<input id="shon-new-password" type="password" autocomplete="new-password" minlength="8" required>
+<span class="shon-password-wrap"><input id="shon-new-password" type="password" autocomplete="new-password" minlength="8" required><button type="button" class="shon-password-eye" data-password-target="shon-new-password" aria-label="Show password" aria-pressed="false" title="Show password">👁</button></span>
 <label for="shon-confirm-new-password">Confirm new password</label>
-<input id="shon-confirm-new-password" type="password" autocomplete="new-password" minlength="8" required>
+<span class="shon-password-wrap"><input id="shon-confirm-new-password" type="password" autocomplete="new-password" minlength="8" required><button type="button" class="shon-password-eye" data-password-target="shon-confirm-new-password" aria-label="Show password" aria-pressed="false" title="Show password">👁</button></span>
 <button class="button" type="submit">Save new password</button>
 </form>
 </div>
@@ -1931,5 +1931,5 @@ payload.hard_requirements=Array.from(root.querySelectorAll('[data-hh-hard]:check
 async function matches(){try{const u=await user();list.replaceChildren();if(!u){ms.textContent='Sign in to view mutual connections.';return;}ms.textContent='Loading mutual connections…';const {data:profiles,error}=await client().rpc('shon_my_safe_mutual_match_details');if(error)throw error;const count=(profiles||[]).length;ms.textContent=count+' safe mutual connection'+(count===1?'':'s')+'. These are mutual interests, not verified housing compatibility.';if(!count)return;for(const p of profiles||[]){const item=document.createElement('div');item.className='check-card';const title=document.createElement('strong');title.textContent=p.display_name||'SHON member';const meta=document.createElement('p');meta.className='member-hint';meta.textContent=p.region||'Location not shared';item.append(title,meta);list.append(item);}}catch(e){ms.textContent='Could not load mutual connections: '+e.message;}}
 $('shon-my-matches-refresh').addEventListener('click',matches);
 let ready=false;function init(){if(ready||!client())return;ready=true;client().auth.onAuthStateChange(()=>{setTimeout(load,0);});load();}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
-})();</script></body>
+})();</script><script id="shon-password-visibility-script">document.addEventListener('click',function(event){const button=event.target.closest('[data-password-target]');if(!button)return;const field=document.getElementById(button.dataset.passwordTarget);if(!field)return;const visible=field.type==='password';field.type=visible?'text':'password';button.setAttribute('aria-label',visible?'Hide password':'Show password');button.setAttribute('title',visible?'Hide password':'Show password');button.setAttribute('aria-pressed',String(visible));button.textContent=visible?'🙈':'👁';});</script></body>
 </html>
