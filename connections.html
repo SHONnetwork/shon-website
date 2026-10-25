@@ -6,44 +6,44 @@
 <title>My Connections | SHONnetwork</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#f7f9f5;color:#173b32;font:16px/1.55 system-ui,Arial,sans-serif}
-header{background:#fff;border-bottom:1px solid #dce6dc;padding:14px 18px}
+body{margin:0;background:#f7f9f5;color:#173b32;font:16px/1.5 system-ui,Arial,sans-serif}
+header{background:white;border-bottom:1px solid #dce6dc;padding:14px 18px}
 .bar{max-width:1100px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
 .brand{font-size:27px;font-weight:800;color:#111;text-decoration:none}
 .brand span{font-weight:400}
 nav{display:flex;gap:12px;flex-wrap:wrap}
 nav a{color:#205342;text-decoration:none;font-weight:650}
-main{max-width:1050px;margin:auto;padding:24px 16px 65px}
-h1{font-size:clamp(29px,5vw,40px);margin:0 0 7px}
-.intro{color:#496258;max-width:760px}
-.notice{background:#e9f3e6;border-radius:11px;padding:15px;margin:18px 0}
-.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:22px 0 15px}
-.tabs button{background:#e5eee7;color:#173b32;border:1px solid #c6d8ca}
-.tabs button.active{background:#16604c;color:#fff}
-button{border:0;border-radius:9px;padding:10px 15px;font:inherit;font-weight:700;cursor:pointer;min-height:44px}
-button.primary{background:#16604c;color:#fff}
+main{max-width:1050px;margin:auto;padding:24px 16px 70px}
+h1{font-size:clamp(29px,5vw,40px);margin:0 0 8px}
+h2{font-size:22px;margin:0 0 10px}
+h3{font-size:18px;margin:0 0 8px}
+p{overflow-wrap:anywhere}
+.panel{background:white;border:1px solid #d8e6dc;border-radius:14px;padding:19px;margin:15px 0}
+.notice{background:#e9f3e6;border-radius:10px;padding:14px;margin:16px 0}
+.error{background:#fff0ee;color:#842a25}
+.muted{color:#50675e;font-size:14px}
+.tabs,.actions{display:flex;gap:9px;flex-wrap:wrap;margin:13px 0}
+button{background:#16604c;color:white;border:0;border-radius:9px;padding:11px 15px;font:inherit;font-weight:700;cursor:pointer;min-height:44px}
 button.secondary{background:#e5eee7;color:#173b32}
 button.danger{background:#fff0ee;color:#842a25}
-.panel{background:white;border:1px solid #d8e6dc;border-radius:14px;padding:20px;margin:12px 0}
-.panel[hidden]{display:none}
-label{display:block;font-weight:650;margin:14px 0 5px}
-input,select,textarea{width:100%;min-height:44px;padding:11px;border:1px solid #88a69a;border-radius:8px;background:white;color:#173b32;font:inherit}
-textarea{min-height:85px;resize:vertical}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 15px}
-.entry{border:1px solid #dce7dd;border-radius:11px;padding:16px;margin:11px 0}
-.entry h3{margin:0 0 7px;font-size:19px}
-.entry p{white-space:pre-wrap;overflow-wrap:anywhere;margin:8px 0}
-.meta{font-size:14px;color:#50675e}
-.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-.empty{border:1px dashed #b7cebf;border-radius:10px;padding:17px;color:#50675e}
-#status{min-height:23px;color:#285c42}
+button.active{background:#124c3c;color:white}
+button:disabled{opacity:.6;cursor:not-allowed}
+input,textarea{width:100%;min-height:44px;border:1px solid #88a69a;border-radius:8px;padding:10px;font:inherit}
+textarea{min-height:95px;resize:vertical}
+label{display:block;font-weight:700;margin:12px 0 5px}
+.entry{border:1px solid #d8e6dc;border-radius:11px;padding:14px;margin:10px 0}
+.entry p{white-space:pre-wrap}
+.thread{max-height:420px;overflow:auto;border:1px solid #d8e6dc;border-radius:10px;padding:12px;margin:12px 0;background:#fcfdfb}
+.bubble{padding:12px;margin:8px 0;border-radius:10px;background:#edf4ec;overflow-wrap:anywhere;white-space:pre-wrap}
+.mine{background:#e3f0e9}
+.empty{border:1px dashed #b7cebf;border-radius:10px;padding:16px;color:#50675e}
+[hidden]{display:none!important}
 :focus-visible{outline:3px solid #bd7d25;outline-offset:2px}
-@media(max-width:650px){.grid{grid-template-columns:1fr}.panel{padding:15px}.tabs button{flex:1 1 140px}}
+@media(max-width:650px){.panel{padding:14px}.tabs button{flex:1 1 130px}}
 </style>
 </head>
 <body>
-<header>
-<div class="bar">
+<header><div class="bar">
 <a class="brand" href="index.html">🏡 SHON<span>network</span></a>
 <nav aria-label="Member navigation">
 <a href="members.html">My SHONnetwork</a>
@@ -51,198 +51,592 @@ textarea{min-height:85px;resize:vertical}
 <a href="listings.html">My Listings</a>
 <a href="connections.html" aria-current="page">My Connections</a>
 </nav>
-</div>
-</header>
+</div></header>
+
 <main>
 <h1>My Connections</h1>
-<p class="intro">A place to remember the people you've met, opportunities you've explored, and conversations you'd like to continue.</p>
+<p class="muted">People, conversations, friendships, and opportunities you've chosen to remember.</p>
 
-<div class="notice">🌻 Your connections belong to you. This page currently stores personal notes in this browser. Live SHONnetwork messaging and synchronization are not yet connected.</div>
-
-<div class="tabs" role="group" aria-label="Connection sections">
-<button type="button" class="active" data-tab="saved" aria-pressed="true">⭐ Saved</button>
-<button type="button" data-tab="contacts" aria-pressed="false">👥 People</button>
-<button type="button" data-tab="messages" aria-pressed="false">💬 Messages</button>
-<button type="button" data-tab="history" aria-pressed="false">🕰️ History</button>
+<div id="status" class="notice" role="status" aria-live="polite">
+Connecting to SHONnetwork...
 </div>
 
-<section id="saved" class="panel">
+<section id="signed-out" class="panel" hidden>
+<h2>Sign in to see your connections</h2>
+<p>Private messages and saved connections are associated with your account.</p>
+<a href="members.html">Go to Member Sign In</a>
+</section>
+
+<div id="workspace" hidden>
+<div class="tabs" role="group" aria-label="Connection sections">
+<button class="active" data-tab="messages" aria-pressed="true">💬 Messages</button>
+<button class="secondary" data-tab="people" aria-pressed="false">👥 People</button>
+<button class="secondary" data-tab="saved" aria-pressed="false">⭐ Saved</button>
+<button class="secondary" data-tab="discover" aria-pressed="false">🔎 Find People</button>
+</div>
+
+<section id="messages" class="panel">
+<h2>Private Messages</h2>
+<button id="refresh" class="secondary" type="button">Refresh Conversations</button>
+<div id="conversations"></div>
+
+<div id="conversation-panel" hidden>
+<h3 id="thread-title">Conversation</h3>
+<div id="thread" class="thread" aria-live="polite"></div>
+<label for="message-body">Your message</label>
+<textarea id="message-body" maxlength="5000" placeholder="Write a message..."></textarea>
+<div class="actions">
+<button id="send" type="button">Send Message</button>
+<button id="reload-thread" type="button" class="secondary">Refresh Messages</button>
+<button id="block" type="button" class="danger">Block Member</button>
+<button id="report" type="button" class="secondary">Report Concern</button>
+</div>
+</div>
+</section>
+
+<section id="people" class="panel" hidden>
+<h2>Friendships & Requests</h2>
+<div id="friends"></div>
+</section>
+
+<section id="saved" class="panel" hidden>
 <h2>Saved People & Opportunities</h2>
-<p>Keep a personal list of people, households, and opportunities you'd like to revisit.</p>
+<p class="muted">These are your private saved and interested marks from SHONnetwork discovery.</p>
 <div id="saved-items"></div>
 </section>
 
-<section id="contacts" class="panel" hidden>
-<h2>My People</h2>
-<p>Record people you've met and the relationships you'd like to develop.</p>
-<div id="contact-items"></div>
-</section>
-
-<section id="messages" class="panel" hidden>
-<h2>Messages & Correspondence</h2>
-<p>This section is reserved for private SHONnetwork conversations. Until live messaging is connected, you can record correspondence notes here.</p>
-<div id="message-items"></div>
-</section>
-
-<section id="history" class="panel" hidden>
-<h2>My Connection History</h2>
-<p>Review the interactions and opportunities you've recorded.</p>
-<div id="history-items"></div>
-</section>
-
-<section class="panel">
-<h2>Add to My Connections</h2>
-<form id="connection-form">
-<input type="hidden" id="editing-id">
-<div class="grid">
-<div>
-<label for="category">Category</label>
-<select id="category">
-<option value="saved">Saved person or opportunity</option>
-<option value="contacts">Person or friendship</option>
-<option value="messages">Correspondence note</option>
-<option value="history">Other interaction or history</option>
-</select>
-</div>
-<div>
-<label for="name">Person, household, or opportunity</label>
-<input id="name" placeholder="Name or description">
-</div>
-<div>
-<label for="location">Location (optional)</label>
-<input id="location" placeholder="City, state, region, or online">
-</div>
-<div>
-<label for="date">Date (optional)</label>
-<input id="date" type="date">
-</div>
-</div>
-<label for="notes">Notes</label>
-<textarea id="notes" placeholder="What interested you? What did you discuss? What would you like to remember?"></textarea>
+<section id="discover" class="panel" hidden>
+<h2>Find People</h2>
+<p>Search members who have chosen to be discoverable.</p>
+<label for="search-name">Name or search phrase</label>
+<input id="search-name" placeholder="Search SHONnetwork members">
 <div class="actions">
-<button type="submit" class="primary" id="save-button">Save Connection</button>
-<button type="button" class="secondary" id="cancel-button" hidden>Cancel Editing</button>
+<button id="search" type="button">Search Members</button>
 </div>
-<p id="status" role="status" aria-live="polite"></p>
-</form>
+<div id="search-results"></div>
 </section>
+</div>
 </main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.0/dist/umd/supabase.min.js"></script>
 <script>
 (function(){
 "use strict";
-const key="shon_connections_draft_v1";
+
+const URL="https://wqcninwqeyfoyxlllwdy.supabase.co";
+const KEY="sb_publishable_YTHhpIPiKKHGBLMdkj_4og_Uyq_t_SX";
 const $=id=>document.getElementById(id);
-let items=[];
-function load(){
-try{
-const stored=JSON.parse(localStorage.getItem(key)||"[]");
-items=Array.isArray(stored)?stored:[];
-}catch(e){items=[];}
+
+let db=null;
+let me=null;
+let active=null;
+let peer=null;
+let contacts={};
+let threads=[];
+
+function status(message,error=false){
+const node=$("status");
+node.textContent=message;
+node.classList.toggle("error",error);
 }
-function persist(){
-try{
-localStorage.setItem(key,JSON.stringify(items));
-return true;
-}catch(e){
-$("status").textContent="Unable to save in this browser.";
-return false;
-}
-}
-function el(tag,content,cls){
+
+function element(tag,text,cls){
 const node=document.createElement(tag);
+node.textContent=text==null?"":String(text);
 if(cls)node.className=cls;
-node.textContent=content||"";
 return node;
 }
-function button(label,callback,cls){
-const b=document.createElement("button");
-b.type="button";
-b.textContent=label;
-b.className=cls||"secondary";
-b.addEventListener("click",callback);
-return b;
+
+function button(text,callback,cls="secondary"){
+const node=element("button",text,cls);
+node.type="button";
+node.addEventListener("click",callback);
+return node;
 }
-function render(){
-const roots={
-saved:$("saved-items"),
-contacts:$("contact-items"),
-messages:$("message-items"),
-history:$("history-items")
-};
-Object.values(roots).forEach(root=>root.replaceChildren());
-const counts={saved:0,contacts:0,messages:0,history:0};
-items.slice().sort((a,b)=>(b.updated||0)-(a.updated||0)).forEach(item=>{
-const root=roots[item.category];
-if(!root)return;
-counts[item.category]++;
-const card=el("article","","entry");
-card.append(el("h3",item.name||"Unnamed connection"));
-if(item.location)card.append(el("p",item.location,"meta"));
-if(item.date)card.append(el("p","Date: "+item.date,"meta"));
-if(item.notes)card.append(el("p",item.notes));
-const actions=el("div","","actions");
-actions.append(
-button("Edit",()=>edit(item.id)),
-button("Delete",()=>{
-if(!confirm("Delete this connection note?"))return;
-items=items.filter(x=>x.id!==item.id);
-if(persist())render();
-},"danger")
+
+function empty(root,text){
+root.replaceChildren(element("div",text,"empty"));
+}
+
+async function call(query){
+const {data,error}=await query;
+if(error)throw error;
+return data;
+}
+
+async function act(fn){
+try{
+await fn();
+}catch(error){
+status("Action unsuccessful: "+error.message,true);
+}
+}
+
+function name(id){
+return contacts[id]||"SHONnetwork member";
+}
+
+function showSignedOut(){
+me=null;
+active=null;
+peer=null;
+$("signed-out").hidden=false;
+$("workspace").hidden=true;
+status("Sign in to access your connections.");
+}
+
+async function refresh(){
+if(!me)return;
+status("Loading your connections...");
+
+const results=await Promise.allSettled([
+call(db.from("shon_conversations")
+.select("id,member_a,member_b,created_at")
+.order("created_at",{ascending:false})),
+call(db.from("shon_friend_requests")
+.select("id,requester,recipient,status")
+.order("created_at",{ascending:false})),
+call(db.rpc("shon_my_contacts")),
+call(db.from("shon_member_marks")
+.select("item_type,item_id,mark_type")
+.eq("user_id",me))
+]);
+
+const labels=[
+"Conversations","Friendships","Contact names","Saved items"
+];
+
+results.forEach((result,i)=>{
+if(result.status==="rejected"){
+status(labels[i]+" could not load: "+
+result.reason.message,true);
+}
+});
+
+if(results[2].status==="fulfilled"){
+contacts=Object.fromEntries(
+(results[2].value||[])
+.map(x=>[x.user_id,x.display_name])
 );
+}
+
+if(results[0].status==="fulfilled"){
+threads=results[0].value||[];
+renderConversations();
+}
+
+if(results[1].status==="fulfilled"){
+renderFriends(results[1].value||[]);
+}
+
+if(results[3].status==="fulfilled"){
+renderSaved(results[3].value||[]);
+}
+
+if(results.every(x=>x.status==="fulfilled")){
+status("Your SHONnetwork connections are ready.");
+}
+
+if(active)await loadThread();
+}
+
+function renderConversations(){
+const root=$("conversations");
+root.replaceChildren();
+
+if(!threads.length){
+empty(root,"No conversations yet.");
+return;
+}
+
+for(const conversation of threads){
+const other=conversation.member_a===me?
+conversation.member_b:conversation.member_a;
+
+const card=element("article","","entry");
+card.append(element("h3",name(other)));
+card.append(button("Open Conversation",()=>{
+openThread(conversation.id,other);
+}));
+root.append(card);
+}
+}
+
+async function openThread(id,other){
+active=id;
+peer=other;
+$("conversation-panel").hidden=false;
+$("thread-title").textContent="Conversation with "+name(other);
+await loadThread();
+}
+
+async function loadThread(){
+if(!active)return;
+
+const root=$("thread");
+root.replaceChildren(element("p","Loading messages..."));
+
+try{
+const messages=await call(
+db.from("shon_messages")
+.select("id,sender,body,created_at")
+.eq("conversation_id",active)
+.order("created_at",{ascending:true})
+.limit(200)
+);
+
+root.replaceChildren();
+
+for(const item of messages||[]){
+const bubble=element("article","",
+"bubble"+(item.sender===me?" mine":""));
+
+const heading=element("strong",
+item.sender===me?"You":name(item.sender));
+
+const date=element("span",
+" · "+new Date(item.created_at).toLocaleString(),
+"muted");
+
+const body=element("div",item.body||"");
+
+bubble.append(heading,date,body);
+root.append(bubble);
+}
+
+if(!messages?.length){
+empty(root,"No messages yet. You can start the conversation.");
+}
+
+root.scrollTop=root.scrollHeight;
+}catch(error){
+empty(root,"Could not load messages: "+error.message);
+}
+}
+
+async function send(){
+if(!me||!active)return;
+
+const body=$("message-body").value.trim();
+if(!body)return;
+
+await act(async()=>{
+await call(
+db.from("shon_messages").insert({
+conversation_id:active,
+sender:me,
+body
+})
+);
+
+$("message-body").value="";
+await loadThread();
+status("Message sent.");
+});
+}
+
+function renderFriends(requests){
+const root=$("friends");
+root.replaceChildren();
+
+if(!requests.length){
+empty(root,"No friendships or requests yet.");
+return;
+}
+
+for(const item of requests){
+const other=item.requester===me?
+item.recipient:item.requester;
+
+const card=element("article","","entry");
+card.append(element("h3",name(other)));
+
+const description=item.status==="pending"?
+(item.recipient===me?
+"Friend request received":"Friend request sent"):
+item.status;
+
+card.append(element("p",description,"muted"));
+
+const actions=element("div","","actions");
+
+if(item.status==="pending"&&item.recipient===me){
+for(const [label,next] of [
+["Accept","accepted"],
+["Decline","declined"]
+]){
+actions.append(button(label,()=>act(async()=>{
+await call(
+db.from("shon_friend_requests")
+.update({
+status:next,
+updated_at:new Date().toISOString()
+})
+.eq("id",item.id)
+);
+await refresh();
+})));
+}
+}
+
+if(item.status==="accepted"){
+actions.append(button("Message",()=>act(async()=>{
+const id=await call(
+db.rpc("shon_start_conversation",{
+other_user:other
+})
+);
+await refresh();
+await openThread(id,other);
+selectTab("messages");
+})));
+
+actions.append(button("Remove Connection",()=>act(async()=>{
+if(!confirm("Remove this connection?"))return;
+await call(
+db.from("shon_friend_requests")
+.delete().eq("id",item.id)
+);
+await refresh();
+}),"danger"));
+}
+
 card.append(actions);
 root.append(card);
-});
-Object.entries(roots).forEach(([category,root])=>{
-if(!counts[category])root.append(el("div","Nothing recorded here yet.","empty"));
+}
+}
+
+function renderSaved(items){
+const root=$("saved-items");
+root.replaceChildren();
+
+if(!items.length){
+empty(root,"No saved people or opportunities yet.");
+return;
+}
+
+for(const item of items){
+const card=element("article","","entry");
+
+card.append(element("h3",
+item.item_type==="person"?
+"Saved Person":"Saved Opportunity"));
+
+card.append(element("p",
+"Reference: "+item.item_id,"muted"));
+
+card.append(element("p",
+item.mark_type==="interested"?
+"Marked Interested":"Saved for Later"));
+
+card.append(button("Remove Mark",()=>act(async()=>{
+await call(
+db.from("shon_member_marks")
+.delete()
+.eq("user_id",me)
+.eq("item_type",item.item_type)
+.eq("item_id",item.item_id)
+.eq("mark_type",item.mark_type)
+);
+await refresh();
+}),"secondary"));
+
+root.append(card);
+}
+}
+
+async function searchPeople(){
+const query=$("search-name").value.trim();
+const root=$("search-results");
+root.replaceChildren(element("p","Searching..."));
+
+await act(async()=>{
+const people=await call(
+db.rpc("shon_find_people",{q:query})
+);
+
+root.replaceChildren();
+
+if(!people?.length){
+empty(root,"No matching discoverable members found.");
+return;
+}
+
+for(const person of people){
+if(person.user_id===me)continue;
+
+const card=element("article","","entry");
+
+card.append(element("h3",
+person.display_name||"SHONnetwork member"));
+
+if(person.region){
+card.append(element("p",person.region,"muted"));
+}
+
+const actions=element("div","","actions");
+
+actions.append(button("Message",()=>act(async()=>{
+const id=await call(
+db.rpc("shon_start_conversation",{
+other_user:person.user_id
+})
+);
+contacts[person.user_id]=person.display_name;
+await refresh();
+await openThread(id,person.user_id);
+selectTab("messages");
+})));
+
+actions.append(button("Add Friend",()=>act(async()=>{
+await call(
+db.from("shon_friend_requests").insert({
+requester:me,
+recipient:person.user_id
+})
+);
+status("Friend request sent.");
+await refresh();
+})));
+
+actions.append(button("Save Person",()=>act(async()=>{
+await call(
+db.from("shon_member_marks").insert({
+user_id:me,
+item_type:"person",
+item_id:String(person.user_id),
+mark_type:"saved"
+})
+);
+status("Person saved.");
+await refresh();
+})));
+
+card.append(actions);
+root.append(card);
+}
 });
 }
-function reset(){
-$("connection-form").reset();
-$("editing-id").value="";
-$("save-button").textContent="Save Connection";
-$("cancel-button").hidden=true;
-}
-function edit(id){
-const item=items.find(x=>x.id===id);
-if(!item)return;
-$("editing-id").value=item.id;
-["category","name","location","date","notes"].forEach(k=>$(k).value=item[k]||"");
-$("save-button").textContent="Save Changes";
-$("cancel-button").hidden=false;
-$("connection-form").scrollIntoView({behavior:"smooth",block:"start"});
-}
-$("connection-form").addEventListener("submit",event=>{
-event.preventDefault();
-const id=$("editing-id").value;
-const item={
-id:id||(crypto.randomUUID?crypto.randomUUID():String(Date.now())),
-updated:Date.now()
-};
-["category","name","location","date","notes"].forEach(k=>item[k]=$(k).value.trim());
-const previous=items.slice();
-if(id)items=items.map(x=>x.id===id?item:x);
-else items.push(item);
-if(!persist()){items=previous;return;}
-reset();
-render();
-$("status").textContent="Saved in this browser.";
+
+async function blockMember(){
+if(!peer)return;
+if(!confirm("Block this member?"))return;
+
+await act(async()=>{
+await call(
+db.from("shon_blocks").insert({
+blocker:me,
+blocked:peer
+})
+);
+
+active=null;
+peer=null;
+$("conversation-panel").hidden=true;
+status("Member blocked.");
+await refresh();
 });
-$("cancel-button").addEventListener("click",reset);
+}
+
+async function reportMember(){
+if(!peer)return;
+
+const reason=prompt(
+"Briefly describe the concern (5–1000 characters)."
+);
+
+if(reason===null)return;
+
+const text=reason.trim();
+
+if(text.length<5||text.length>1000){
+status("Please enter 5 to 1000 characters.",true);
+return;
+}
+
+await act(async()=>{
+await call(
+db.from("shon_reports").insert({
+reporter:me,
+reported_user:peer,
+reason:text
+})
+);
+status("Report recorded for administrator review.");
+});
+}
+
+function selectTab(id){
+for(const tab of document.querySelectorAll("[data-tab]")){
+const selected=tab.dataset.tab===id;
+tab.classList.toggle("active",selected);
+tab.classList.toggle("secondary",!selected);
+tab.setAttribute("aria-pressed",String(selected));
+}
+
+for(const section of ["messages","people","saved","discover"]){
+$(section).hidden=section!==id;
+}
+}
+
+async function initialize(){
+if(!window.supabase?.createClient){
+status("Supabase library unavailable. Check your connection.",true);
+return;
+}
+
+db=window.supabase.createClient(URL,KEY,{
+auth:{
+storageKey:"sb-wqcninwqeyfoyxlllwdy-auth-token",
+persistSession:true,
+autoRefreshToken:true,
+detectSessionInUrl:true
+}
+});
+
+db.auth.onAuthStateChange((_event,session)=>{
+if(!session?.user)showSignedOut();
+});
+
+const {data,error}=await db.auth.getUser();
+
+if(error)throw error;
+
+if(!data?.user){
+showSignedOut();
+return;
+}
+
+me=data.user.id;
+$("signed-out").hidden=true;
+$("workspace").hidden=false;
+
+await refresh();
+}
+
 document.querySelectorAll("[data-tab]").forEach(tab=>{
 tab.addEventListener("click",()=>{
-const selected=tab.dataset.tab;
-document.querySelectorAll("[data-tab]").forEach(b=>{
-const active=b===tab;
-b.classList.toggle("active",active);
-b.setAttribute("aria-pressed",String(active));
-});
-["saved","contacts","messages","history"].forEach(id=>{
-$(id).hidden=id!==selected;
+selectTab(tab.dataset.tab);
 });
 });
+
+$("refresh").addEventListener("click",()=>act(refresh));
+$("reload-thread").addEventListener("click",()=>act(loadThread));
+$("send").addEventListener("click",send);
+$("search").addEventListener("click",searchPeople);
+$("block").addEventListener("click",blockMember);
+$("report").addEventListener("click",reportMember);
+
+$("search-name").addEventListener("keydown",event=>{
+if(event.key==="Enter"){
+event.preventDefault();
+searchPeople();
+}
 });
-load();
-render();
+
+initialize().catch(error=>{
+status("Could not connect: "+error.message,true);
+});
 })();
 </script>
 </body>
