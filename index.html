@@ -599,7 +599,7 @@ tional online presence and additional tools are planned.</p><span class="future-
 <button class="button member-secondary" id="member-toggle" type="button">Create an account instead</button>
 </div>
 <p class="member-hint" id="member-mode-hint">Use the email address and password for your SHON account.</p>
-<button type="button" id="shon-forgot-password" class="mini-button">Forgot password? Email me a reset link</button>
+<button type="button" id="shon-forgot-password" class="mini-button">Forgot your password? Send me a reset email</button>
 </form>
 <form id="shon-password-recovery" hidden>
 <h3>Choose a new password</h3>
@@ -1283,10 +1283,7 @@ acant buildings, underused properties, and declining towns as starting points fo
   async function showUser(user) {
 
     currentUser = user;
-    await refreshSaved();
-    await loadMatchPreferences();
-    await loadMutualMatches();
-
+    // Authentication state must not depend on optional dashboard features.
     signedOut.hidden = Boolean(user);
 
     signedIn.hidden = !user;
@@ -1295,17 +1292,27 @@ acant buildings, underused properties, and declining towns as starting points fo
 
     byId('member-welcome').textContent = 'Signed in as ' + (user.email || 'SHON member') + '.';
 
-    const profile = await loadProfile(user);
-
-    profileForm.hidden = false;
-
-    fillProfile(profile, user);
-
-    await loadPrivateStory(user);
-
-    await loadOwnListings();
-
-    report(profile ? 'You are signed in. Your SHON profile and listings are ready.' : 'You are signed in. Complete your SHON profile below.', profile ? 'success' : '');
+    report('Signed in successfully. Loading your SHON dashboard…', 'success');
+    // Load optional features independently. Failure must never undo successful login.
+    const optionalLoads = [
+      ['saved items', () => refreshSaved()],
+      ['matching preferences', () => loadMatchPreferences()],
+      ['mutual connections', () => loadMutualMatches()],
+      ['profile', async () => {
+        const profile = await loadProfile(user);
+        profileForm.hidden = false;
+        fillProfile(profile, user);
+      }],
+      ['private story', () => loadPrivateStory(user)],
+      ['listings', () => loadOwnListings()]
+    ];
+    const failed = [];
+    for (const [name, load] of optionalLoads) {
+      try { await load(); } catch (error) { failed.push(name); console.error('SHON dashboard: ' + name, error); }
+    }
+    report(failed.length
+      ? 'You are signed in. Some dashboard features could not load: ' + failed.join(', ') + '. Your account is still signed in.'
+      : 'You are signed in. Your SHON dashboard is ready.', failed.length ? '' : 'success');
 
   }
 
@@ -1388,7 +1395,12 @@ acant buildings, underused properties, and declining towns as starting points fo
 
       byId('member-password-confirm').value = '';
 
-    } catch (error) { report('Account action could not be completed: ' + (error.message || String(error)), 'error'); }
+    } catch (error) {
+      const { data: authState } = await client.auth.getSession();
+      report(authState?.session
+        ? 'You are signed in, but a dashboard action failed: ' + (error.message || String(error))
+        : 'Sign-in was not completed: ' + (error.message || String(error)), authState?.session ? '' : 'error');
+    }
 
     finally { setBusy(false); }
 
