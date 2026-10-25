@@ -401,7 +401,7 @@ bf8d31;padding:13px;border-radius:8px;line-height:1.55}@media(max-width:760px){#
 </a>
 <nav class="shon-desktop-nav" aria-label="Main navigation">
 <a href="#home">Home</a>
-<a href="#connect">Find & Connect</a>
+<a href="#browse-members">Browse People &amp; Listings</a>
 <a href="#help-near-me">Free Help Near Me</a>
 <a href="#resources">Useful Resources</a>
 <a href="#learning">Learning & Communities</a>
@@ -415,7 +415,7 @@ bf8d31;padding:13px;border-radius:8px;line-height:1.55}@media(max-width:760px){#
 </nav>
 <details class="shon-mobile-nav"><summary aria-label="Open site navigation">Menu <span aria-hidden="true">☰</span></summary><nav aria-label="Mobile navigation">
 <a href="#home">Home</a>
-<a href="#connect">Find & Connect</a>
+<a href="#browse-members">Browse People &amp; Listings</a>
 <a href="#help-near-me">Free Help Near Me</a>
 <a href="#resources">Useful Resources</a>
 <a href="#learning">Learning & Communities</a>
@@ -588,8 +588,7 @@ tional online presence and additional tools are planned.</p><span class="future-
 <p id="member-welcome"></p>
 <form hidden="" id="member-profile-form">
 <div class="member-subsection" style="border-top:0;margin-top:0;padding-top:0">
-<h3>Tell us about yourself, in your own wo
-rds</h3>
+<h3>Tell us about yourself, in your own words</h3>
 <p class="member-hint">Choose every role that fits. Your account email stays private and is never placed in a public listing.</p>
 <label for="member-profile-name">Display name</label>
 <input autocomplete="nickname" id="member-profile-name" maxlength="80" minlength="2" required="" type="text"/>
@@ -651,9 +650,9 @@ Sign out</button></div>
      </h2>
 <p>
 
-      Explore published opportunities and the people behind them. Private conversations and thoughtful matching are planned features.
+      Browse publicly shared profiles and housing opportunities by location, interests, and living arrangements. Members control what they publish.
 
-     </p>
+     </p><p><a class="button" href="#browse-members">Browse people and listings</a></p>
 </div>
 <div class="pills">
 <span class="pill">
@@ -698,14 +697,14 @@ Sign out</button></div>
      </span>
 </div>
 <div class="notice"><strong>SHONnetwork testing.</strong> Member profiles and public listings are now being tested. Listings are member-submitted and are not endorsements or guarantees by SHON. Private messaging and automated matching are still in development.</div>
-<div class="member-subsection">
-<h2>Discover people and possibilities</h2><p class="muted">Discover what members have chosen to share. Look for homes, welcoming households, companionship, and ways to contribute. Exact addresses and account emails are not displayed.</p>
+<div class="member-subsection" id="browse-members">
+<h2>Browse people and opportunities</h2><p class="muted">Discover what members have chosen to share. Look for homes, welcoming households, companionship, and ways to contribute. Exact addresses and account emails are not displayed.</p>
 <div aria-label="Explore people or opportunities" class="directory-tabs" role="group"><button aria-pressed="true" class="mini-button selected" id="show-opportunities" type="button">🏡 Homes &amp; opportunities</button><button aria-pressed="false" class="mini-button" id="show-people" type="button">👥 People &amp; households</button></div>
 <div class="discover-tools discover-expanded">
 <label>Keywords<input id="public-search" placeholder="Home, cats, gardening, companionship…" type="search"/></label>
 <label>City, state or region<input id="public-region" placeholder="e.g. Texas, Webster, nationwide" type="search"/></label>
 <label>Opportunity type<select id="public-type"><option value="">All opportunities</option><option value="housing_needed">Seeking a home</option><option value="housing_offered">Offering a home</option><option value="help_offered">Skills &amp; contributions</option><option value="connection_sought">Friendship &amp; connection</option></select></label>
-<label>Living arrangement<select id="public-arrangement"><option value="">Any arrangement</option><option value="no_rent">Room and board / shared home<option value="shared_costs">Shared costs</option><option value="rent">Rent / payment</option><option value="exchange">Mutual exchange</option><option value="flexible">Flexible / discuss</option></option></select></label>
+<label>Living arrangement<select id="public-arrangement"><option value="">Any arrangement</option><option value="no_rent">Room and board / shared home</option><option value="shared_costs">Shared costs</option><option value="rent">Rent / payment</option><option value="exchange">Mutual exchange</option><option value="flexible">Flexible / discuss</option></select></label>
 <label>Member interest<select id="public-role"><option value="">Any interest</option><option value="need_place">Seeking a place</option><option value="have_space">Space to share</option><option value="offer_help">Skills to share</option><option value="looking_person">Connection &amp; companionship</option></select></label>
 <label>Recently active<select id="public-active"><option value="">Any time</option><option value="7">Past 7 days</option><option value="30">Past 30 days</option><option value="90">Past 90 days</option><option value="365">Past year</option></select></label>
 <label>Sort by<select id="public-sort"><option value="newest">Newest first</option><option value="oldest">Oldest first</option><option value="name">Name / title A–Z</option><option value="location">Location A–Z</option><option value="active">Recently active (people)</option></select></label>
