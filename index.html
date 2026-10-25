@@ -1506,21 +1506,9 @@ acant buildings, underused properties, and declining towns as starting points fo
 
     if (!client) return;
 
-    let all=[];
-
-    for(let page=0;page<20;page++) {
-
-      const {data,error}=await client.from('member_directory').select('directory_id,display_name,region,bio,roles,last_active_at,updated_at')
-
-        .order('updated_at',{ascending:false}).range(page*100,page*100+99);
-
-      if(error){byId('public-people').textContent='Member directory unavailable. Please run the Find & Connect SQL migration. '+error.message;return;}
-
-      all.push(...(data||[])); if(!data || data.length<100)break;
-
-    }
-
-    peopleRows=all; renderDiscovery();
+    const {data,error}=await client.rpc('shon_public_directory');
+    if(error){byId('public-people').textContent='Member directory unavailable: '+error.message;return;}
+    peopleRows=data||[]; renderDiscovery();
 
   }
 
