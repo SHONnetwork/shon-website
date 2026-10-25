@@ -386,7 +386,10 @@ bf8d31;padding:13px;border-radius:8px;line-height:1.55}@media(max-width:760px){#
 @media(max-width:480px){.hero{padding:38px 17px 42px}.logo small{font-size:10px}.shon-mobile-nav summary{padding:9px 11px}}
 </style>
 <style id="shon-national-resource-polish">#help-near-me,#resources{scroll-margin-top:92px}#help-near-me a:focus-visible,#resources a:focus-visible,.shon-mobile-nav summary:focus-visible{outline:3px solid #176e52;outline-offset:3px}@media(max-width:480px){.resource-partner-links a{min-height:44px;display:inline-flex;align-items:center}.help-results a{display:inline-block;padding:6px 0}}</style>
-</head>
+<style id="shon-directory-v2">
+.shon-directory-actions,.shon-pagination{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin:14px 0}.shon-directory-actions label{display:flex;align-items:center;gap:8px;font-weight:700}.shon-directory-actions select{min-height:44px;padding:8px;border-radius:8px;border:1px solid #7b9c91}.shon-pagination{justify-content:center}.shon-pagination button:disabled{opacity:.45;cursor:not-allowed}.shon-directory-actions .selected,.shon-directory-actions [aria-pressed="true"]{background:#155e49;color:white}.shon-listing-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.shon-listing-actions button{min-height:44px}.shon-listing-actions [aria-pressed="true"]{background:#155e49;color:white}.shon-directory-actions,.shon-pagination{scroll-margin-top:110px}
+@media(max-width:540px){.shon-directory-actions{align-items:stretch}.shon-directory-actions>button{flex:1 1 140px}.shon-pagination{justify-content:space-between}}
+</style></head>
 <body>
 <a class="shon-skip-link" href="#connect">Skip to opportunities</a>
 <header>
@@ -702,7 +705,7 @@ Sign out</button></div>
 <div aria-label="Explore people or opportunities" class="directory-tabs" role="group"><button aria-pressed="true" class="mini-button selected" id="show-opportunities" type="button">🏡 Homes &amp; opportunities</button><button aria-pressed="false" class="mini-button" id="show-people" type="button">👥 People &amp; households</button></div>
 <div class="discover-tools discover-expanded">
 <label>Keywords<input id="public-search" placeholder="Home, cats, gardening, companionship…" type="search"/></label>
-<label>City, state or region<input id="public-region" placeholder="e.g. Texas, Webster, nationwide" type="search"/></label>
+
 <label>Opportunity type<select id="public-type"><option value="">All opportunities</option><option value="housing_needed">Seeking a home</option><option value="housing_offered">Offering a home</option><option value="help_offered">Skills &amp; contributions</option><option value="connection_sought">Friendship &amp; connection</option></select></label>
 <label>Living arrangement<select id="public-arrangement"><option value="">Any arrangement</option><option value="no_rent">Room and board / shared home</option><option value="shared_costs">Shared costs</option><option value="rent">Rent / payment</option><option value="exchange">Mutual exchange</option><option value="flexible">Flexible / discuss</option></select></label>
 <label>Member interest<select id="public-role"><option value="">Any interest</option><option value="need_place">Seeking a place</option><option value="have_space">Space to share</option><option value="offer_help">Skills to share</option><option value="looking_person">Connection &amp; companionship</option></select></label>
@@ -713,13 +716,14 @@ Sign out</button></div>
 <div aria-label="Geographic discovery filters" class="shon-geo-tools">
 <label>State or territory<select id="public-state"><option value="">All states and territories</option><option value="AL">Alabama</option><option value="AK">Alaska</option><option value="AZ">Arizona</option><option value="AR">Arkansas</option><option value="CA">California</option><option value="CO">Colorado</option><option value="CT">Connecticut</option><option value="DE">Delaware</option><option value="FL">Florida</option><option value="GA">Georgia</option><option value="HI">Hawaii</option><option value="ID">Idaho</option><option value="IL">Illinois</option><option value="IN">Indiana</option><option value="IA">Iowa</option><option value="KS">Kansas</option><option value="KY">Kentucky</option><option value="LA">Louisiana</option><option value="ME">Maine</option><option value="MD">Maryland</option><option value="MA">Massachusetts</option><option value="MI">Michigan</option><option value="MN">Minnesota</option><option value="MS">Mississippi</option><option value="MO">Missouri</option><option value="MT">Montana</option><option value="NE">Nebraska</option><option value="NV">Nevada</option><option value="NH">New Hampshire</option><option value="NJ">New Jersey</option><option value="NM">New Mexico</option><option value="NY">New Yor
 k</option><option value="NC">North Carolina</option><option value="ND">North Dakota</option><option value="OH">Ohio</option><option value="OK">Oklahoma</option><option value="OR">Oregon</option><option value="PA">Pennsylvania</option><option value="RI">Rhode Island</option><option value="SC">South Carolina</option><option value="SD">South Dakota</option><option value="TN">Tennessee</option><option value="TX">Texas</option><option value="UT">Utah</option><option value="VT">Vermont</option><option value="VA">Virginia</option><option value="WA">Washington</option><option value="WV">West Virginia</option><option value="WI">Wisconsin</option><option value="WY">Wyoming</option><option value="DC">District of Columbia</option><option value="PR">Puerto Rico</option><option value="GU">Guam</option><option value="VI">U.S. Virgin Islands</option><option value="AS">American Samoa</option><option value="MP">Northern Mariana Islands</option></select></label>
-<label>Nearby location (city, state or ZIP)<input autocomplete="off" id="public-near" placeholder="e.g. Webster, TX or 77598" type="search"/></label>
+<label>City or ZIP (optional)<input autocomplete="off" id="public-near" placeholder="e.g. Webster, TX or 77598" type="search"/></label>
 <label>Within<select id="public-radius"><option value="">Anywhere</option><option value="10">10 miles</option><option value="25">25 miles</option><option value="50">50 miles</option><option value="100">100 miles</option><option value="250">250 miles</option></select></label>
-<button class="mini-button" id="public-geo-find" type="button">Find nearby</button>
-</div><p class="member-hint" id="public-geo-status" role="status">State searches understand state names and abbreviations. Nearby searches use approximate city or ZIP centers, never a precise home address. Listings with ambiguous locations may not appear in radius results.</p>
+<button class="mini-button" id="public-geo-find" type="button">Search location</button>
+</div><p class="member-hint" id="public-geo-status" role="status">Choose a state for statewide results, or enter a city or ZIP. To use a mileage radius, select a distance and choose Search location. Distances are approximate, never exact home addresses.</p>
+<div class="shon-directory-actions"><button class="mini-button" id="show-all-results" type="button" aria-pressed="true">All results</button><button class="mini-button" id="show-saved-results" type="button" aria-pressed="false">♡ My Saved & Interested</button><label for="discovery-page-size">Per page <select id="discovery-page-size"><option value="10">10</option><option value="20">20</option></select></label></div>
 <p class="member-hint" id="discovery-count" role="status">Loading discovery…</p>
 <div class="empty-state" hidden="" id="public-people">Loading members who chose to be discoverable…</div>
-<div class="empty-state" id="public-listings">Loading published listings…</div>
+<div class="empty-state" id="public-listings">Loading published listings…</div><div class="shon-pagination" id="shon-pagination"><button class="mini-button" id="shon-prev" type="button">← Previous</button><span id="shon-page-status" aria-live="polite"></span><button class="mini-button" id="shon-next" type="button">Next →</button></div><p class="member-hint" id="shon-save-status" role="status">Sign in to save listings or mark them as interesting.</p>
 </div>
 </section>
 <section class="section" id="learning">
@@ -1201,6 +1205,7 @@ acant buildings, underused properties, and declining towns as starting points fo
   async function showUser(user) {
 
     currentUser = user;
+    await refreshSaved();
 
     signedOut.hidden = Boolean(user);
 
@@ -1414,7 +1419,7 @@ acant buildings, underused properties, and declining towns as starting points fo
 
   let peopleRows = [], listingRows = [], directoryMode = 'opportunities';
 
-  const discoveryIds = ['public-search','public-region','public-type','public-arrangement','public-role','public-active','public-sort'];
+  const discoveryIds = ['public-search','public-type','public-arrangement','public-role','public-active','public-sort'];
 
   const norm = value => String(value || '').toLocaleLowerCase();
 
@@ -1531,56 +1536,81 @@ function stateFromRegion(value){
     const place=geoCache.get(key);
     return !!(place && geoDistance(geoOrigin,place)<=geoRadius);
   }
-  byId('public-state').addEventListener('change',()=>{geoOrigin=null;geoRadius=null;renderDiscovery();});
+  byId('public-state').addEventListener('change',()=>{geoOrigin=null;geoRadius=null;renderDiscovery(true);});
   byId('public-geo-find').addEventListener('click',runNearby);
   byId('public-near').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();runNearby();}});
-  byId('public-radius').addEventListener('change',()=>{geoOrigin=null;geoRadius=null;});
+  byId('public-radius').addEventListener('change',()=>{geoOrigin=null;geoRadius=null;renderDiscovery(true);});
+  byId('public-near').addEventListener('input',()=>{if(!geoOrigin)renderDiscovery(true);});
 
-  function renderDiscovery() {
-
-    const isPeople=directoryMode==='people', term=norm(byId('public-search').value.trim()), region=norm(byId('public-region').value.trim());
-
-    const type=byId('public-type').value, arr=byId('public-arrangement').value, role=byId('public-role').value, days=byId('public-active').value, sort=byId('public-sort').value;
-
-    const listBox=byId('public-listings'), peopleBox=byId('public-people');
-
-    listBox.hidden=isPeople; peopleBox.hidden=!isPeople;
-
-    byId('public-type').parentElement.hidden=isPeople; byId('public-arrangement').parentElement.hidden=isPeople;
-
-    byId('public-role').parentElement.hidden=!isPeople; byId('public-active').parentElement.hidden=!isPeople;
-
-    let rows;
-
-    if(isPeople) rows=peopleRows.filter(x=>(!role||(x.roles||[]).includes(role))&&(!days||ageMatch(x.last_active_at,days))&&(!region||norm(x.region).includes(region))&&geographicMatch(x.region)&&(!term||[x.display_name,x.bio,x.region].some(y=>norm(y).includes(term))));
-
-    else rows=listingRows.filter(x=>(!type||x.listing_type===type)&&(!arr||x.arrangement===arr)&&(!region||norm(x.region).includes(region))&&geographicMatch(x.region)&&(!term||[x.title,x.description,x.region,x.owner_display_name,x.housing_type].some(y=>norm(y).includes(term))));
-
-    rows.sort((a,b)=> sort==='name' ? String(a.display_name||a.title).localeCompare(String(b.display_name||b.title)) : sort==='location' ? String(a.region||'').localeCompare(String(b.region||'')) : sort==='oldest' ? new Date(a.updated_at)-new Date(b.updated_at) : sort==='active'&&isPeople ? new Date(b.last_active_at||0)-new Date(a.last_active_at||0) : new Date(b.updated_at)-new Date(a.updated_at));
-
-    byId('discovery-count').textContent=rows.length+' '+(isPeople?'discoverable members':'published opportunities')+' found'+((isPeople?peopleRows:listingRows).length>=2000?' (showing first 2,000; narrow your search)':'')+'.';
-
-    const box=isPeople?peopleBox:listBox;
-
-    if(!rows.length){box.className='empty-state';box.textContent=isPeople?'No members match yet. People appear here only when they choose to join the public directory.':'No opportunities match yet. Try a broader location or fewer filters.';return;}
-
-    box.className='';
-
-    if(isPeople) box.innerHTML=rows.map(x=>`<article class="listing-card"><h3>👤 ${escapeHtml(x.display_name||'SHON member')}</h3><div class="listing-meta">${x.region?`<span class="tag">${escapeHtml(x.region)}</span>`:''}${(x.roles||[]).map(r=>`<span class="tag">${escapeHtml(({need_place:'Seeking a home',have_space:'Space to share',offer_help:'Skills to share',looking_person:'Connection & companionship'})[r]||r)}</span>`).join('')}</div>${x.bio?`<p>${escapeHtml(x.bio)}</p>`:''}<p class="member-hint">${escapeHtml(dateLabel(x.last_active_at))} · Member chose to appear publicly</p></article>`).join('');
-
-    else box.innerHTML=rows.map(x=>`<article class="listing-card"><h3>${escapeHtml(x.title)}</h3><div class="listing-meta"><span class="tag">${escapeHtml(TYPE_LABELS[x.listing_type]||x.listing_type)}</span>${x.region?`<span class="tag">${escapeHtml(x.region)}</span>`:''}${x.arrangement!=='unspecified'?`<span class="tag">${escapeHtml(ARR_LABELS[x.arrangement]||x.arrangement)}</span>`:''}${x.remote_possible?'<span class="tag">Remote contribution possible</span>':''}</div><p>${escapeHtml(x.description)}</p>${x.housing_type?`<p><strong>Type:</strong> ${escapeHtml(x.housing_type)}</p>`:''}<p class="member-hint">Shared by ${escapeHtml(x.owner_display_name||'SHON member')}</p></article>`).join('');
-
+  let discoveryPage=0, discoveryPageSize=10, savedOnly=false;
+  let savedRecords=new Map();
+  const savedKey=(type,id)=>type+':'+String(id);
+  async function refreshSaved(){
+    savedRecords.clear();
+    if(!client||!currentUser){renderDiscovery();return;}
+    const {data,error}=await client.from('shon_member_marks').select('item_type,item_id,mark_type').eq('user_id',currentUser.id);
+    if(error){byId('shon-save-status').textContent='Saved items require the SHON saved-items database update. '+error.message;renderDiscovery();return;}
+    for(const r of data||[])savedRecords.set(savedKey(r.item_type,r.item_id)+':'+r.mark_type,true);
+    byId('shon-save-status').textContent='Saved and interested items are private to your account. They do not notify the advertiser.';
+    renderDiscovery();
   }
-
+  async function toggleMark(type,id,mark){
+    if(!currentUser||!client){byId('shon-save-status').textContent='Please use Join / Sign In to save or mark an opportunity.';location.hash='#member-access';return;}
+    const key=savedKey(type,id)+':'+mark, exists=savedRecords.has(key);
+    const query=client.from('shon_member_marks');
+    const {error}=exists?await query.delete().eq('user_id',currentUser.id).eq('item_type',type).eq('item_id',String(id)).eq('mark_type',mark):await query.insert({user_id:currentUser.id,item_type:type,item_id:String(id),mark_type:mark});
+    if(error){byId('shon-save-status').textContent='Could not update your selection. The saved-items SQL may need to be installed: '+error.message;return;}
+    if(exists)savedRecords.delete(key);else savedRecords.set(key,true);
+    byId('shon-save-status').textContent=(exists?'Removed from':'Added to')+' your private '+(mark==='saved'?'saved items.':'interested items.');
+    renderDiscovery();
+  }
+  function markButtons(type,id){
+    const key=savedKey(type,id),saved=savedRecords.has(key+':saved'),interested=savedRecords.has(key+':interested');
+    return `<div class="shon-listing-actions"><button class="mini-button" type="button" data-shon-mark="saved" data-item-type="${type}" data-item-id="${escapeHtml(String(id))}" aria-pressed="${saved}">${saved?'✓ Saved':'☆ Save'}</button><button class="mini-button" type="button" data-shon-mark="interested" data-item-type="${type}" data-item-id="${escapeHtml(String(id))}" aria-pressed="${interested}">${interested?'♥ Interested':'♡ Interested'}</button></div>`;
+  }
+  function renderDiscovery(reset=false) {
+    if(reset)discoveryPage=0;
+    const isPeople=directoryMode==='people', term=norm(byId('public-search').value.trim()), region=(!geoOrigin||!geoRadius)?norm(byId('public-near').value.trim()):'';
+    const type=byId('public-type').value, arr=byId('public-arrangement').value, role=byId('public-role').value, days=byId('public-active').value, sort=byId('public-sort').value;
+    const listBox=byId('public-listings'),peopleBox=byId('public-people');
+    listBox.hidden=isPeople;peopleBox.hidden=!isPeople;
+    byId('public-type').parentElement.hidden=isPeople;byId('public-arrangement').parentElement.hidden=isPeople;
+    byId('public-role').parentElement.hidden=!isPeople;byId('public-active').parentElement.hidden=!isPeople;
+    let rows;
+    if(isPeople)rows=peopleRows.filter(x=>(!role||(x.roles||[]).includes(role))&&(!days||ageMatch(x.last_active_at,days))&&(!region||norm(x.region).includes(region))&&geographicMatch(x.region)&&(!term||[x.display_name,x.bio,x.region].some(y=>norm(y).includes(term))));
+    else rows=listingRows.filter(x=>(!type||x.listing_type===type)&&(!arr||x.arrangement===arr)&&(!region||norm(x.region).includes(region))&&geographicMatch(x.region)&&(!term||[x.title,x.description,x.region,x.owner_display_name,x.housing_type].some(y=>norm(y).includes(term))));
+    rows.sort((a,b)=>sort==='name'?String(a.display_name||a.title).localeCompare(String(b.display_name||b.title)):sort==='location'?String(a.region||'').localeCompare(String(b.region||'')):sort==='oldest'?new Date(a.updated_at)-new Date(b.updated_at):sort==='active'&&isPeople?new Date(b.last_active_at||0)-new Date(a.last_active_at||0):new Date(b.updated_at)-new Date(a.updated_at));
+    if(savedOnly)rows=rows.filter(x=>['saved','interested'].some(mark=>savedRecords.has(savedKey(isPeople?'person':'listing',isPeople?x.directory_id:x.id)+':'+mark)));
+    const total=rows.length,pages=Math.max(1,Math.ceil(total/discoveryPageSize));discoveryPage=Math.min(discoveryPage,pages-1);
+    const pageRows=rows.slice(discoveryPage*discoveryPageSize,(discoveryPage+1)*discoveryPageSize);
+    byId('discovery-count').textContent=total+' matching '+(isPeople?'members':'opportunities')+(savedOnly?' in your Saved & Interested list':'')+'. Showing '+(total?discoveryPage*discoveryPageSize+1:0)+'–'+Math.min(total,(discoveryPage+1)*discoveryPageSize)+'.'+((isPeople?peopleRows:listingRows).length>=2000?' Only the first 2,000 records have been loaded; nationwide server-side search is still needed.':'');
+    byId('shon-page-status').textContent='Page '+(discoveryPage+1)+' of '+pages;
+    byId('shon-prev').disabled=discoveryPage===0;byId('shon-next').disabled=discoveryPage>=pages-1;
+    const box=isPeople?peopleBox:listBox;
+    if(!pageRows.length){box.className='empty-state';box.textContent=savedOnly?'No saved or interested items match these filters.':isPeople?'No discoverable members match. Try fewer filters.':'No opportunities match. Try broader filters.';return;}
+    box.className='';
+    if(isPeople)box.innerHTML=pageRows.map(x=>`<article class="listing-card"><h3>👤 ${escapeHtml(x.display_name||'SHON member')}</h3><div class="listing-meta">${x.region?`<span class="tag">${escapeHtml(x.region)}</span>`:''}${(x.roles||[]).map(r=>`<span class="tag">${escapeHtml(({need_place:'Seeking a home',have_space:'Space to share',offer_help:'Skills to share',looking_person:'Connection & companionship'})[r]||r)}</span>`).join('')}</div>${x.bio?`<p>${escapeHtml(x.bio)}</p>`:''}<p class="member-hint">${escapeHtml(dateLabel(x.last_active_at))} · Public profile</p>${markButtons('person',x.directory_id)}</article>`).join('');
+    else box.innerHTML=pageRows.map(x=>`<article class="listing-card"><h3>${escapeHtml(x.title)}</h3><div class="listing-meta"><span class="tag">${escapeHtml(TYPE_LABELS[x.listing_type]||x.listing_type)}</span>${x.region?`<span class="tag">${escapeHtml(x.region)}</span>`:''}${x.arrangement!=='unspecified'?`<span class="tag">${escapeHtml(ARR_LABELS[x.arrangement]||x.arrangement)}</span>`:''}${x.remote_possible?'<span class="tag">Remote contribution possible</span>':''}</div><p>${escapeHtml(x.description)}</p>${x.housing_type?`<p><strong>Type:</strong> ${escapeHtml(x.housing_type)}</p>`:''}<p class="member-hint">Shared by ${escapeHtml(x.owner_display_name||'SHON member')}</p>${markButtons('listing',x.id)}</article>`).join('');
+  }
+  byId('browse-members').addEventListener('click',event=>{
+    const b=event.target.closest('button[data-shon-mark]');if(!b)return;
+    toggleMark(b.dataset.itemType,b.dataset.itemId,b.dataset.shonMark);
+  });
+  byId('shon-prev').addEventListener('click',()=>{discoveryPage=Math.max(0,discoveryPage-1);renderDiscovery();});
+  byId('shon-next').addEventListener('click',()=>{discoveryPage++;renderDiscovery();});
+  byId('discovery-page-size').addEventListener('change',e=>{discoveryPageSize=Number(e.target.value);renderDiscovery(true);});
+  function setSavedMode(v){savedOnly=v;byId('show-all-results').setAttribute('aria-pressed',String(!v));byId('show-saved-results').setAttribute('aria-pressed',String(v));renderDiscovery(true);}
+  byId('show-all-results').addEventListener('click',()=>setSavedMode(false));
+  byId('show-saved-results').addEventListener('click',()=>{if(!currentUser){byId('shon-save-status').textContent='Sign in to view your saved items.';location.hash='#member-access';return;}setSavedMode(true);});
   byId('show-opportunities').addEventListener('click',()=>setDiscoveryMode('opportunities'));
 
   byId('show-people').addEventListener('click',()=>setDiscoveryMode('people'));
 
-  function setDiscoveryMode(mode){directoryMode=mode;for(const [id,value] of [['show-opportunities','opportunities'],['show-people','people']]){const b=byId(id);b.classList.toggle('selected',mode===value);b.setAttribute('aria-pressed',String(mode===value));}renderDiscovery();}
+  function setDiscoveryMode(mode){directoryMode=mode;for(const [id,value] of [['show-opportunities','opportunities'],['show-people','people']]){const b=byId(id);b.classList.toggle('selected',mode===value);b.setAttribute('aria-pressed',String(mode===value));}renderDiscovery(true);}
 
-  discoveryIds.forEach(id=>byId(id).addEventListener(['public-search','public-region'].includes(id)?'input':'change',renderDiscovery));
+  discoveryIds.forEach(id=>byId(id).addEventListener(['public-search'].includes(id)?'input':'change',()=>renderDiscovery(true)));
 
-  byId('public-clear').addEventListener('click',()=>{geoOrigin=null;geoRadius=null;++geoRun;byId('public-state').value='';byId('public-near').value='';byId('public-radius').value='';byId('public-geo-status').textContent='Geographic filters cleared.';discoveryIds.forEach(id=>byId(id).value='');byId('public-sort').value='newest';renderDiscovery();});
+  byId('public-clear').addEventListener('click',()=>{geoOrigin=null;geoRadius=null;++geoRun;byId('public-state').value='';byId('public-near').value='';byId('public-radius').value='';byId('public-geo-status').textContent='Geographic filters cleared.';discoveryIds.forEach(id=>byId(id).value='');byId('public-sort').value='newest';renderDiscovery(true);});
 
   byId('member-signout').addEventListener('click', async () => {
 
