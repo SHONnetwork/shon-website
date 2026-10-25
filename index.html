@@ -234,7 +234,141 @@ header .bar{align-items:center}
 
 @media(max-width:500px){.impact-stats{grid-template-columns:1fr}.impact-statement{padding:19px 14px}}
 
-</style></head>
+</style>
+
+<style id="shon-contrast-spacing-final">
+
+/* Consistent readable text across all pale green surfaces. */
+
+.card.green,.card.green :is(h2,h3,h4,p,small,a,span),
+
+.story-card:nth-child(2),.story-card:nth-child(2) :is(h2,h3,h4,p,small,a,span),
+
+.partner-grid>div:first-child,.partner-grid>div:first-child :is(h2,h3,h4,p,small,a,span),
+
+.impact-row-two .impact-stat:nth-child(3),.impact-row-two .impact-stat:nth-child(3) :is(strong,span,p),
+
+.impact-panel{color:#142c27!important}
+
+/* Navy fact panel requires WHITE numbers and labels, including after generic !important rules. */
+
+.impact-row-one .impact-stat:first-child,
+
+.impact-row-one .impact-stat:first-child strong,
+
+.impact-row-one .impact-stat:first-child span{color:#fff!important}
+
+/* All other fact panels have dark text against their pale backgrounds. */
+
+.impact-row-one .impact-stat:not(:first-child) :is(strong,span),
+
+.impact-row-two .impact-stat :is(strong,span){color:#142c27!important}
+
+/* Make green links distinct and readable without sacrificing contrast. */
+
+.card.green a,.story-card:nth-child(2) a,.partner-grid>div:first-child a{color:#15372e!important;text-decoration:underline;text-underline-offset:3px}
+
+/* Reduce compounded vertical whitespace while retaining section separation. */
+
+.section{padding-top:27px;padding-bottom:27px}
+
+.section>.grid,.section>.feature-grid{margin-top:17px}
+
+.story-section{margin-top:10px;margin-bottom:12px;padding-top:30px;padding-bottom:30px}
+
+.community-banner{margin-top:10px;margin-bottom:5px}
+
+.impact-panel{margin-top:8px;margin-bottom:8px}
+
+.section .strip{margin-top:8px;margin-bottom:14px}
+
+.section h2{margin-bottom:8px}
+
+@media(max-width:650px){.section{padding-top:21px;padding-bottom:21px}.story-section{padding-top:22px;padding-bottom:22px}}
+
+</style>
+
+<style id="shon-mobile-readability-2026">
+
+/* Dark forest-green sections: champagne and ivory, never green-on-green. */
+
+.strip,.community-banner,.footer{color:#F5E4C6!important}
+
+.strip :is(h1,h2,h3,h4),.community-banner :is(h1,h2,h3,h4){color:#FFF0D4!important}
+
+.strip :is(p,small,span,li),.community-banner .intro :is(p,small,span,li),.footer :is(p,small,span,li){color:#F5E4C6!important}
+
+.strip a:not(.button):not(.button-alt),.community-banner .intro a:not(.button):not(.button-alt),.footer a{color:#FFF0D4!important;text-decoration:underline;text-underline-offset:3px}
+
+/* Preserve dark type on pale cards and buttons embedded in dark sections. */
+
+.strip :is(.card,.pill,.notice,.button-alt) :is(h2,h3,p,span,small,a),.community-banner .mosaic :is(p,span,small){color:#17372B!important}
+
+/* Pale surfaces use strong readable ink, including smaller explanatory copy. */
+
+.card.green,.card.blue,.card.pink,.card.gold,.feature-card,.story-card,.impact-stat{color:#17372B}
+
+.card.blue :is(h3,p,small,span),.card.pink :is(h3,p,small,span),.card.gold :is(h3,p,small,span){color:#17372B!important}
+
+/* Restore navy panel light text after general impact rules. */
+
+.impact-row-one .impact-stat:first-child :is(strong,span,p){color:#FFFFFF!important}
+
+/* Mobile-first legibility and touch sizes. */
+
+body{font-size:16px;line-height:1.55}
+
+button,input,select,textarea{font-size:16px}
+
+button,.button,.mini-button,.support{min-height:44px}
+
+:focus-visible{outline:3px solid #B45F15;outline-offset:3px}
+
+@media(max-width:650px){
+
+ main{padding-inline:14px}
+
+ .bar{padding:12px 14px}
+
+ nav{gap:5px 9px}
+
+ nav a{font-size:14px;min-height:42px;display:inline-flex;align-items:center;padding:7px 6px}
+
+ .hero{padding:38px 17px 42px;min-height:0}
+
+ .hero h1{font-size:clamp(30px,9vw,43px);overflow-wrap:break-word}
+
+ .hero p,.community-banner p,.card p,.feature-card p,.story-card p{font-size:16px;line-height:1.6}
+
+ .strip{padding:22px 18px}
+
+ .community-banner .intro{padding:23px 19px}
+
+ .card,.feature-card,.story-card,.impact-stat{padding:19px}
+
+ .impact-stat span{font-size:16px}
+
+ .impact-panel small,.privacy-note,.member-hint{font-size:14px;line-height:1.6}
+
+ .impact-statement .impact-response{font-size:16px}
+
+ .section h2{font-size:clamp(27px,7.5vw,34px)}
+
+ .grid,.story-grid,.feature-grid,.partner-grid{grid-template-columns:1fr}
+
+ .discover-tools,.discover-expanded,.two-col,.check-grid{grid-template-columns:1fr}
+
+ .search input{min-width:0;width:100%}
+
+ .hero-actions a{width:100%;max-width:none}
+
+}
+
+@media(max-width:360px){main{padding-inline:10px}.bar{padding-inline:10px}.card,.impact-stat{padding:16px}.shon-word{font-size:clamp(22px,7vw,29px)}.network-light{font-size:inherit}}
+
+</style>
+
+</head>
 
 <body>
 
