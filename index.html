@@ -389,7 +389,10 @@ bf8d31;padding:13px;border-radius:8px;line-height:1.55}@media(max-width:760px){#
 <style id="shon-directory-v2">
 .shon-directory-actions,.shon-pagination{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin:14px 0}.shon-directory-actions label{display:flex;align-items:center;gap:8px;font-weight:700}.shon-directory-actions select{min-height:44px;padding:8px;border-radius:8px;border:1px solid #7b9c91}.shon-pagination{justify-content:center}.shon-pagination button:disabled{opacity:.45;cursor:not-allowed}.shon-directory-actions .selected,.shon-directory-actions [aria-pressed="true"]{background:#155e49;color:white}.shon-listing-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.shon-listing-actions button{min-height:44px}.shon-listing-actions [aria-pressed="true"]{background:#155e49;color:white}.shon-directory-actions,.shon-pagination{scroll-margin-top:110px}
 @media(max-width:540px){.shon-directory-actions{align-items:stretch}.shon-directory-actions>button{flex:1 1 140px}.shon-pagination{justify-content:space-between}}
-</style></head>
+</style><style>
+.shon-photo-tools{margin:16px 0;padding:17px;border:1px solid #cfe1d6;border-radius:14px;background:#f4faf6}.shon-photo-tools input[type=file]{display:block;margin:10px 0;max-width:100%}.shon-photo-gallery{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}.shon-photo-tile{width:126px;position:relative}.shon-photo-tile img{width:126px;height:115px;object-fit:cover;border-radius:12px;border:1px solid #d3e3d9}.shon-photo-tile button{display:block;width:100%;margin-top:4px}.shon-result-photos{display:flex;gap:8px;overflow-x:auto;margin:12px 0}.shon-result-photos img{width:135px;height:115px;object-fit:cover;border-radius:10px;flex:none}.shon-match-note{font-size:13px;color:#285e4a;background:#e9f6ee;border-radius:9px;padding:8px 10px;display:inline-block;margin-top:8px}
+</style>
+</head>
 <body>
 <a class="shon-skip-link" href="#connect">Skip to opportunities</a>
 <header>
@@ -606,6 +609,7 @@ tional online presence and additional tools are planned.</p><span class="future-
 <div><label for="member-region">Approximate location</label><input id="member-region" maxlength="120" placeholder="Example: Clear Lake / Houston, Texas" type="text"/></div>
 <div><label for="member-contact">Preferred contact</label><select id="member-contact"><option value="platform">SHON platform only</option><option value="email">Email may be shared after I choose to connect</option><option value="either">Either</option></select></div>
 </div>
+<section class="shon-photo-tools" aria-label="Your profile photographs"><h4>📸 Your profile photographs</h4><p class="member-hint">Optional. Only add photographs you want visible in SHON's public directory. Up to 6 photos; JPG, PNG or WebP, maximum 5 MB each. Your profile must be opted into the directory to upload public photos.</p><input id="shon-profile-photo" type="file" accept="image/jpeg,image/png,image/webp"/><button type="button" class="mini-button" id="shon-profile-upload">Add profile photo</button><div id="shon-profile-gallery" class="shon-photo-gallery"></div><p id="shon-photo-status" role="status" class="member-hint"></p></section>
 <label for="member-bio">Introduce yourself, in your own words (optional)</label><textarea id="member-bio" maxlength="1200" placeholder="What makes a place feel like home? What do you enjoy? Share only what you are comfortable publishing."></textarea>
 <label for="member-needs">What you need or hope to find</label><textarea id="member-needs" maxlength="1600"></textarea>
 <label for="member-offers">What you can offer</label><textarea id="member-offers" maxlength="1600"></textarea>
@@ -636,6 +640,7 @@ tional online presence and additional tools are planned.</p><span class="future-
 <div class="two-col"><div><label for="listing-region">Location or area of interest</label><input id="listing-region" maxlength="120" placeholder="City, region, or nationwide" type="text"/></div><div><label for="listing-arrangement">Living arrangement / contributions</label><select id="listing-arrangement"><option value="unspecified">Not specified</option><option value="no_rent">Room and board / shared home</option><option value="shared_costs">Shared costs</option><option value="rent">Rent / payment involved</option><option value="exchange">Service / mutual exchange</option><option value="flexible">Flexible / discus
 s</option></select></div></div>
 <div class="two-col"><div><label for="listing-housing-type">Housing / opportunity type</label><input id="listing-housing-type" maxlength="120" placeholder="Private room, caretaker presence, remote help…" type="text"/></div><div><label class="check-card" style="margin-top:37px!important"><input id="listing-remote" type="checkbox"/>Remote / online contribution possible</label></div></div>
+<section class="shon-photo-tools" aria-label="Listing photographs"><h4>🏡 Listing photo gallery</h4><p class="member-hint">Save your listing first, then choose Edit to attach up to 8 public photographs. Only published listings can receive photographs. Do not upload exact address details or private documents.</p><input id="shon-listing-photo" type="file" accept="image/jpeg,image/png,image/webp"/><button type="button" class="mini-button" id="shon-listing-upload">Add listing photo</button><div id="shon-listing-gallery" class="shon-photo-gallery"></div><p id="shon-listing-photo-status" role="status" class="member-hint"></p></section>
 <div class="member-actions"><button class="button" id="member-save-listing" type="submit">Save listing</button><button class="button member-secondary" id="member-cancel-listing" type="button">Clear form</button></div>
 </form>
 <div id="member-listings"></div>
@@ -941,7 +946,7 @@ acant buildings, underused properties, and declining towns as starting points fo
 <article class="resource-card"><h3>⛪ Community support</h3><p>Churches, charities, and community organizations offering assistance.</p><a data-resource-query="charities churches community assistance" href="https://www.google.com/maps/search/?api=1&amp;query=community%20assistance%20charities" rel="noopener noreferrer" target="_blank">Find community support</a></article>
 </div>
 <p class="resource-note"><strong>Important:</strong> Map search results are not verified by SHON. A listed shelter may be full, a food program may have eligibility restrictions, and a gym may charge fees. For additional social-service directories, see <a href="https://www.211.org/" rel="noopener noreferrer" target="_blank">USA Free Local Assistance (211)</a>, <a href="https://www.findhelp.org/" rel="noopener noreferrer" target="_blank">Findhelp ↗</a>, and <a href="https://www.hud.gov/findshelter" rel="noopener noreferrer" target="_blank">HUD Find Shelter ↗</a>. SHON does not share your location with these sites until you open their links.</p>
-<div class="resource-intelligence"><span class="section-kicker">SHON Resource Intelligence · development roadmap</span><h3>One question. Many trusted sources. Better-fitting answers.</h3><p>SHON is preparing a resource-discovery system that can combine permissioned community-service directories, public agency information, and participating organizations' own updates. The goal is to help people find services that fit their actual circumstances, not just their ZIP code.</p><div class="resource-intelligence-grid"><div><strong>1. Search by real needs</strong><p>Housing type, no-income eligibility, daytime access, disability accommodations, food, transport, hours, and preferred contact methods.</p></div><div><strong>2. Trace every result</strong><p>Show the original provider, source link, last update, eligibility notes, and whether availability is verified or unknown.</p></div><div><strong>3. Keep providers involved</strong><p>Invite authorized data partners and local organizations to supply or correct public service listings.</p></div></div><p class="resource-note"><strong>How resource searches work today:</strong> SHON helps you discover services using public directories and map searches. These searches open external websites in a new tab, and their listings, hours, eligibility, costs and availability are not verified by SHON. AI-assisted matching and a combined national SHON resource directory are <strong>still in development</strong>. SHON will seek appropriate data permissions and integration partners before importing directories. Avoid sharing sensitive personal information in public search queries.</p><p class="help-note">These partner and reference links open external websites in a new tab. SHON remains open here.</p><div class="resource-partner-links"><a href="https://211.org/" rel="noopener noreferrer" target="_blank">USA Free Local Assistance (211) ↗</a><a href="https://www.hud.gov/findshelter" rel="noopener noreferrer" target="_blank">HUD Find Shelter ↗</a><a href="https://www.findhelp.org/" rel="noopener noreferrer" target="_blank">Findhelp ↗</a><a href="https://www.211.org/" rel="noopener noreferrer" target="_blank">USA Free Local Assistance (211) ↗</a><a href="https://openreferral.org/" rel="noopener noreferrer" target="_blank">Open Referral data standards ↗</a></div><p><a class="button" href="mailto:info@shonnetwork.org?subject=SHON%20Resource%20Data%20Partnership">Discuss a data partnership</a> <a class="button button-alt" href="#build-with-us">Help build the resource engine</a></p></div></section>
+<div class="resource-intelligence"><span class="section-kicker">SHON Resource Intelligence · development roadmap</span><h3>One question. Many trusted sources. Better-fitting answers.</h3><p>SHON is preparing a resource-discovery system that can combine permissioned community-service directories, public agency information, and participating organizations' own updates. The goal is to help people find services that fit their actual circumstances, not just their ZIP code.</p><div class="resource-intelligence-grid"><div><strong>1. Search by real needs</strong><p>Housing type, no-income eligibility, daytime access, disability accommodations, food, transport, hours, and preferred contact methods.</p></div><div><strong>2. Trace every result</strong><p>Show the original provider, source link, last update, eligibility notes, and whether availability is verified or unknown.</p></div><div><strong>3. Keep providers involved</strong><p>Invite authorized data partners and local organizations to supply or correct public service listings.</p></div></div><p class="resource-note"><strong>How resource searches work today:</strong> SHON helps you discover services using public directories and map searches. These searches open external websites in a new tab, and their listings, hours, eligibility, costs and availability are not verified by SHON. AI-assisted matching and a combined national SHON resource directory are <strong>still in development</strong>. SHON will seek appropriate data permissions and integration partners before importing directories. Avoid sharing sensitive personal information in public search queries.</p><p class="help-note">These partner and reference links open external websites in a new tab. SHON remains open here.</p><div class="resource-partner-links"><a href="https://211.org/" rel="noopener noreferrer" target="_blank">USA Free Local Assistance (211) ↗</a><a href="https://www.hud.gov/findshelter" rel="noopener noreferrer" target="_blank">HUD Find Shelter ↗</a><a href="https://www.findhelp.org/" rel="noopener noreferrer" target="_blank">Findhelp ↗</a><a href="https://openreferral.org/" rel="noopener noreferrer" target="_blank">Open Referral data standards ↗</a></div><p><a class="button" href="mailto:info@shonnetwork.org?subject=SHON%20Resource%20Data%20Partnership">Discuss a data partnership</a> <a class="button button-alt" href="#build-with-us">Help build the resource engine</a></p></div></section>
 <section aria-labelledby="partnership-title" class="section" id="partnership">
 <div class="partnership">
 <div class="eyebrow">Two independent networks. Different purposes. Shared possibilities.</div>
@@ -1589,8 +1594,8 @@ function stateFromRegion(value){
     const box=isPeople?peopleBox:listBox;
     if(!pageRows.length){box.className='empty-state';box.textContent=savedOnly?'No saved or interested items match these filters.':isPeople?'No discoverable members match. Try fewer filters.':'No opportunities match. Try broader filters.';return;}
     box.className='';
-    if(isPeople)box.innerHTML=pageRows.map(x=>`<article class="listing-card"><h3>👤 ${escapeHtml(x.display_name||'SHON member')}</h3><div class="listing-meta">${x.region?`<span class="tag">${escapeHtml(x.region)}</span>`:''}${(x.roles||[]).map(r=>`<span class="tag">${escapeHtml(({need_place:'Seeking a home',have_space:'Space to share',offer_help:'Skills to share',looking_person:'Connection & companionship'})[r]||r)}</span>`).join('')}</div>${x.bio?`<p>${escapeHtml(x.bio)}</p>`:''}<p class="member-hint">${escapeHtml(dateLabel(x.last_active_at))} · Public profile</p>${markButtons('person',x.directory_id)}</article>`).join('');
-    else box.innerHTML=pageRows.map(x=>`<article class="listing-card"><h3>${escapeHtml(x.title)}</h3><div class="listing-meta"><span class="tag">${escapeHtml(TYPE_LABELS[x.listing_type]||x.listing_type)}</span>${x.region?`<span class="tag">${escapeHtml(x.region)}</span>`:''}${x.arrangement!=='unspecified'?`<span class="tag">${escapeHtml(ARR_LABELS[x.arrangement]||x.arrangement)}</span>`:''}${x.remote_possible?'<span class="tag">Remote contribution possible</span>':''}</div><p>${escapeHtml(x.description)}</p>${x.housing_type?`<p><strong>Type:</strong> ${escapeHtml(x.housing_type)}</p>`:''}<p class="member-hint">Shared by ${escapeHtml(x.owner_display_name||'SHON member')}</p>${markButtons('listing',x.id)}</article>`).join('');
+    if(isPeople)box.innerHTML=pageRows.map(x=>`<article class="listing-card"><h3>👤 ${escapeHtml(x.display_name||'SHON member')}</h3><div class="listing-meta">${x.region?`<span class="tag">${escapeHtml(x.region)}</span>`:''}${(x.roles||[]).map(r=>`<span class="tag">${escapeHtml(({need_place:'Seeking a home',have_space:'Space to share',offer_help:'Skills to share',looking_person:'Connection & companionship'})[r]||r)}</span>`).join('')}</div>${x.bio?`<p>${escapeHtml(x.bio)}</p>`:''}${shonPhotoHtml('person',x.directory_id)}<p class="member-hint">${escapeHtml(dateLabel(x.last_active_at))} · Public profile</p>${markButtons('person',x.directory_id)}</article>`).join('');
+    else box.innerHTML=pageRows.map(x=>`<article class="listing-card"><h3>${escapeHtml(x.title)}</h3><div class="listing-meta"><span class="tag">${escapeHtml(TYPE_LABELS[x.listing_type]||x.listing_type)}</span>${x.region?`<span class="tag">${escapeHtml(x.region)}</span>`:''}${x.arrangement!=='unspecified'?`<span class="tag">${escapeHtml(ARR_LABELS[x.arrangement]||x.arrangement)}</span>`:''}${x.remote_possible?'<span class="tag">Remote contribution possible</span>':''}</div><p>${escapeHtml(x.description)}</p>${x.housing_type?`<p><strong>Type:</strong> ${escapeHtml(x.housing_type)}</p>`:''}${shonPhotoHtml('listing',x.id)}<p class="member-hint">Shared by ${escapeHtml(x.owner_display_name||'SHON member')}</p>${markButtons('listing',x.id)}</article>`).join('');
   }
   byId('browse-members').addEventListener('click',event=>{
     const b=event.target.closest('button[data-shon-mark]');if(!b)return;
@@ -1611,6 +1616,77 @@ function stateFromRegion(value){
   discoveryIds.forEach(id=>byId(id).addEventListener(['public-search'].includes(id)?'input':'change',()=>renderDiscovery(true)));
 
   byId('public-clear').addEventListener('click',()=>{geoOrigin=null;geoRadius=null;++geoRun;byId('public-state').value='';byId('public-near').value='';byId('public-radius').value='';byId('public-geo-status').textContent='Geographic filters cleared.';discoveryIds.forEach(id=>byId(id).value='');byId('public-sort').value='newest';renderDiscovery(true);});
+
+
+  // SHON public photo galleries. The SQL migration restricts uploads to their owner.
+  const shonPhotoCache = new Map();
+  const shonPhotoBucket = 'shon-public-photos';
+  function shonPhotoKey(type,id){return type+':'+String(id);}
+  function shonPhotoStatus(id,message){const e=byId(id);if(e)e.textContent=message;}
+  function shonPhotoUrl(path){return client.storage.from(shonPhotoBucket).getPublicUrl(path).data.publicUrl;}
+  function shonPhotoHtml(type,id){
+    const photos=shonPhotoCache.get(shonPhotoKey(type,id))||[];
+    if(!photos.length)return '';
+    return '<div class="shon-result-photos" aria-label="Public photographs">'+photos.map(x=>'<img loading="lazy" alt="Member supplied '+(type==='person'?'profile':'opportunity')+' photo" src="'+escapeHtml(shonPhotoUrl(x.storage_path))+'">').join('')+'</div>';
+  }
+  async function shonLoadPhotos(){
+    if(!client)return;
+    const ids=[...listingRows.map(x=>String(x.id)),...peopleRows.map(x=>String(x.directory_id))];
+    const {data,error}=await client.from('shon_photos').select('id,item_type,item_id,storage_path,created_at').order('created_at',{ascending:true}).limit(3000);
+    if(error){shonPhotoStatus('shon-photo-status','Photo galleries require the new SHON Photos SQL setup.');return;}
+    shonPhotoCache.clear();
+    for(const x of data||[]){const key=shonPhotoKey(x.item_type,x.item_id);if(!shonPhotoCache.has(key))shonPhotoCache.set(key,[]);shonPhotoCache.get(key).push(x);}
+    shonRenderOwnPhotos();renderDiscovery();
+  }
+  function shonRenderOwnPhotos(){
+    for(const [type,id,boxId] of [['person',currentUser?.id,'shon-profile-gallery'],['listing',byId('listing-id').value,'shon-listing-gallery']]){
+      const box=byId(boxId);if(!box)continue;
+      const rows=id?(shonPhotoCache.get(shonPhotoKey(type,id))||[]):[];
+      box.innerHTML=rows.map(x=>'<div class="shon-photo-tile"><img alt="Your uploaded photograph" loading="lazy" src="'+escapeHtml(shonPhotoUrl(x.storage_path))+'"><button type="button" class="mini-button danger" data-shon-photo-delete="'+escapeHtml(x.id)+'" data-shon-photo-type="'+type+'">Remove</button></div>').join('');
+    }
+  }
+  async function shonUploadPhoto(type){
+    const input=byId(type==='person'?'shon-profile-photo':'shon-listing-photo');
+    const statusId=type==='person'?'shon-photo-status':'shon-listing-photo-status';
+    if(!currentUser||!client){shonPhotoStatus(statusId,'Please sign in first.');return;}
+    const itemId=type==='person'?currentUser.id:byId('listing-id').value;
+    if(!itemId){shonPhotoStatus(statusId,'Save the listing first, then select Edit.');return;}
+    if(type==='person'&&!byId('member-directory-opt-in').checked){shonPhotoStatus(statusId,'Opt into the public people directory and save your profile first.');return;}
+    if(type==='listing'){
+      const listing=ownListings.find(x=>String(x.id)===String(itemId));
+      if(!listing||listing.status!=='published'){shonPhotoStatus(statusId,'Only saved, published listings can have public photographs.');return;}
+    }
+    const file=input.files?.[0];if(!file){shonPhotoStatus(statusId,'Choose a photo first.');return;}
+    const ext=({'image/jpeg':'jpg','image/png':'png','image/webp':'webp'})[file.type];
+    if(!ext||file.size>5*1024*1024){shonPhotoStatus(statusId,'Use JPG, PNG or WebP, no larger than 5 MB.');return;}
+    if((shonPhotoCache.get(shonPhotoKey(type,itemId))||[]).length>=(type==='person'?6:8)){shonPhotoStatus(statusId,'Gallery is full. Remove a photo before adding another.');return;}
+    const path=currentUser.id+'/'+type+'/'+itemId+'/'+crypto.randomUUID()+'.'+ext;
+    shonPhotoStatus(statusId,'Uploading photo…');
+    const {error:upError}=await client.storage.from(shonPhotoBucket).upload(path,file,{contentType:file.type,upsert:false});
+    if(upError){shonPhotoStatus(statusId,'Upload failed: '+upError.message);return;}
+    const {error:dbError}=await client.from('shon_photos').insert({owner_id:currentUser.id,item_type:type,item_id:String(itemId),storage_path:path});
+    if(dbError){await client.storage.from(shonPhotoBucket).remove([path]);shonPhotoStatus(statusId,'Could not save photo: '+dbError.message);return;}
+    input.value='';shonPhotoStatus(statusId,'Photo added. Public gallery updated.');await shonLoadPhotos();
+  }
+  byId('shon-profile-upload').addEventListener('click',()=>shonUploadPhoto('person'));
+  byId('shon-listing-upload').addEventListener('click',()=>shonUploadPhoto('listing'));
+  document.addEventListener('click',async e=>{
+    const b=e.target.closest('button[data-shon-photo-delete]');if(!b||!currentUser||!client)return;
+    const photo=[...shonPhotoCache.values()].flat().find(x=>x.id===b.dataset.shonPhotoDelete);if(!photo)return;
+    if(!confirm('Remove this photograph from SHON?'))return;
+    const {error}=await client.from('shon_photos').delete().eq('id',photo.id).eq('owner_id',currentUser.id);
+    if(error){shonPhotoStatus('shon-photo-status',error.message);return;}
+    await client.storage.from(shonPhotoBucket).remove([photo.storage_path]);await shonLoadPhotos();
+  });
+  // Update public galleries whenever directory data refreshes.
+  const shonOriginalLoadListings=loadPublicListings;
+  loadPublicListings=async function(){await shonOriginalLoadListings();await shonLoadPhotos();};
+  const shonOriginalLoadPeople=loadPublicPeople;
+  loadPublicPeople=async function(){await shonOriginalLoadPeople();await shonLoadPhotos();};
+  const shonOriginalEditListing=editListing;
+  editListing=function(id){shonOriginalEditListing(id);shonRenderOwnPhotos();};
+  const shonOriginalClearListing=clearListingForm;
+  clearListingForm=function(){shonOriginalClearListing();shonRenderOwnPhotos();};
 
   byId('member-signout').addEventListener('click', async () => {
 
