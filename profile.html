@@ -1,1 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>My Profile | SHONnetwork</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f7f9f5;color:#173b32;font:16px/1.55 system-ui,Arial,sans-serif}
+header{background:white;border-bottom:1px solid #dce6dc;padding:14px 18px}
+.bar{max-width:1050px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.brand{font-size:27px;font-weight:800;color:#111;text-decoration:none}
+.brand span{font-weight:400}
+nav{display:flex;gap:12px;flex-wrap:wrap}
+nav a{color:#205342;text-decoration:none;font-weight:650}
+main{max-width:950px;margin:auto;padding:24px 16px 90px}
+h1{font-size:clamp(29px,5vw,40px);margin:0 0 7px}
+.intro{color:#496258;max-width:760px}
+details{background:white;border:1px solid #d8e6dc;border-radius:13px;margin:12px 0;overflow:hidden}
+summary{cursor:pointer;padding:17px 19px;font-weight:750;font-size:18px;background:#f0f6ef}
+summary:hover{background:#e6f1e5}
+.content{padding:19px}
+label{display:block;font-weight:650;margin:15px 0 5px}
+input,select,textarea{width:100%;min-height:44px;padding:11px;border:1px solid #88a69a;border-radius:8px;background:white;color:#173b32;font:inherit}
+textarea{min-height:85px;resize:vertical}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 15px}
+.hint{font-size:14px;color:#50675e}
+.notice{background:#e8f3e6;padding:15px;border-radius:10px;margin:18px 0}
+.private{background:#fff5e5;border-left:4px solid #c08c37;padding:12px;border-radius:7px}
+.actions{position:sticky;bottom:0;background:#fff;border:1px solid #dce6dc;border-radius:12px;padding:12px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;box-shadow:0 -3px 15px #143b3015}
+button{background:#16604c;color:white;border:0;border-radius:9px;padding:12px 19px;font:inherit;font-weight:700;cursor:pointer}
+button.secondary{background:#e5eee7;color:#173b32}
+#status{font-size:14px;color:#285c42}
+:focus-visible{outline:3px solid #bd7d25;outline-offset:2px}
+@media(max-width:650px){.grid{grid-template-columns:1fr}.content{padding:14px}summary{padding:15px}}
+</style>
+</head>
+<body>
+<header>
+<div class="bar">
+<a class="brand" href="index.html">🏡 SHON<span>network</span></a>
+<nav aria-label="Member navigation">
+<a href="members.html">My SHONnetwork</a>
+<a href="profile.html" aria-current="page">My Profile</a>
+<a href="listings.html">My Listings</a>
+<a href="connections.html">My Connections</a>
+</nav>
+</div>
+</header>
+<main>
+<h1>My Profile</h1>
+<p class="intro">Who are you? What kind of life would you enjoy sharing with others? What do you need, what can you offer, and what might we create together?</p>
+<div class="notice">🌻 Every question is optional. Share only what you're comfortable sharing. You can return and change your answers at any time.</div>
 
+<form id="profile" autocomplete="on">
+
+<details open>
+<summary>👤 About Me</summary>
+<div class="content">
+<div class="grid">
+<div><label for="name">Name you'd like others to know</label><input id="name" name="name"></div>
+<div><label for="pronouns">Pronouns</label><input id="pronouns" name="pronouns"></div>
+<div><label for="gender">Gender</label><input id="gender" name="gender"></div>
+<div><label for="orientation">Sexual orientation</label>
+<select id="orientation" name="orientation">
+<option value="">Choose only if you wish</option>
+<option>None</option><option>Heterosexual</option><option>Gay</option>
+<option>Lesbian</option><option>Bisexual</option><option>Asexual</option>
+<option>Pansexual</option><option>Unsure</option><option>Other</option>
+<option>Prefer not to say</option>
+</select></div>
+</div>
+<label for="story">Tell us about yourself</label>
+<textarea id="story" name="story" placeholder="Your experiences, personality, hopes, and what matters to you"></textarea>
+<label for="history">Where have you lived?</label>
+<textarea id="history" name="history" placeholder="Countries, states, regions, or places that have shaped your life"></textarea>
+</div>
+</details>
+
+<details>
+<summary>🗣️ Languages & Communication</summary>
+<div class="content">
+<label for="languages">Languages you speak, sign, read, or write</label>
+<textarea id="languages" name="languages" placeholder="Include proficiency levels if you'd like"></textarea>
+<label for="communication">How do you prefer to communicate?</label>
+<textarea id="communication" name="communication" placeholder="Conversation, email, messaging, sign language, quiet time, etc."></textarea>
+</div>
+</details>
+
+<details>
+<summary>👨‍👩‍👧 Family, Relationships & Children</summary>
+<div class="content">
+<label for="family">Tell us about your family or important relationships</label>
+<textarea id="family" name="family"></textarea>
+<label for="moving">Who would be joining you in a household?</label>
+<textarea id="moving" name="moving" placeholder="Partner, children, relatives, friends, or just yourself"></textarea>
+<label for="chosenfamily">Would you enjoy becoming part of an extended or chosen family?</label>
+<select id="chosenfamily" name="chosenfamily">
+<option value="">Not specified</option><option>Yes</option><option>No</option><option>Possibly, let's discuss</option>
+</select>
+</div>
+</details>
+
+<details>
+<summary>🐈 Pets & Animals</summary>
+<div class="content">
+<label for="pets">Do you have any pets?</label>
+<textarea id="pets" name="pets" placeholder="Types, number, personalities, and needs"></textarea>
+<label for="petwelcome">Are pets welcome in a household you share?</label>
+<select id="petwelcome" name="petwelcome">
+<option value="">Not specified</option><option>Yes</option><option>No</option><option>Depends on the animals</option><option>Let's discuss</option>
+</select>
+<label for="animals">What animals do you enjoy or prefer to avoid?</label>
+<textarea id="animals" name="animals"></textarea>
+</div>
+</details>
+
+<details>
+<summary>🍲 Food, Cooking & Allergies</summary>
+<div class="content">
+<label for="foods">Favorite foods and cuisines</label>
+<textarea id="foods" name="foods"></textarea>
+<label for="diet">Dietary preferences or restrictions</label>
+<textarea id="diet" name="diet"></textarea>
+<label for="cooking">Cooking and shared meals</label>
+<textarea id="cooking" name="cooking" placeholder="Do you enjoy cooking? Eating together? Separate meals?"></textarea>
+<label for="allergies">Allergies or sensitivities that may affect household arrangements</label>
+<textarea id="allergies" name="allergies"></textarea>
+<p class="hint">You can describe practical precautions without disclosing a medical diagnosis.</p>
+</div>
+</details>
+
+<details>
+<summary>🎨 Interests, Hobbies & Enjoyment</summary>
+<div class="content">
+<label for="hobbies">Hobbies and activities</label>
+<textarea id="hobbies" name="hobbies" placeholder="Books, games, gardening, science, art, exercise, music, and more"></textarea>
+<label for="music">Music, television, movies, and entertainment</label>
+<textarea id="music" name="music"></textarea>
+<label for="shared">What activities would you enjoy sharing?</label>
+<textarea id="shared" name="shared"></textarea>
+</div>
+</details>
+
+<details>
+<summary>🏡 Household Compatibility</summary>
+<div class="content">
+<div class="grid">
+<div><label for="goal">What are you hoping to create?</label>
+<select id="goal" name="goal">
+<option value="">Not specified</option>
+<option>Find a home</option><option>Welcome someone into my home</option>
+<option>Find companionship</option><option>Form a shared household</option>
+<option>Build an extended family</option><option>Build a community</option>
+<option>Explore possibilities</option>
+</select></div>
+<div><label for="location">Where would you like to live?</label>
+<input id="location" name="location" placeholder="City, state, region, or flexible"></div>
+</div>
+<label for="needs">What do you need in a compatible household?</label>
+<textarea id="needs" name="needs"></textarea>
+<label for="offers">What can you offer or contribute?</label>
+<textarea id="offers" name="offers" placeholder="Presence, companionship, skills, shared activities, practical contributions, etc."></textarea>
+<label for="sleeping">Sleeping space and privacy preferences</label>
+<textarea id="sleeping" name="sleeping"></textarea>
+<label for="routines">Daily routines, sleeping hours, noise, cleanliness, and temperature</label>
+<textarea id="routines" name="routines"></textarea>
+<label for="visitors">Visitors, guests, and social preferences</label>
+<textarea id="visitors" name="visitors"></textarea>
+<label for="smoking">Smoking, alcohol, and other household boundaries</label>
+<textarea id="smoking" name="smoking"></textarea>
+<label for="duration">Preferred length of an arrangement</label>
+<select id="duration" name="duration">
+<option value="">Not specified</option><option>Long-term or permanent</option>
+<option>Flexible</option><option>Short-term</option><option>Let's discuss</option>
+</select>
+<label for="boundaries">Important boundaries or nonnegotiable needs</label>
+<textarea id="boundaries" name="boundaries"></textarea>
+</div>
+</details>
+
+<details>
+<summary>♿ Accessibility, Health & Practical Considerations</summary>
+<div class="content">
+<p class="private"><strong>Private by default.</strong> Medical diagnoses, health histories, and sensitive personal details should not be published automatically. Share practical needs voluntarily with people you trust.</p>
+<label for="accessibility">Accessibility or environmental requirements</label>
+<textarea id="accessibility" name="accessibility" placeholder="Stairs, mobility, quiet space, temperature, transportation, etc."></textarea>
+<label for="limitations">Activities or responsibilities you can or cannot reliably undertake</label>
+<textarea id="limitations" name="limitations"></textarea>
+<label for="accommodations">Other household considerations you may wish to discuss privately</label>
+<textarea id="accommodations" name="accommodations"></textarea>
+</div>
+</details>
+
+<details>
+<summary>🤝 Getting to Know One Another</summary>
+<div class="content">
+<label for="questions">What would you like to know about prospective household members?</label>
+<textarea id="questions" name="questions"></textarea>
+<label for="expectations">What makes a relationship or household work well for you?</label>
+<textarea id="expectations" name="expectations"></textarea>
+<label for="safety">Important safety, legal, or practical matters to discuss before living together</label>
+<textarea id="safety" name="safety"></textarea>
+<p class="hint">These discussions should be voluntary, respectful, and private. No diagnosis or personal history alone determines compatibility.</p>
+</div>
+</details>
+
+</form>
+
+<div class="actions">
+<button type="button" id="save">Save My Answers</button>
+<button type="button" class="secondary" id="clear">Clear Saved Answers</button>
+<span id="status" role="status" aria-live="polite"></span>
+</div>
+</main>
+<script>
+(function(){
+"use strict";
+const form=document.getElementById("profile");
+const status=document.getElementById("status");
+const key="shon_profile_draft_v1";
+const fields=[...form.querySelectorAll("input,select,textarea")];
+function load(){
+try{
+const data=JSON.parse(localStorage.getItem(key)||"{}");
+fields.forEach(el=>{
+if(Object.prototype.hasOwnProperty.call(data,el.name))
+el.value=data[el.name];
+});
+}catch(e){status.textContent="Saved answers could not be loaded.";}
+}
+function save(){
+try{
+const data={};
+fields.forEach(el=>data[el.name]=el.value);
+localStorage.setItem(key,JSON.stringify(data));
+status.textContent="Saved in this browser.";
+}catch(e){status.textContent="Unable to save. Check your browser storage settings.";}
+}
+document.getElementById("save").addEventListener("click",save);
+document.getElementById("clear").addEventListener("click",()=>{
+if(!confirm("Clear the answers saved in this browser?"))return;
+localStorage.removeItem(key);
+form.reset();
+status.textContent="Saved answers cleared.";
+});
+load();
+})();
+</script>
+</body>
+</html>
