@@ -289,7 +289,7 @@ and imagine what we might create together.
 Free to participate. People before profit.
 </p>
 <div class="actions">
-<a class="btn" href="#explore">Explore opportunities</a>
+<a class="btn" href="discover.html">Explore opportunities</a>
 <a class="btn secondary" href="members.html">
 Join SHONnetwork / Sign in
 </a>
@@ -328,58 +328,6 @@ and what might we create together?
 <h3>Build a community</h3>
 <p>Bring together people who want to create and sustain a shared life.</p>
 </article>
-</div>
-</section>
-
-<section class="section" id="explore">
-<div class="browse">
-<div class="eyebrow">Public discovery</div>
-<h2>Explore people and opportunities</h2>
-<p>
-Search publicly shared opportunities and member directory
-entries. You can browse without an account; contact and
-member tools are available after signing in.
-</p>
-
-<div class="tabs">
-<button type="button" id="tab-listings" aria-pressed="true">
-Opportunities
-</button>
-<button type="button" id="tab-people" aria-pressed="false">
-People
-</button>
-</div>
-
-<div class="filters">
-<label>
-Search by words
-<input id="query" placeholder="Interests, home, companionship, pets…">
-</label>
-<label>
-Location or region
-<input id="region" placeholder="City, state, or region">
-</label>
-<button type="button" class="btn secondary" id="clear">
-Clear filters
-</button>
-</div>
-
-<div id="discovery-status"
-     class="status"
-     role="status"
-     aria-live="polite">
-Loading public opportunities…
-</div>
-
-<div class="results" id="discovery-results"></div>
-
-<p class="note">
-Only information deliberately made public should appear here.
-Availability and compatibility must be confirmed directly
-with the people involved.
-</p>
-
-<a class="btn" href="members.html">Join to connect</a>
 </div>
 </section>
 
@@ -523,113 +471,11 @@ c=>({
 })[c]
 );
 
-let mode="listings";
-let rows=[];
-let request=0;
 let client=null;
 
 let me=null;
 let notificationTimer=null;
 let checkingNotifications=false;
-
-function render(){
-const q=$("query").value.trim().toLowerCase();
-const place=$("region").value.trim().toLowerCase();
-
-const matches=rows.filter(r=>{
-const text=Object.values(r)
-.filter(v=>typeof v==="string")
-.join(" ").toLowerCase();
-
-const location=String(
-r.region??r.location??r.city??r.state??""
-).toLowerCase();
-
-return (!q||text.includes(q))&&
-(!place||location.includes(place)||text.includes(place));
-});
-
-$("discovery-status").textContent=
-matches.length+" public "+
-(mode==="listings"?
-"opportunit"+(matches.length===1?"y":"ies"):
-"member"+(matches.length===1?"":"s"))+
-" found.";
-
-$("discovery-results").innerHTML=matches.length?
-matches.slice(0,60).map(r=>{
-const name=mode==="listings"?
-(r.title||"Community opportunity"):
-(r.display_name||r.name||"Community member");
-
-const description=r.description||r.bio||r.about||"";
-const region=r.region||r.location||r.city||"";
-const type=mode==="listings"?
-(r.listing_type||r.arrangement||"Opportunity"):
-(r.role||"Member");
-
-return `
-<article class="result">
-<h3>${escapeHTML(name)}</h3>
-<span class="tag">${escapeHTML(type)}</span>
-${region?
-`<span class="tag">${escapeHTML(region)}</span>`:""}
-<p>${escapeHTML(description).slice(0,650)}</p>
-<a href="members.html">Sign in to connect</a>
-</article>`;
-}).join(""):
-"<p>No matching public entries. Try a broader search.</p>";
-}
-
-async function load(next){
-mode=next;
-const token=++request;
-
-$("tab-listings").setAttribute(
-"aria-pressed",String(mode==="listings")
-);
-$("tab-people").setAttribute(
-"aria-pressed",String(mode==="people")
-);
-
-$("discovery-status").textContent=
-"Loading public "+
-(mode==="listings"?"opportunities":"people")+"…";
-
-$("discovery-results").replaceChildren();
-
-let result;
-try{
-if(mode==="listings"){
-result=await client.from("listings")
-.select(
-"id,title,description,region,listing_type,arrangement,updated_at"
-)
-.eq("status","published")
-.order("updated_at",{ascending:false})
-.limit(200);
-}else{
-result=await client.rpc("shon_public_directory");
-}
-
-if(token!==request)return;
-
-if(result.error){
-$("discovery-status").textContent=
-"Public directory unavailable: "+result.error.message;
-return;
-}
-
-rows=Array.isArray(result.data)?result.data:[];
-render();
-
-}catch(error){
-if(token===request){
-$("discovery-status").textContent=
-"Could not load public directory: "+error.message;
-}
-}
-}
 
 function readMarkers(){
 if(!me)return {};
@@ -768,21 +614,6 @@ console.warn(
 }
 }
 
-$("tab-listings").addEventListener(
-"click",()=>load("listings")
-);
-$("tab-people").addEventListener(
-"click",()=>load("people")
-);
-$("query").addEventListener("input",render);
-$("region").addEventListener("input",render);
-
-$("clear").addEventListener("click",()=>{
-$("query").value="";
-$("region").value="";
-render();
-});
-
 $("resource-search").addEventListener("click",()=>{
 const where=$("resource-location").value.trim();
 
@@ -829,8 +660,7 @@ checkNotifications();
 });
 
 if(!window.supabase?.createClient){
-$("discovery-status").textContent=
-"Public directory temporarily unavailable: Database library did not load.";
+console.warn("Supabase library did not load; notifications unavailable.");
 return;
 }
 
@@ -843,7 +673,6 @@ detectSessionInUrl:true
 }
 });
 
-load("listings");
 initializeNotifications();
 
 })();
