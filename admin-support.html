@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SHONnetwork Administrator Inbox</title>
+<style>
+*{box-sizing:border-box}
+body{font-family:Arial,Helvetica,sans-serif;background:#f5f8f7;color:#23332d;margin:0;line-height:1.5}
+header{background:white;border-bottom:1px solid #dce5e1;padding:18px}
+.wrap{max-width:1050px;margin:auto}
+.brand{font-size:25px;font-weight:800;color:#142b25;text-decoration:none}
+.brand span{font-weight:400}
+main{max-width:1000px;margin:25px auto;padding:0 16px}
+.panel{background:white;border:1px solid #dce5e1;border-radius:12px;padding:20px;margin:15px 0}
+.ticket{border:1px solid #dce5e1;border-radius:10px;margin:12px 0;padding:15px}
+button,select,textarea{font:inherit;border-radius:8px;padding:10px}
+button{background:#16654f;color:white;border:0;cursor:pointer;margin:8px 5px 8px 0}
+button:disabled{opacity:.6}
+select,textarea{border:1px solid #aebeb8}
+textarea{display:block;width:100%;min-height:110px}
+.message{background:#f5f8f7;border-left:3px solid #9eb9ae;margin:10px 0;padding:12px;white-space:pre-wrap;overflow-wrap:anywhere}
+small{color:#586b63}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<header>
+<div class="wrap">
+<a class="brand" href="index.html">🏡 SHON<span>network</span></a>
+<p>Private Support Administration</p>
+</div>
+</header>
+<main>
+<section class="panel">
+<h1>SHONnetwork Administrator Inbox</h1>
+<p id="status" role="status">Checking administrator access...</p>
+<button id="refresh" hidden>Refresh inbox</button>
+</section>
+<section class="panel" id="inbox-section" hidden>
+<h2>Support inquiries</h2>
+<div id="inbox"></div>
+</section>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const URL="https://wqcninwqeyfoyxlllwdy.supabase.co";
+const KEY="sb_publishable_YTHhpIPiKKHGBLMdkj_4og_Uyq_t_SX";
+const db=window.supabase.createClient(URL,KEY,{
+auth:{storageKey:"sb-wqcninwqeyfoyxlllwdy-auth-token"}
+});
+const el=id=>document.getElementById(id);
+let me=null;
+function node(tag,text,className){
+const e=document.createElement(tag);
+if(text!==undefined)e.textContent=text;
+if(className)e.className=className;
+return e;
+}
+function date(s){return new Date(s).toLocaleString()}
+async function start(){
+try{
+const {data,error}=await db.auth.getUser();
+if(error||!data.user){
+el("status").textContent="Please sign in to SHONnetwork first.";
+return;
+}
+me=data.user;
+const {data:role,error:roleError}=await db
+.from("shon_support_admins")
+.select("user_id")
+.eq("user_id",me.id)
+.maybeSingle();
+if(roleError)throw roleError;
+if(!role){
+el("status").textContent="Access restricted to authorized SHONnetwork support administrators.";
+return;
+}
+el("status").textContent="Administrator access confirmed.";
+el("refresh").hidden=false;
+el("inbox-section").hidden=false;
+await loadInbox();
+}catch(e){el("status").textContent=e.message}
+}
+async function loadInbox(){
+const target=el("inbox");
+target.replaceChildren(node("p","Loading inquiries..."));
+const {data,error}=await db
+.from("shon_support_tickets")
+.select("id,user_id,subject,category,status,created_at")
+.order("created_at",{ascending:false});
+target.replaceChildren();
+if(error){target.textContent=error.message;return}
+if(!data.length){target.textContent="No inquiries have arrived yet.";return}
+for(const t of data){
+const box=node("article",undefined,"ticket");
+box.append(node("h3",t.subject));
+box.append(node("small",t.category+" · "+date(t.created_at)));
+const statusLine=node("div");
+statusLine.append(node("strong","Status: "));
+const select=node("select");
+for(const s of ["new","in_progress","answered","closed"]){
+const opt=node("option",s.replaceAll("_"," "));
+opt.value=s;
+opt.selected=s===t.status;
+select.append(opt);
+}
+const save=node("button","Update status");
+save.onclick=async()=>{
+save.disabled=true;
+const {error:e}=await db.from("shon_support_tickets")
+.update({status:select.value,updated_at:new Date().toISOString()})
+.eq("id",t.id);
+save.disabled=false;
+if(e)alert(e.message);
+else{statusText.textContent="Status updated.";t.status=select.value}
+};
+const statusText=node("small");
+statusLine.append(select,save,statusText);
+box.append(statusLine);
+const messages=node("div");
+const open=node("button","Open conversation");
+open.onclick=async()=>{
+open.disabled=true;
+messages.textContent="Loading...";
+const {data:rows,error:e}=await db
+.from("shon_support_messages")
+.select("sender_id,body,created_at")
+.eq("ticket_id",t.id)
+.order("created_at",{ascending:true});
+messages.replaceChildren();
+if(e){messages.textContent=e.message;open.disabled=false;return}
+for(const m of rows){
+const b=node("div",undefined,"message");
+b.append(node("strong",m.sender_id===me.id?"SHONnetwork Support":"Member"));
+b.append(node("div",m.body));
+b.append(node("small",date(m.created_at)));
+messages.append(b);
+}
+const form=node("form");
+const input=node("textarea");
+input.placeholder="Write your response";
+input.maxLength=10000;
+input.required=true;
+const send=node("button","Send response");
+send.type="submit";
+const feedback=node("div");
+form.append(input,send,feedback);
+form.onsubmit=async ev=>{
+ev.preventDefault();
+const body=input.value.trim();
+if(!body)return;
+send.disabled=true;
+const {error:sendError}=await db.from("shon_support_messages")
+.insert({ticket_id:t.id,sender_id:me.id,body});
+if(sendError){
+feedback.textContent=sendError.message;
+send.disabled=false;
+return;
+}
+const {error:statusError}=await db.from("shon_support_tickets")
+.update({status:"answered",updated_at:new Date().toISOString()})
+.eq("id",t.id);
+if(statusError)feedback.textContent="Response sent, but status could not be updated.";
+else{select.value="answered";t.status="answered"}
+send.disabled=false;
+open.click();
+};
+messages.append(form);
+open.textContent="Refresh conversation";
+open.disabled=false;
+};
+box.append(open,messages);
+target.append(box);
+}
+}
+el("refresh").onclick=loadInbox;
+start();
+</script>
+</body>
+</html>
