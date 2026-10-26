@@ -7,36 +7,882 @@
 <meta name="description" content="SHONnetwork brings people together to discover homes, build compatible households, share opportunities, and form lasting communities.">
 <title>SHONnetwork | People. Homes. Possibilities.</title>
 <style>
-:root{font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:#1b3c31;background:#fbfcf8}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;line-height:1.55}a{color:#155d47}button,input,select{font:inherit}button,a{touch-action:manipulation}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #a75b13;outline-offset:3px}.skip{position:absolute;left:-9999px}.skip:focus{left:12px;top:12px;background:white;padding:12px;z-index:10}header{background:#fffdf7;border-bottom:1px solid #d8e7d8}.bar{max-width:1160px;margin:auto;padding:13px 20px;display:flex;align-items:center;justify-content:space-between;gap:15px}.brand{display:flex;align-items:center;gap:8px;text-decoration:none;color:#111;white-space:nowrap}.house{font-size:32px}.word{font-size:clamp(24px,3vw,32px);font-weight:850;letter-spacing:-.06em}.word span{font-weight:400}.brand small{display:block;font-size:10px;letter-spacing:0;color:#52675b}.nav{display:flex;gap:14px;align-items:center;flex-wrap:wrap}.nav a{font-size:14px;text-decoration:none;font-weight:700}.nav a:hover{text-decoration:underline}.support{background:#ffe2a2;padding:9px 12px;border-radius:9px}.menu{display:none}main{max-width:1160px;margin:auto;padding:0 20px}.hero{background:linear-gradient(125deg,#e4f2df,#e3f4f1 55%,#fff0d0);border-radius:22px;padding:46px 28px;margin-top:18px;text-align:center}.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:#337356;font-weight:800}.hero h1{font:clamp(34px,5vw,57px)/1.14 Georgia,serif;color:#184f3b;margin:12px auto;max-width:850px}.hero p{max-width:750px;margin:15px auto 23px;font-size:18px}.actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}.btn{display:inline-block;border:1px solid #145a44;background:#17624c;color:#fff;padding:11px 17px;border-radius:10px;text-decoration:none;font-weight:750;cursor:pointer;min-height:44px}.btn.secondary{background:#fff;color:#15543f}.section{padding:33px 0}.section h2{font:clamp(28px,3.5vw,39px) Georgia,serif;color:#174c3c;margin:0 0 10px}.section>p{max-width:850px;margin-top:5px}.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px;margin:19px 0}.card{border:1px solid #d9e6d9;border-radius:16px;padding:20px;background:#edf5e8}.card:nth-child(2){background:#e9f3fc}.card:nth-child(3){background:#fff0df}.card:nth-child(4){background:#faedf0}.card h3{font-size:19px;margin:8px 0}.card p{margin:0}.emoji{font-size:28px}.muted{color:#455e52}.browse{background:#fff;border:1px solid #d7e6da;border-radius:20px;padding:23px}.filters{display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:end;margin:15px 0}.filters label{font-weight:700;font-size:14px}.filters input,.filters select{width:100%;display:block;border:1px solid #829f90;border-radius:9px;padding:11px;min-height:44px;background:#fff;color:#193b30}.tabs{display:flex;gap:9px;flex-wrap:wrap}.tabs button{border:1px solid #9bb7a6;background:white;color:#174b3b;padding:9px 14px;border-radius:10px;cursor:pointer;min-height:44px;font-weight:750}.tabs button[aria-pressed=true]{background:#17624c;color:white}.results{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px}.result{border:1px solid #d7e6d9;border-radius:13px;padding:17px;background:#fafcf9;overflow-wrap:anywhere}.result h3{margin:0 0 5px;color:#194b3c}.result p{margin:7px 0}.tag{display:inline-block;font-size:12px;background:#e5f0e9;border-radius:30px;padding:4px 9px;margin:3px 5px 3px 0}.status{padding:12px;background:#f2f8f2;border-radius:9px;margin-top:12px}.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.step{background:#fff8e8;border:1px solid #eee2c8;border-radius:15px;padding:19px}.step strong{font-size:20px;color:#164b3b}.resource{background:#e9f4f0;border-radius:20px;padding:25px}.resource-links{display:flex;gap:10px;flex-wrap:wrap;margin-top:15px}.resource-links a{padding:10px 13px;background:white;border:1px solid #bdd6c6;border-radius:10px;font-weight:700}.note{font-size:14px;color:#4b6357}.closing{background:#174c3c;color:#fff4dc;border-radius:18px;padding:28px;text-align:center}.closing h2{color:#fff4dc}.footer{margin-top:30px;background:#123e32;color:#fff1d8;text-align:center;padding:26px 16px}.footer a{color:#fff1d8}.footer p{margin:5px 0}@media(max-width:920px){.nav{display:none}.menu{display:block}.menu summary{cursor:pointer;border:1px solid #9bb7a6;border-radius:9px;padding:10px;font-weight:700}.menu nav{position:absolute;right:15px;top:65px;z-index:5;background:white;border:1px solid #d4e4d8;border-radius:12px;box-shadow:0 9px 25px #163f3320;padding:13px;display:flex;flex-direction:column;gap:11px}.menu nav a{font-weight:700;text-decoration:none}.grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:600px){main{padding:0 12px}.bar{padding:10px 12px}.brand small{font-size:9px}.house{font-size:25px}.hero{padding:32px 16px}.hero p{font-size:16px}.grid,.results,.steps,.filters{grid-template-columns:1fr}.browse,.resource{padding:17px}.actions .btn{width:100%;text-align:center}.section{padding:24px 0}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+:root{
+font-family:system-ui,-apple-system,Segoe UI,sans-serif;
+color:#1b3c31;background:#fbfcf8
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;line-height:1.55}
+a{color:#155d47}
+button,input,select{font:inherit}
+button,a{touch-action:manipulation}
+button:focus-visible,a:focus-visible,
+input:focus-visible,select:focus-visible{
+outline:3px solid #a75b13;outline-offset:3px
+}
+.skip{position:absolute;left:-9999px}
+.skip:focus{
+left:12px;top:12px;background:white;
+padding:12px;z-index:10
+}
+header{
+background:#fffdf7;
+border-bottom:1px solid #d8e7d8
+}
+.bar{
+max-width:1160px;margin:auto;padding:13px 20px;
+display:flex;align-items:center;
+justify-content:space-between;gap:15px
+}
+.brand{
+display:flex;align-items:center;gap:8px;
+text-decoration:none;color:#111;white-space:nowrap
+}
+.house{font-size:32px}
+.word{
+font-size:clamp(24px,3vw,32px);
+font-weight:850;letter-spacing:-.06em
+}
+.word span{font-weight:400}
+.brand small{
+display:block;font-size:10px;
+letter-spacing:0;color:#52675b
+}
+.nav{
+display:flex;gap:14px;
+align-items:center;flex-wrap:wrap
+}
+.nav a{
+font-size:14px;text-decoration:none;font-weight:700
+}
+.nav a:hover{text-decoration:underline}
+.support{
+background:#ffe2a2;padding:9px 12px;border-radius:9px
+}
+.menu{display:none}
+main{max-width:1160px;margin:auto;padding:0 20px}
+.hero{
+background:linear-gradient(125deg,#e4f2df,#e3f4f1 55%,#fff0d0);
+border-radius:22px;padding:46px 28px;
+margin-top:18px;text-align:center
+}
+.eyebrow{
+font-size:12px;text-transform:uppercase;
+letter-spacing:.12em;color:#337356;font-weight:800
+}
+.hero h1{
+font:clamp(34px,5vw,57px)/1.14 Georgia,serif;
+color:#184f3b;margin:12px auto;max-width:850px
+}
+.hero p{
+max-width:750px;margin:15px auto 23px;font-size:18px
+}
+.actions{
+display:flex;justify-content:center;
+gap:10px;flex-wrap:wrap
+}
+.btn{
+display:inline-block;border:1px solid #145a44;
+background:#17624c;color:#fff;
+padding:11px 17px;border-radius:10px;
+text-decoration:none;font-weight:750;
+cursor:pointer;min-height:44px
+}
+.btn.secondary{background:#fff;color:#15543f}
+.section{padding:33px 0}
+.section h2{
+font:clamp(28px,3.5vw,39px) Georgia,serif;
+color:#174c3c;margin:0 0 10px
+}
+.section>p{max-width:850px;margin-top:5px}
+.grid{
+display:grid;
+grid-template-columns:repeat(4,minmax(0,1fr));
+gap:13px;margin:19px 0
+}
+.card{
+border:1px solid #d9e6d9;
+border-radius:16px;padding:20px;background:#edf5e8
+}
+.card:nth-child(2){background:#e9f3fc}
+.card:nth-child(3){background:#fff0df}
+.card:nth-child(4){background:#faedf0}
+.card h3{font-size:19px;margin:8px 0}
+.card p{margin:0}
+.emoji{font-size:28px}
+.muted{color:#455e52}
+.browse{
+background:#fff;border:1px solid #d7e6da;
+border-radius:20px;padding:23px
+}
+.filters{
+display:grid;grid-template-columns:1fr 1fr auto;
+gap:10px;align-items:end;margin:15px 0
+}
+.filters label{font-weight:700;font-size:14px}
+.filters input,.filters select{
+width:100%;display:block;
+border:1px solid #829f90;
+border-radius:9px;padding:11px;
+min-height:44px;background:#fff;color:#193b30
+}
+.tabs{display:flex;gap:9px;flex-wrap:wrap}
+.tabs button{
+border:1px solid #9bb7a6;background:white;
+color:#174b3b;padding:9px 14px;
+border-radius:10px;cursor:pointer;
+min-height:44px;font-weight:750
+}
+.tabs button[aria-pressed=true]{
+background:#17624c;color:white
+}
+.results{
+display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+gap:12px;margin-top:14px
+}
+.result{
+border:1px solid #d7e6d9;border-radius:13px;
+padding:17px;background:#fafcf9;
+overflow-wrap:anywhere
+}
+.result h3{margin:0 0 5px;color:#194b3c}
+.result p{margin:7px 0}
+.tag{
+display:inline-block;font-size:12px;
+background:#e5f0e9;border-radius:30px;
+padding:4px 9px;margin:3px 5px 3px 0
+}
+.status{
+padding:12px;background:#f2f8f2;
+border-radius:9px;margin-top:12px
+}
+.steps{
+display:grid;grid-template-columns:repeat(3,1fr);gap:14px
+}
+.step{
+background:#fff8e8;border:1px solid #eee2c8;
+border-radius:15px;padding:19px
+}
+.step strong{font-size:20px;color:#164b3b}
+.resource{
+background:#e9f4f0;border-radius:20px;padding:25px
+}
+.resource-links{
+display:flex;gap:10px;flex-wrap:wrap;margin-top:15px
+}
+.resource-links a{
+padding:10px 13px;background:white;
+border:1px solid #bdd6c6;border-radius:10px;
+font-weight:700
+}
+.note{font-size:14px;color:#4b6357}
+.closing{
+background:#174c3c;color:#fff4dc;
+border-radius:18px;padding:28px;text-align:center
+}
+.closing h2{color:#fff4dc}
+.footer{
+margin-top:30px;background:#123e32;
+color:#fff1d8;text-align:center;padding:26px 16px
+}
+.footer a{color:#fff1d8}
+.footer p{margin:5px 0}
+
+/* Member notification bell */
+.shon-bell{
+display:inline-flex;
+align-items:center;
+justify-content:center;
+gap:6px;
+white-space:nowrap;
+text-decoration:none!important;
+color:#173b32!important;
+background:#fff3cf;
+border:1px solid #cfb56b;
+border-radius:9px;
+padding:9px 11px;
+font-size:14px;
+font-weight:750;
+min-height:44px
+}
+.shon-bell:hover{background:#ffe9a7}
+.shon-bell[hidden],
+.bell-count[hidden]{display:none!important}
+.bell-count{
+display:inline-block;
+background:#b43427;
+color:white;
+border-radius:99px;
+padding:2px 8px;
+font-size:12px;
+font-weight:800;
+line-height:1.5
+}
+
+@media(max-width:920px){
+.nav{display:none}
+.menu{display:block}
+.menu summary{
+cursor:pointer;border:1px solid #9bb7a6;
+border-radius:9px;padding:10px;font-weight:700
+}
+.menu nav{
+position:absolute;right:15px;top:65px;z-index:5;
+background:white;border:1px solid #d4e4d8;
+border-radius:12px;
+box-shadow:0 9px 25px #163f3320;
+padding:13px;display:flex;
+flex-direction:column;gap:11px
+}
+.menu nav a{font-weight:700;text-decoration:none}
+.grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:600px){
+main{padding:0 12px}
+.bar{padding:10px 12px}
+.brand small{font-size:9px}
+.house{font-size:25px}
+.hero{padding:32px 16px}
+.hero p{font-size:16px}
+.grid,.results,.steps,.filters{grid-template-columns:1fr}
+.browse,.resource{padding:17px}
+.actions .btn{width:100%;text-align:center}
+.section{padding:24px 0}
+}
+@media(prefers-reduced-motion:reduce){
+html{scroll-behavior:auto}
+}
 </style>
 </head>
 <body>
+
 <a class="skip" href="#main">Skip to content</a>
-<header><div class="bar"><a class="brand" href="index.html"><span class="house" aria-hidden="true">🏡</span><span><span class="word">SHON<span>network</span></span><small>Supported Housing Opportunity Network</small></span></a><nav class="nav" aria-label="Main navigation"><a href="#explore">Explore</a><a href="#how">How it works</a><a href="#resources">Resources</a><a href="#about">About</a><a href="members.html">Join / Sign in</a><a class="support" href="mailto:info@shonnetwork.org?subject=Support%20SHON">♥ Support SHON</a></nav><details class="menu"><summary>Menu ☰</summary><nav aria-label="Mobile navigation"><a href="#explore">Explore</a><a href="#how">How it works</a><a href="#resources">Resources</a><a href="#about">About</a><a href="members.html">Join / Sign in</a><a href="mailto:info@shonnetwork.org?subject=Support%20SHON">Support SHON</a></nav></details></div></header>
+
+<header>
+<div class="bar">
+<a class="brand" href="index.html">
+<span class="house" aria-hidden="true">🏡</span>
+<span>
+<span class="word">SHON<span>network</span></span>
+<small>Supported Housing Opportunity Network</small>
+</span>
+</a>
+
+<nav class="nav" aria-label="Main navigation">
+<a href="#explore">Explore</a>
+<a href="#how">How it works</a>
+<a href="#resources">Resources</a>
+<a href="#about">About</a>
+<a href="members.html">Join / Sign in</a>
+<a id="shon-bell-desktop"
+   class="shon-bell"
+   href="connections.html"
+   hidden
+   aria-label="Messages">
+🔔 Messages
+<span id="bell-count-desktop" class="bell-count" hidden></span>
+</a>
+<a class="support"
+   href="mailto:info@shonnetwork.org?subject=Support%20SHON">
+♥ Support SHON
+</a>
+</nav>
+
+<details class="menu">
+<summary>Menu ☰</summary>
+<nav aria-label="Mobile navigation">
+<a href="#explore">Explore</a>
+<a href="#how">How it works</a>
+<a href="#resources">Resources</a>
+<a href="#about">About</a>
+<a href="members.html">Join / Sign in</a>
+<a id="shon-bell-mobile"
+   class="shon-bell"
+   href="connections.html"
+   hidden
+   aria-label="Messages">
+🔔 Messages
+<span id="bell-count-mobile" class="bell-count" hidden></span>
+</a>
+<a href="mailto:info@shonnetwork.org?subject=Support%20SHON">
+Support SHON
+</a>
+</nav>
+</details>
+</div>
+</header>
+
 <main id="main">
-<section class="hero"><div class="eyebrow">People. Places. Possibilities.</div><h1>A place to belong.<br>People to share it with.</h1><p>Discover compatible people, homes, households, extended families, and communities. Share what you can, find what you need, and imagine what we might create together. Free to participate. People before profit.</p><div class="actions"><a class="btn" href="#explore">Explore opportunities</a><a class="btn secondary" href="members.html">Join SHONnetwork / Sign in</a></div></section>
-<section class="section" id="pathways"><h2>Different lives. Shared possibilities.</h2><p>Who are you? What kind of life would you enjoy sharing with others? What do you need, what can you offer, and what might we create together?</p><div class="grid"><article class="card"><div class="emoji">🏠</div><h3>Find a home</h3><p>Explore rooms, shared homes, and other arrangements based on mutual agreement.</p></article><article class="card"><div class="emoji">🌱</div><h3>Share a home</h3><p>Welcome a compatible person or household into a living space or community.</p></article><article class="card"><div class="emoji">🤝</div><h3>Meet your people</h3><p>Discover companionship, friendship, and meaningful reciprocal connections.</p></article><article class="card"><div class="emoji">🌻</div><h3>Build a community</h3><p>Bring together people who want to create and sustain a shared life.</p></article></div></section>
-<section class="section" id="explore"><div class="browse"><div class="eyebrow">Public discovery</div><h2>Explore people and opportunities</h2><p>Search publicly shared opportunities and member directory entries. You can browse without an account; contact and member tools are available after signing in.</p><div class="tabs"><button type="button" id="tab-listings" aria-pressed="true">Opportunities</button><button type="button" id="tab-people" aria-pressed="false">People</button></div><div class="filters"><label>Search by words<input id="query" placeholder="Interests, home, companionship, pets…"></label><label>Location or region<input id="region" placeholder="City, state, or region"></label><button type="button" class="btn secondary" id="clear">Clear filters</button></div><div id="discovery-status" class="status" role="status" aria-live="polite">Loading public opportunities…</div><div class="results" id="discovery-results"></div><p class="note">Only information deliberately made public should appear here. Availability and compatibility must be confirmed directly with the people involved.</p><a class="btn" href="members.html">Join to connect</a></div></section>
-<section class="section" id="how"><h2>How SHONnetwork works</h2><div class="steps"><div class="step"><strong>1. Discover</strong><p>Browse opportunities and people, then join when you're ready.</p></div><div class="step"><strong>2. Tell your story</strong><p>Complete one profile with your interests, needs, offers, household preferences, and the life you hope to share.</p></div><div class="step"><strong>3. Connect by choice</strong><p>Explore compatibility, communicate privately, and decide together what arrangement makes sense.</p></div></div></section>
-<section class="section" id="resources"><div class="resource"><div class="eyebrow">Practical support</div><h2>Useful resources</h2><p>Looking for food, libraries, laundry, fitness facilities, or local assistance? These searches can help you find options near a location you choose.</p><label for="resource-location"><strong>Enter a city, state, or ZIP code</strong></label><div class="filters"><input id="resource-location" placeholder="City, state, or ZIP" aria-label="Resource search location"><button class="btn" id="resource-search" type="button">Find resources</button></div><div class="resource-links" id="resource-links"><a href="https://www.findhelp.org/" target="_blank" rel="noopener noreferrer">Findhelp</a><a href="https://www.211.org/" target="_blank" rel="noopener noreferrer">211 resources</a><a href="https://www.hud.gov/findshelter" target="_blank" rel="noopener noreferrer">HUD Find Shelter</a></div><p class="note">These links open external resources. SHONnetwork does not independently verify eligibility, operating hours, or current availability.</p></div></section>
-<section class="section" id="about"><h2>A people-centered network</h2><p>SHONnetwork exists to help people discover, form, and sustain compatible homes, households, extended families, and communities through voluntary, mutually beneficial relationships. It is not simply a rental directory or a dating site.</p><p>Some people have space to share. Others have skills, presence, friendship, experience, or ideas. SHONnetwork makes room for those possibilities without treating a person's income as the measure of their worth.</p><p class="muted">SHONnetwork is developing additional community, learning, social, and collaboration features. Features not yet available are not presented as active services.</p></section>
-<section class="section"><div class="closing"><h2>The home is the opportunity.<br>The people are the heart of it.</h2><p>Different lives. Shared possibilities. A place for everyone to belong.</p><a class="btn secondary" href="members.html">Join SHONnetwork</a></div></section>
-</main><footer class="footer"><p><strong>SHONnetwork</strong> · Supported Housing Opportunity Network</p><p>People before profit · Free to participate</p><p><a href="mailto:info@shonnetwork.org">Contact</a> · <a href="mailto:info@shonnetwork.org?subject=Supporting%20SHON">Support SHON</a></p></footer>
+
+<section class="hero">
+<div class="eyebrow">People. Places. Possibilities.</div>
+<h1>A place to belong.<br>People to share it with.</h1>
+<p>
+Discover compatible people, homes, households,
+extended families, and communities.
+Share what you can, find what you need,
+and imagine what we might create together.
+Free to participate. People before profit.
+</p>
+<div class="actions">
+<a class="btn" href="#explore">Explore opportunities</a>
+<a class="btn secondary" href="members.html">
+Join SHONnetwork / Sign in
+</a>
+</div>
+</section>
+
+<section class="section" id="pathways">
+<h2>Different lives. Shared possibilities.</h2>
+<p>
+Who are you? What kind of life would you enjoy sharing
+with others? What do you need, what can you offer,
+and what might we create together?
+</p>
+
+<div class="grid">
+<article class="card">
+<div class="emoji">🏠</div>
+<h3>Find a home</h3>
+<p>Explore rooms, shared homes, and other arrangements based on mutual agreement.</p>
+</article>
+
+<article class="card">
+<div class="emoji">🌱</div>
+<h3>Share a home</h3>
+<p>Welcome a compatible person or household into a living space or community.</p>
+</article>
+
+<article class="card">
+<div class="emoji">🤝</div>
+<h3>Meet your people</h3>
+<p>Discover companionship, friendship, and meaningful reciprocal connections.</p>
+</article>
+
+<article class="card">
+<div class="emoji">🌻</div>
+<h3>Build a community</h3>
+<p>Bring together people who want to create and sustain a shared life.</p>
+</article>
+</div>
+</section>
+
+<section class="section" id="explore">
+<div class="browse">
+<div class="eyebrow">Public discovery</div>
+<h2>Explore people and opportunities</h2>
+<p>
+Search publicly shared opportunities and member directory
+entries. You can browse without an account; contact and
+member tools are available after signing in.
+</p>
+
+<div class="tabs">
+<button type="button" id="tab-listings" aria-pressed="true">
+Opportunities
+</button>
+<button type="button" id="tab-people" aria-pressed="false">
+People
+</button>
+</div>
+
+<div class="filters">
+<label>
+Search by words
+<input id="query" placeholder="Interests, home, companionship, pets…">
+</label>
+<label>
+Location or region
+<input id="region" placeholder="City, state, or region">
+</label>
+<button type="button" class="btn secondary" id="clear">
+Clear filters
+</button>
+</div>
+
+<div id="discovery-status"
+     class="status"
+     role="status"
+     aria-live="polite">
+Loading public opportunities…
+</div>
+
+<div class="results" id="discovery-results"></div>
+
+<p class="note">
+Only information deliberately made public should appear here.
+Availability and compatibility must be confirmed directly
+with the people involved.
+</p>
+
+<a class="btn" href="members.html">Join to connect</a>
+</div>
+</section>
+
+<section class="section" id="how">
+<h2>How SHONnetwork works</h2>
+<div class="steps">
+<div class="step">
+<strong>1. Discover</strong>
+<p>Browse opportunities and people, then join when you're ready.</p>
+</div>
+<div class="step">
+<strong>2. Tell your story</strong>
+<p>Complete one profile with your interests, needs, offers, household preferences, and the life you hope to share.</p>
+</div>
+<div class="step">
+<strong>3. Connect by choice</strong>
+<p>Explore compatibility, communicate privately, and decide together what arrangement makes sense.</p>
+</div>
+</div>
+</section>
+
+<section class="section" id="resources">
+<div class="resource">
+<div class="eyebrow">Practical support</div>
+<h2>Useful resources</h2>
+<p>
+Looking for food, libraries, laundry, fitness facilities,
+or local assistance? These searches can help you find
+options near a location you choose.
+</p>
+
+<label for="resource-location">
+<strong>Enter a city, state, or ZIP code</strong>
+</label>
+
+<div class="filters">
+<input id="resource-location"
+       placeholder="City, state, or ZIP"
+       aria-label="Resource search location">
+<button class="btn" id="resource-search" type="button">
+Find resources
+</button>
+</div>
+
+<div class="resource-links" id="resource-links">
+<a href="https://www.findhelp.org/"
+   target="_blank" rel="noopener noreferrer">
+Findhelp
+</a>
+<a href="https://www.211.org/"
+   target="_blank" rel="noopener noreferrer">
+211 resources
+</a>
+<a href="https://www.hud.gov/findshelter"
+   target="_blank" rel="noopener noreferrer">
+HUD Find Shelter
+</a>
+</div>
+
+<p class="note">
+These links open external resources. SHONnetwork does not
+independently verify eligibility, operating hours,
+or current availability.
+</p>
+</div>
+</section>
+
+<section class="section" id="about">
+<h2>A people-centered network</h2>
+<p>
+SHONnetwork exists to help people discover, form,
+and sustain compatible homes, households, extended families,
+and communities through voluntary, mutually beneficial
+relationships. It is not simply a rental directory
+or a dating site.
+</p>
+<p>
+Some people have space to share. Others have skills,
+presence, friendship, experience, or ideas.
+SHONnetwork makes room for those possibilities without
+treating a person's income as the measure of their worth.
+</p>
+<p class="muted">
+SHONnetwork is developing additional community,
+learning, social, and collaboration features.
+Features not yet available are not presented as active services.
+</p>
+</section>
+
+<section class="section">
+<div class="closing">
+<h2>
+The home is the opportunity.<br>
+The people are the heart of it.
+</h2>
+<p>
+Different lives. Shared possibilities.
+A place for everyone to belong.
+</p>
+<a class="btn secondary" href="members.html">
+Join SHONnetwork
+</a>
+</div>
+</section>
+
+</main>
+
+<footer class="footer">
+<p>
+<strong>SHONnetwork</strong> · Supported Housing Opportunity Network
+</p>
+<p>People before profit · Free to participate</p>
+<p>
+<a href="mailto:info@shonnetwork.org">Contact</a>
+·
+<a href="mailto:info@shonnetwork.org?subject=Supporting%20SHON">
+Support SHON
+</a>
+</p>
+</footer>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.0/dist/umd/supabase.min.js"></script>
+
 <script>
-(()=>{'use strict';
-const URL='https://wqcninwqeyfoyxlllwdy.supabase.co';
-const KEY='sb_publishable_YTHhpIPiKKHGBLMdkj_4og_Uyq_t_SX';
+(()=>{
+"use strict";
+
+const URL="https://wqcninwqeyfoyxlllwdy.supabase.co";
+const KEY="sb_publishable_YTHhpIPiKKHGBLMdkj_4og_Uyq_t_SX";
+const AUTH_KEY="sb-wqcninwqeyfoyxlllwdy-auth-token";
 const $=id=>document.getElementById(id);
-const escapeHTML=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-let mode='listings', rows=[], request=0;
+
+const escapeHTML=v=>String(v??"").replace(
+/[&<>"']/g,
+c=>({
+"&":"&amp;",
+"<":"&lt;",
+">":"&gt;",
+'"':"&quot;",
+"'":"&#39;"
+})[c]
+);
+
+let mode="listings";
+let rows=[];
+let request=0;
 let client=null;
-try{if(!window.supabase)throw Error('Database library did not load');client=window.supabase.createClient(URL,KEY,{auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}})}catch(e){$('discovery-status').textContent='Public directory temporarily unavailable: '+e.message;return}
-function render(){const q=$('query').value.trim().toLowerCase(),place=$('region').value.trim().toLowerCase();const matches=rows.filter(r=>{const text=Object.values(r).filter(v=>typeof v==='string').join(' ').toLowerCase();const location=String(r.region??r.location??r.city??r.state??'').toLowerCase();return (!q||text.includes(q))&&(!place||location.includes(place)||text.includes(place))});$('discovery-status').textContent=`${matches.length} public ${mode==='listings'?'opportunit'+(matches.length===1?'y':'ies'):'member'+(matches.length===1?'':'s')} found.`;$('discovery-results').innerHTML=matches.length?matches.slice(0,60).map(r=>{const name=mode==='listings'?(r.title||'Community opportunity'):(r.display_name||r.name||'Community member');const description=r.description||r.bio||r.about||'';const region=r.region||r.location||r.city||'';const type=mode==='listings'?(r.listing_type||r.arrangement||'Opportunity'):(r.role||'Member');return `<article class="result"><h3>${escapeHTML(name)}</h3><span class="tag">${escapeHTML(type)}</span>${region?`<span class="tag">${escapeHTML(region)}</span>`:''}<p>${escapeHTML(description).slice(0,650)}</p><a href="members.html">Sign in to connect</a></article>`}).join(''):'<p>No matching public entries. Try a broader search.</p>'}
-async function load(next){mode=next;const token=++request;$('tab-listings').setAttribute('aria-pressed',String(mode==='listings'));$('tab-people').setAttribute('aria-pressed',String(mode==='people'));$('discovery-status').textContent='Loading public '+(mode==='listings'?'opportunities':'people')+'…';$('discovery-results').replaceChildren();let result;if(mode==='listings'){result=await client.from('listings').select('id,title,description,region,listing_type,arrangement,updated_at').eq('status','published').order('updated_at',{ascending:false}).limit(200)}else{result=await client.rpc('shon_public_directory')}if(token!==request)return;if(result.error){$('discovery-status').textContent='Public directory unavailable: '+result.error.message;return}rows=Array.isArray(result.data)?result.data:[];render()}
-$('tab-listings').addEventListener('click',()=>load('listings'));$('tab-people').addEventListener('click',()=>load('people'));$('query').addEventListener('input',render);$('region').addEventListener('input',render);$('clear').addEventListener('click',()=>{$('query').value='';$('region').value='';render()});load('listings').catch(e=>{$('discovery-status').textContent='Could not load public opportunities: '+e.message});
-$('resource-search').addEventListener('click',()=>{const where=$('resource-location').value.trim();if(!where){$('resource-location').focus();return}const terms=[['Food assistance','free food pantry'],['Libraries','public library'],['Laundromats','laundromat'],['Fitness centers','fitness center'],['Shelters','homeless shelter'],['Local services','homeless assistance services']];$('resource-links').innerHTML=terms.map(([label,term])=>`<a target="_blank" rel="noopener noreferrer" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(term+' near '+where)}">${escapeHTML(label)}</a>`).join('')});
-document.querySelectorAll('.menu nav a').forEach(a=>a.addEventListener('click',()=>document.querySelector('.menu').open=false));
+
+let me=null;
+let notificationTimer=null;
+let checkingNotifications=false;
+
+function render(){
+const q=$("query").value.trim().toLowerCase();
+const place=$("region").value.trim().toLowerCase();
+
+const matches=rows.filter(r=>{
+const text=Object.values(r)
+.filter(v=>typeof v==="string")
+.join(" ").toLowerCase();
+
+const location=String(
+r.region??r.location??r.city??r.state??""
+).toLowerCase();
+
+return (!q||text.includes(q))&&
+(!place||location.includes(place)||text.includes(place));
+});
+
+$("discovery-status").textContent=
+matches.length+" public "+
+(mode==="listings"?
+"opportunit"+(matches.length===1?"y":"ies"):
+"member"+(matches.length===1?"":"s"))+
+" found.";
+
+$("discovery-results").innerHTML=matches.length?
+matches.slice(0,60).map(r=>{
+const name=mode==="listings"?
+(r.title||"Community opportunity"):
+(r.display_name||r.name||"Community member");
+
+const description=r.description||r.bio||r.about||"";
+const region=r.region||r.location||r.city||"";
+const type=mode==="listings"?
+(r.listing_type||r.arrangement||"Opportunity"):
+(r.role||"Member");
+
+return `
+<article class="result">
+<h3>${escapeHTML(name)}</h3>
+<span class="tag">${escapeHTML(type)}</span>
+${region?
+`<span class="tag">${escapeHTML(region)}</span>`:""}
+<p>${escapeHTML(description).slice(0,650)}</p>
+<a href="members.html">Sign in to connect</a>
+</article>`;
+}).join(""):
+"<p>No matching public entries. Try a broader search.</p>";
+}
+
+async function load(next){
+mode=next;
+const token=++request;
+
+$("tab-listings").setAttribute(
+"aria-pressed",String(mode==="listings")
+);
+$("tab-people").setAttribute(
+"aria-pressed",String(mode==="people")
+);
+
+$("discovery-status").textContent=
+"Loading public "+
+(mode==="listings"?"opportunities":"people")+"…";
+
+$("discovery-results").replaceChildren();
+
+let result;
+try{
+if(mode==="listings"){
+result=await client.from("listings")
+.select(
+"id,title,description,region,listing_type,arrangement,updated_at"
+)
+.eq("status","published")
+.order("updated_at",{ascending:false})
+.limit(200);
+}else{
+result=await client.rpc("shon_public_directory");
+}
+
+if(token!==request)return;
+
+if(result.error){
+$("discovery-status").textContent=
+"Public directory unavailable: "+result.error.message;
+return;
+}
+
+rows=Array.isArray(result.data)?result.data:[];
+render();
+
+}catch(error){
+if(token===request){
+$("discovery-status").textContent=
+"Could not load public directory: "+error.message;
+}
+}
+}
+
+function readMarkers(){
+if(!me)return {};
+try{
+const data=JSON.parse(
+localStorage.getItem("shon-message-read-v1-"+me)||"{}"
+);
+return data&&typeof data==="object"?data:{};
+}catch(error){
+return {};
+}
+}
+
+function setBell(count){
+for(const suffix of ["desktop","mobile"]){
+const bell=$("shon-bell-"+suffix);
+const badge=$("bell-count-"+suffix);
+
+bell.hidden=!me;
+badge.hidden=count===0;
+badge.textContent=count>99?"99+":String(count);
+
+bell.setAttribute(
+"aria-label",
+count?
+count+" unread messages. Open My Connections.":
+"Messages. Open My Connections."
+);
+}
+
+document.title=count?
+"("+count+") SHONnetwork | People. Homes. Possibilities.":
+"SHONnetwork | People. Homes. Possibilities.";
+}
+
+async function checkedQuery(query){
+const {data,error}=await query;
+if(error)throw error;
+return data||[];
+}
+
+async function checkNotifications(){
+if(!me||checkingNotifications)return;
+
+checkingNotifications=true;
+const checkingUser=me;
+
+try{
+const conversations=await checkedQuery(
+client.from("shon_conversations")
+.select("id,member_a,member_b")
+);
+
+const blocks=await checkedQuery(
+client.from("shon_blocks")
+.select("blocked")
+.eq("blocker",checkingUser)
+);
+
+const blocked=new Set(blocks.map(x=>x.blocked));
+
+const visible=conversations.filter(c=>
+!blocked.has(
+c.member_a===checkingUser?c.member_b:c.member_a
+)
+);
+
+const markers=readMarkers();
+let count=0;
+
+for(let offset=0;offset<visible.length;offset+=30){
+const ids=visible.slice(offset,offset+30)
+.map(c=>c.id);
+
+const messages=await checkedQuery(
+client.from("shon_messages")
+.select("conversation_id,sender,created_at")
+.in("conversation_id",ids)
+.order("created_at",{ascending:false})
+.limit(1000)
+);
+
+for(const message of messages){
+const timestamp=new Date(message.created_at).getTime();
+if(
+message.sender!==checkingUser&&
+timestamp>(
+Number(markers[String(message.conversation_id)])||0
+)
+){
+count++;
+}
+}
+}
+
+if(me===checkingUser)setBell(count);
+
+}catch(error){
+console.warn(
+"SHONnetwork notification check:",error.message
+);
+}finally{
+checkingNotifications=false;
+}
+}
+
+async function initializeNotifications(){
+try{
+const {data,error}=await client.auth.getUser();
+
+if(error||!data?.user)return;
+
+me=data.user.id;
+setBell(0);
+await checkNotifications();
+
+notificationTimer=setInterval(()=>{
+if(!document.hidden)checkNotifications();
+},30000);
+
+client.auth.onAuthStateChange((_event,session)=>{
+if(!session?.user){
+me=null;
+if(notificationTimer){
+clearInterval(notificationTimer);
+notificationTimer=null;
+}
+setBell(0);
+}
+});
+
+}catch(error){
+console.warn(
+"SHONnetwork notification setup:",error.message
+);
+}
+}
+
+$("tab-listings").addEventListener(
+"click",()=>load("listings")
+);
+$("tab-people").addEventListener(
+"click",()=>load("people")
+);
+$("query").addEventListener("input",render);
+$("region").addEventListener("input",render);
+
+$("clear").addEventListener("click",()=>{
+$("query").value="";
+$("region").value="";
+render();
+});
+
+$("resource-search").addEventListener("click",()=>{
+const where=$("resource-location").value.trim();
+
+if(!where){
+$("resource-location").focus();
+return;
+}
+
+const terms=[
+["Food assistance","free food pantry"],
+["Libraries","public library"],
+["Laundromats","laundromat"],
+["Fitness centers","fitness center"],
+["Shelters","homeless shelter"],
+["Local services","homeless assistance services"]
+];
+
+$("resource-links").innerHTML=terms.map(
+([label,term])=>
+`<a target="_blank" rel="noopener noreferrer"
+href="https://www.google.com/maps/search/?api=1&query=${
+encodeURIComponent(term+" near "+where)
+}">${escapeHTML(label)}</a>`
+).join("");
+});
+
+document.querySelectorAll(".menu nav a").forEach(a=>{
+a.addEventListener("click",()=>{
+document.querySelector(".menu").open=false;
+});
+});
+
+document.addEventListener("visibilitychange",()=>{
+if(!document.hidden&&me)checkNotifications();
+});
+
+window.addEventListener("storage",event=>{
+if(
+me&&
+event.key==="shon-message-read-v1-"+me
+){
+checkNotifications();
+}
+});
+
+if(!window.supabase?.createClient){
+$("discovery-status").textContent=
+"Public directory temporarily unavailable: Database library did not load.";
+return;
+}
+
+client=window.supabase.createClient(URL,KEY,{
+auth:{
+storageKey:AUTH_KEY,
+persistSession:true,
+autoRefreshToken:true,
+detectSessionInUrl:true
+}
+});
+
+load("listings");
+initializeNotifications();
+
 })();
 </script>
 </body>
