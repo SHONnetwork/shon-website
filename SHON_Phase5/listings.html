@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>My Listings | SHONnetwork</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f7f9f5;color:#173b32;font:16px/1.55 system-ui,Arial,sans-serif}
+header{background:#fff;border-bottom:1px solid #dce6dc;padding:14px 18px}
+.bar{max-width:1050px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.brand{font-size:27px;font-weight:800;color:#111;text-decoration:none}
+.brand span{font-weight:400}
+nav{display:flex;gap:12px;flex-wrap:wrap}
+nav a{color:#205342;text-decoration:none;font-weight:650}
+main{max-width:1000px;margin:auto;padding:24px 16px 70px}
+h1{font-size:clamp(29px,5vw,40px);margin:0 0 8px}
+h2{font-size:23px;margin:0 0 12px}
+.intro,.hint{color:#50675e}
+.panel{background:#fff;border:1px solid #d8e6dc;border-radius:14px;padding:21px;margin:18px 0}
+.notice{background:#e9f3e6;border-radius:10px;padding:14px;margin:16px 0}
+.error{background:#fff0ee;color:#842a25}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 15px}
+label{display:block;font-weight:650;margin:14px 0 5px}
+input,select,textarea{width:100%;min-height:44px;padding:10px;border:1px solid #88a69a;border-radius:8px;background:#fff;color:#173b32;font:inherit}
+textarea{min-height:120px;resize:vertical}
+input[type=checkbox]{width:auto;min-height:0;margin-right:8px}
+.checkline{display:flex;align-items:center;gap:5px}
+button{background:#16604c;color:white;border:0;border-radius:9px;padding:11px 17px;font:inherit;font-weight:700;cursor:pointer}
+button.secondary{background:#e5eee7;color:#173b32}
+button.danger{background:#fff0ee;color:#842a25}
+button:disabled{opacity:.6;cursor:wait}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px}
+.listing{border:1px solid #d8e6dc;border-radius:12px;padding:17px;margin:13px 0}
+.listing h3{font-size:21px;margin:0 0 8px}
+.listing p{white-space:pre-wrap;overflow-wrap:anywhere}
+.tag{display:inline-block;background:#e7f2e9;border-radius:20px;padding:4px 10px;margin:4px 5px 4px 0;font-size:13px;font-weight:700}
+.tag.private{background:#fff0d9}
+.empty{padding:18px;border:1px dashed #b7cebf;border-radius:10px}
+.photo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px;margin-top:15px}.photo-tile{border:1px solid #d8e6dc;border-radius:10px;padding:8px}.photo-tile img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:6px}.photo-tile button{margin-top:8px;width:100%}
+[hidden]{display:none!important}
+:focus-visible{outline:3px solid #bd7d25;outline-offset:2px}
+@media(max-width:650px){.grid{grid-template-columns:1fr}.panel{padding:16px}}
+</style>
+</head>
+<body>
+<header><div class="bar">
+<a class="brand" href="index.html">🏡 SHON<span>network</span></a>
+<nav>
+<a href="members.html">My SHONnetwork</a>
+<a href="profile.html">My Profile</a>
+<a href="listings.html" aria-current="page">My Listings</a>
+<a href="connections.html">My Connections</a>
+</nav>
+</div></header>
+
+<main>
+<h1>My Listings</h1>
+<p class="intro">Create opportunities, welcome people, find a home, or explore what you might build together.</p>
+
+<div id="status" class="notice" role="status" aria-live="polite">
+Connecting to SHONnetwork...
+</div>
+
+<section id="signed-out" class="panel" hidden>
+<h2>Sign in to manage your listings</h2>
+<p>Your listings are associated with your SHONnetwork account.</p>
+<a href="members.html">Go to Member Sign In</a>
+</section>
+
+<div id="workspace" hidden>
+<div class="notice">
+You can create more than one listing. Drafts, paused listings, and closed listings remain private. Only published listings are intended to appear in public discovery.
+</div>
+
+<section class="panel">
+<h2 id="editor-heading">Create a Listing</h2>
+<form id="listing-form">
+<input id="listing-id" type="hidden">
+
+<div class="grid">
+<div>
+<label for="listing-type">What kind of opportunity?</label>
+<select id="listing-type">
+<option value="housing_needed">Needs a home, room and board</option>
+<option value="housing_offered">Has a home or space to share</option>
+<option value="help_offered">Skills or contributions offered</option>
+<option value="connection_sought">Companionship or connections</option>
+</select>
+</div>
+<div>
+<label for="listing-status">Publication status</label>
+<select id="listing-status">
+<option value="draft">Draft, private</option>
+<option value="published">Published, discoverable</option>
+<option value="paused">Paused, private</option>
+<option value="closed">Closed, private</option>
+</select>
+</div>
+</div>
+
+<label for="visual-category">Color-coded opportunity label (optional)</label>
+<select id="visual-category">
+<option value="">Use the original listing type</option>
+<option value="housing_needed">🟢 Housing Needed</option><option value="housing_offered">🔵 Housing Offered</option>
+<option value="property_presence">🟣 Property Presence</option><option value="help_skills">🔴 Help / Skills Offered</option>
+<option value="companionship">🟡 Companionship</option><option value="community">🟦 Community / Collaboration</option>
+</select>
+<label for="listing-duration">Advertisement expiration (optional)</label>
+<select id="listing-duration">
+<option value="">Until I remove it (default)</option>
+<option value="7">7 days</option><option value="14">14 days</option>
+<option value="30">30 days</option><option value="60">60 days</option>
+<option value="90">90 days</option><option value="custom">Specify expiration date</option>
+</select>
+<div id="listing-custom-expiry-wrap" hidden>
+<label for="listing-custom-expiry">Expiration date</label>
+<input type="date" id="listing-custom-expiry">
+</div>
+<p class="hint">Expired advertisements stay in My Listings. To make one visible again, edit it and choose a new date or duration. Housing duration is separate from advertisement expiration.</p>
+<label for="listing-detail-categories">Describe this opportunity (optional, select several)</label>
+<div id="listing-detail-categories" class="detail-options" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:6px;margin:8px 0 14px"></div>
+<label for="listing-tags">Other descriptive tags (optional)</label>
+<input id="listing-tags" maxlength="240" placeholder="Pet Friendly, Long-Term, Shared Costs">
+<p class="hint">Separate tags with commas. These help people scan and search listings. Avoid private contact details.</p>
+<label for="listing-title">Listing Title</label>
+<input id="listing-title" maxlength="120"
+placeholder="What would you like people to know?">
+
+<label for="listing-description">Tell people about the opportunity</label>
+<textarea id="listing-description" maxlength="3000"
+placeholder="What are you hoping to find or create? Who might enjoy sharing this possibility with you?"></textarea>
+
+<div class="grid">
+<div>
+<label for="listing-region">Location or area of interest</label>
+<input id="listing-region" maxlength="120"
+placeholder="City, state, region, nationwide, or flexible">
+</div>
+<div>
+<label for="listing-arrangement">Living arrangement or contributions</label>
+<select id="listing-arrangement">
+<option value="unspecified">Not specified</option>
+<option value="no_rent">Room and board / shared home</option>
+<option value="shared_costs">Shared costs</option>
+<option value="rent">Rent or payment involved</option>
+<option value="exchange">Mutual exchange</option>
+<option value="flexible">Flexible, let's discuss</option>
+</select>
+</div>
+</div>
+
+<label for="listing-housing-type">Housing or opportunity details</label>
+<input id="listing-housing-type" maxlength="120"
+placeholder="Private room, family household, companionship, community...">
+
+<label class="checkline" for="listing-remote">
+<input id="listing-remote" type="checkbox">
+Remote or online contribution possible
+</label>
+<p class="hint">For example, someone might offer computer assistance or research remotely. This does not mean they can move in remotely.</p>
+
+<div class="actions">
+<button id="save-button" type="submit">Save Listing</button>
+<button id="clear-button" type="button" class="secondary">Clear Form</button>
+</div>
+<p id="editor-status" role="status" aria-live="polite"></p>
+<section class="panel" aria-label="Listing photographs">
+<h2>📷 Listing photographs</h2>
+<p class="hint">Save and publish your listing, then select Edit to add up to eight public photographs. JPG, PNG or WebP, up to 5 MB each. Do not upload private documents or exact address details.</p>
+<label for="listing-photo">Choose a photograph</label>
+<input id="listing-photo" type="file" accept="image/jpeg,image/png,image/webp">
+<div class="actions"><button type="button" id="upload-photo" class="secondary">Add Photograph</button></div>
+<p id="photo-status" role="status" aria-live="polite"></p>
+<div id="photo-gallery" class="photo-grid"></div>
+</section>
+</form>
+</section>
+
+<section class="panel">
+<h2>My Opportunities</h2>
+<p class="hint">Edit, publish, pause, close, or delete any of your listings.</p>
+<button id="refresh-button" type="button" class="secondary">Refresh My Listings</button>
+<div id="listing-results"></div>
+</section>
+</div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.0/dist/umd/supabase.min.js"></script>
+<script>
+(function(){
+"use strict";
+
+const SUPABASE_URL="https://wqcninwqeyfoyxlllwdy.supabase.co";
+const KEY="sb_publishable_YTHhpIPiKKHGBLMdkj_4og_Uyq_t_SX";
+const $=id=>document.getElementById(id);
+
+const CATEGORY_COLORS={housing_needed:"#367d35",housing_offered:"#0878c9",help_offered:"#c84835",connection_sought:"#aa7a0c"};
+const DETAIL_OPTIONS=[
+"Private Room","Entire Home","Shared Household","Room and Board","Homeshare","Family Household","Long-Term","Short-Term","Permanent Home","Emergency Housing","Accessible Home","No Rent Required","Shared Costs","Mutual Exchange","Property Presence","House-Sitting","Companionship","Friendship","Extended Family","Community Living","Intergenerational","Families Welcome","Children Welcome","Pet Friendly","Cats Welcome","Dogs Welcome","Non-Smoking","Quiet Household","Skills Exchange","Tutoring","Mentoring","Research","Remote / Online","Volunteering","Local Activities","Creative Collaboration","Learning Together","Flexible Location","Wi-Fi Available","Utilities Included","Private Bathroom","No Driving Required"];
+const TYPE_LABELS={
+housing_needed:"Needs a home, room and board",
+housing_offered:"Has a home to share",
+help_offered:"Skills or contributions",
+connection_sought:"Companionship or connections"
+};
+
+const STATUS_LABELS={
+draft:"Draft",
+published:"Published",
+paused:"Paused",
+closed:"Closed"
+};
+
+let db=null;
+let user=null;
+let listings=[];
+let saving=false;
+let directoryName="SHON member";
+
+function message(id,value,isError=false){
+const box=$(id);
+box.textContent=value;
+box.classList.toggle("error",isError);
+}
+
+function errorText(error){
+return error?.message||String(error);
+}
+
+function showSignedOut(){
+user=null;
+$("signed-out").hidden=false;
+$("workspace").hidden=true;
+message("status","Sign in to manage your listings.");
+}
+
+function showSignedIn(member){
+user=member;
+$("signed-out").hidden=true;
+$("workspace").hidden=false;
+message("status","Signed in as "+(member.email||"SHONnetwork member"));
+}
+
+function value(id){
+return $(id).value.trim();
+}
+
+function selectedDetails(){return [...document.querySelectorAll('#listing-detail-categories input:checked')].map(el=>el.value);}
+function fillDetails(tags){const set=new Set(tags||[]);document.querySelectorAll('#listing-detail-categories input').forEach(el=>el.checked=set.has(el.value));}
+function renderDetailOptions(){const root=$("listing-detail-categories");root.replaceChildren();for(const name of DETAIL_OPTIONS){const label=document.createElement("label");label.style.cssText="display:flex;align-items:center;gap:6px;font-weight:normal;font-size:14px";const input=document.createElement("input");input.type="checkbox";input.value=name;label.append(input,document.createTextNode(name));root.append(label);}}
+function durationExpiry(days){return days?new Date(Date.now()+Number(days)*86400000).toISOString():null;}
+function customExpiry(date){return date?date+"T23:59:59.999Z":null;}
+function showExpiryDate(){const custom=value("listing-duration")==="custom";$("listing-custom-expiry-wrap").hidden=!custom;$("listing-custom-expiry").required=custom;}
+function isExpired(item){return Boolean(item?.expires_at&&new Date(item.expires_at).getTime()<=Date.now());}
+function resetForm(){
+$("listing-form").reset();
+fillDetails([]);
+$("listing-custom-expiry").value="";showExpiryDate();
+$("listing-id").value="";
+$("listing-status").value="draft";
+$("editor-heading").textContent="Create a Listing";
+$("save-button").textContent="Save Listing";
+message("editor-status","");
+$("listing-photo").value="";
+$("photo-gallery").replaceChildren();
+message("photo-status","");
+}
+
+function getPayload(){
+return {
+user_id:user.id,
+owner_display_name:directoryName,
+listing_type:value("listing-type"),
+status:value("listing-status"),
+title:value("listing-title"),
+description:value("listing-description"),
+region:value("listing-region"),
+arrangement:value("listing-arrangement"),
+housing_type:value("listing-housing-type"),
+remote_possible:$("listing-remote").checked,
+visual_category:value("visual-category")||null,
+discovery_tags:[...new Set([...selectedDetails(),...value("listing-tags").split(",").map(s=>s.trim()).filter(Boolean)])].slice(0,30),
+expires_at:null,
+updated_at:new Date().toISOString()
+};
+}
+
+async function loadDisplayName(){
+directoryName="SHON member";
+try{
+const {data,error}=await db
+.from("member_profiles")
+.select("*")
+.eq("user_id",user.id)
+.maybeSingle();
+
+if(error || !data)return;
+
+const discoverable=Boolean(
+data.discoverable||data.directory_opt_in
+);
+
+if(discoverable){
+directoryName=
+data.display_name||
+data.name||
+"SHON member";
+}
+}catch(error){
+directoryName="SHON member";
+}
+}
+
+async function saveListing(event){
+event.preventDefault();
+if(!user||saving)return;
+
+const title=value("listing-title");
+const description=value("listing-description");
+
+if(!title||!description){
+message("editor-status","Please provide a listing title and description before saving. All other details are optional.",true);
+return;
+}
+
+saving=true;
+$("save-button").disabled=true;
+message("editor-status","Saving to SHONnetwork...");
+
+try{
+const id=value("listing-id");
+const payload=getPayload();
+const duration=value("listing-duration");
+const previous=listings.find(x=>String(x.id)===String(id));
+const previousDuration=previous?.listing_duration_days==null?"":String(previous.listing_duration_days);
+const previousCustom=previous?.expires_at?new Date(previous.expires_at).toISOString().slice(0,10):"";
+const selectedDate=value("listing-custom-expiry");
+if(duration==="custom"&&(!selectedDate||selectedDate<new Date().toISOString().slice(0,10))){
+ throw new Error("Choose today or a future expiration date.");
+}
+payload.listing_duration_days=duration&&duration!=="custom"?Number(duration):null;
+if(!id||duration!==previousDuration||(duration==="custom"&&selectedDate!==previousCustom)||isExpired(previous)){
+ payload.expires_at=duration==="custom"?customExpiry(selectedDate):duration?durationExpiry(duration):null;
+}else{delete payload.expires_at;}
+if(previous?.status!=="published"&&payload.status==="published"&&duration&&duration!=="custom"){
+ payload.expires_at=durationExpiry(duration);
+}
+
+let result;
+
+if(id){
+result=await db.from("listings")
+.update(payload)
+.eq("id",id)
+.eq("user_id",user.id)
+.select("id");
+}else{
+result=await db.from("listings")
+.insert(payload)
+.select("id");
+}
+
+if(result.error)throw result.error;
+
+if(!result.data?.length){
+throw new Error("The database did not confirm the saved listing.");
+}
+
+resetForm();
+await loadListings();
+message("editor-status","Your listing was saved to SHONnetwork. To add photos, select Edit on the saved, published listing.");
+}catch(error){
+message("editor-status",
+"Could not save listing: "+errorText(error),true);
+}finally{
+saving=false;
+$("save-button").disabled=false;
+}
+}
+
+async function loadListings(){
+if(!user)return;
+
+const root=$("listing-results");
+root.replaceChildren();
+root.append(create("p","Loading your listings..."));
+
+const {data,error}=await db
+.from("listings")
+.select("*")
+.eq("user_id",user.id)
+.order("updated_at",{ascending:false});
+
+if(error){
+root.replaceChildren();
+root.append(create("p","Could not load listings: "+errorText(error)));
+return;
+}
+
+listings=data||[];
+renderListings();
+}
+
+function create(tag,content,cls){
+const node=document.createElement(tag);
+node.textContent=content||"";
+if(cls)node.className=cls;
+return node;
+}
+
+function action(label,handler,cls){
+const button=document.createElement("button");
+button.type="button";
+button.textContent=label;
+button.className=cls||"secondary";
+button.addEventListener("click",handler);
+return button;
+}
+
+function renderListings(){
+const root=$("listing-results");
+root.replaceChildren();
+
+if(!listings.length){
+root.append(create("div",
+"You haven't created any listings yet.","empty"));
+return;
+}
+
+for(const item of listings){
+const card=create("article","","listing");
+card.append(create("h3",item.title||"Untitled listing"));
+
+const status=create("span",
+STATUS_LABELS[item.status]||item.status,
+"tag"+(item.status==="published"?"":" private"));
+
+const type=create("span",
+TYPE_LABELS[item.listing_type]||item.listing_type,
+"tag");
+
+type.style.background=CATEGORY_COLORS[item.listing_type]||"#546c61";
+type.style.color="#fff";type.style.padding="5px 10px";type.style.borderRadius="8px";type.style.fontWeight="750";
+card.style.borderTop="5px solid "+(CATEGORY_COLORS[item.listing_type]||"#546c61");
+card.append(status,type);
+if(item.visual_category){const names={housing_needed:"Housing Needed",housing_offered:"Housing Offered",property_presence:"Property Presence",help_skills:"Help / Skills Offered",companionship:"Companionship",community:"Community / Collaboration"};const colors={...CATEGORY_COLORS,property_presence:"#8838b5",help_skills:"#c84835",companionship:"#aa7a0c",community:"#087b79"};const t=create("span",names[item.visual_category]||item.visual_category,"tag");t.style.background=colors[item.visual_category]||"#546c61";t.style.color="#fff";card.append(t);}
+if(Array.isArray(item.discovery_tags))for(const tag of item.discovery_tags.slice(0,30))card.append(create("span",tag,"tag"));
+
+if(item.expires_at){const expired=new Date(item.expires_at).getTime()<=Date.now();card.append(create("p",expired?"Expired: edit and enter a new expiration date or duration":"Visible until: "+new Date(item.expires_at).toLocaleDateString(),"hint"));}
+if(item.region){
+card.append(create("p",item.region,"hint"));
+}
+
+if(item.description){
+card.append(create("p",item.description));
+}
+
+if(item.housing_type){
+card.append(create("p","Opportunity: "+item.housing_type));
+}
+
+const controls=create("div","","actions");
+
+controls.append(
+action("Edit",()=>editListing(item.id)),
+action(item.status==="published"?"Pause":"Publish",
+()=>setStatus(item.id,
+item.status==="published"?"paused":"published")),
+action("Close",()=>setStatus(item.id,"closed")),
+action("Delete",()=>deleteListing(item.id),"danger")
+);
+
+card.append(controls);
+root.append(card);
+}
+}
+
+function editListing(id){
+const item=listings.find(x=>String(x.id)===String(id));
+if(!item)return;
+
+$("listing-id").value=item.id;
+$("listing-type").value=item.listing_type||"housing_needed";
+$("visual-category").value=item.visual_category||"";
+const allTags=Array.isArray(item.discovery_tags)?item.discovery_tags:[];
+fillDetails(allTags);
+$("listing-tags").value=allTags.filter(t=>!DETAIL_OPTIONS.includes(t)).join(", ");
+const preset=item.listing_duration_days==null?"":String(item.listing_duration_days);
+$("listing-duration").value=preset||(item.expires_at?"custom":"");
+$("listing-custom-expiry").value=item.expires_at?new Date(item.expires_at).toISOString().slice(0,10):"";
+showExpiryDate();
+$("listing-status").value=item.status||"draft";
+$("listing-title").value=item.title||"";
+$("listing-description").value=item.description||"";
+$("listing-region").value=item.region||"";
+$("listing-arrangement").value=item.arrangement||"unspecified";
+$("listing-housing-type").value=item.housing_type||"";
+$("listing-remote").checked=Boolean(item.remote_possible);
+
+$("editor-heading").textContent="Edit Listing";
+$("save-button").textContent="Update Listing";
+loadPhotos(item.id).catch(e=>message("photo-status","Could not load photographs: "+errorText(e),true));
+
+$("listing-form").scrollIntoView({
+behavior:"smooth",block:"start"
+});
+}
+
+async function setStatus(id,status){
+if(!user)return;
+
+message("status","Updating listing status...");
+
+const {data,error}=await db
+.from("listings")
+.update({
+status,
+updated_at:new Date().toISOString()
+})
+.eq("id",id)
+.eq("user_id",user.id)
+.select("id");
+
+if(error||!data?.length){
+message("status",
+"Could not update listing: "+
+(errorText(error||new Error("No row updated"))),true);
+return;
+}
+
+await loadListings();
+message("status","Listing status updated.");
+}
+
+async function deleteListing(id){
+if(!user)return;
+
+if(!confirm("Permanently delete this listing?"))return;
+
+message("status","Deleting listing...");
+
+const {data,error}=await db
+.from("listings")
+.delete()
+.eq("id",id)
+.eq("user_id",user.id)
+.select("id");
+
+if(error||!data?.length){
+message("status",
+"Could not delete listing: "+
+errorText(error||new Error("No row deleted")),true);
+return;
+}
+
+resetForm();
+await loadListings();
+message("status","Listing deleted.");
+}
+
+const PHOTO_BUCKET="shon-public-photos";
+let photos=[];
+function photoUrl(path){return db.storage.from(PHOTO_BUCKET).getPublicUrl(path).data.publicUrl;}
+async function loadPhotos(listingId){
+  photos=[];
+  $("photo-gallery").replaceChildren();
+  if(!listingId)return;
+  const {data,error}=await db.from("shon_photos")
+    .select("id,item_type,item_id,storage_path,created_at,owner_id")
+    .eq("item_type","listing").eq("item_id",String(listingId))
+    .order("created_at",{ascending:true});
+  if(error)throw error;
+  photos=data||[];
+  const root=$("photo-gallery");
+  for(const photo of photos){
+    const tile=create("div","","photo-tile");
+    const img=document.createElement("img");
+    img.alt="Listing photograph";img.loading="lazy";
+    img.src=photoUrl(photo.storage_path);
+    tile.append(img,action("Remove",()=>removePhoto(photo),"danger"));
+    root.append(tile);
+  }
+  message("photo-status",photos.length+" of 8 photographs attached.");
+}
+async function uploadPhoto(){
+  if(!user)return;
+  const id=value("listing-id");
+  const item=listings.find(x=>String(x.id)===String(id));
+  if(!item){message("photo-status","Save your listing first, then select Edit.",true);return;}
+  if(item.status!=="published"){
+    message("photo-status","Publish and save the listing before adding public photographs.",true);return;
+  }
+  const file=$("listing-photo").files?.[0];
+  if(!file){message("photo-status","Choose a photograph first.",true);return;}
+  const ext=({"image/jpeg":"jpg","image/png":"png","image/webp":"webp"})[file.type];
+  if(!ext||file.size>5*1024*1024){message("photo-status","Use JPG, PNG or WebP under 5 MB.",true);return;}
+  const header=new Uint8Array(await file.slice(0,12).arrayBuffer());
+  const jpeg=header[0]===255&&header[1]===216&&header[2]===255;
+  const png=[137,80,78,71,13,10,26,10].every((v,i)=>header[i]===v);
+  const webp=String.fromCharCode(...header.slice(0,4))==="RIFF"&&String.fromCharCode(...header.slice(8,12))==="WEBP";
+  if(!(ext==="jpg"&&jpeg||ext==="png"&&png||ext==="webp"&&webp)){
+    message("photo-status","The selected file is not a valid supported image.",true);return;
+  }
+  try{
+    await loadPhotos(id);
+    if(photos.length>=8){message("photo-status","Eight photos already attached. Remove one first.",true);return;}
+    const path=user.id+"/listing/"+id+"/"+crypto.randomUUID()+"."+ext;
+    message("photo-status","Uploading photograph...");
+    const {error:uploadError}=await db.storage.from(PHOTO_BUCKET).upload(path,file,{contentType:file.type,upsert:false});
+    if(uploadError)throw uploadError;
+    const {error:recordError}=await db.from("shon_photos").insert({owner_id:user.id,item_type:"listing",item_id:String(id),storage_path:path});
+    if(recordError){await db.storage.from(PHOTO_BUCKET).remove([path]);throw recordError;}
+    $("listing-photo").value="";
+    await loadPhotos(id);
+    message("photo-status","Photograph added successfully.");
+  }catch(e){message("photo-status","Could not add photograph: "+errorText(e),true);}
+}
+async function removePhoto(photo){
+  if(!user||!confirm("Remove this photograph?"))return;
+  try{
+    const {error}=await db.from("shon_photos").delete().eq("id",photo.id).eq("owner_id",user.id);
+    if(error)throw error;
+    const {error:storageError}=await db.storage.from(PHOTO_BUCKET).remove([photo.storage_path]);
+    await loadPhotos(value("listing-id"));
+    message("photo-status",storageError?"Photograph removed from gallery, but storage cleanup failed: "+errorText(storageError):"Photograph removed.",Boolean(storageError));
+  }catch(e){message("photo-status","Could not remove photograph: "+errorText(e),true);}
+}
+
+async function initialize(){
+if(!window.supabase?.createClient){
+message("status",
+"Supabase library could not load. Check your connection.",true);
+return;
+}
+
+db=window.supabase.createClient(SUPABASE_URL,KEY,{
+auth:{
+storageKey:"sb-wqcninwqeyfoyxlllwdy-auth-token",
+persistSession:true,
+autoRefreshToken:true,
+detectSessionInUrl:true
+}
+});
+
+db.auth.onAuthStateChange((_event,session)=>{
+if(!session?.user)showSignedOut();
+});
+
+try{
+const {data,error}=await db.auth.getUser();
+if(error)throw error;
+
+if(!data?.user){
+showSignedOut();
+return;
+}
+
+showSignedIn(data.user);
+await loadDisplayName();
+await loadListings();
+
+}catch(error){
+message("status",
+"Could not initialize listings: "+errorText(error),true);
+}
+}
+
+renderDetailOptions();
+$("listing-duration").addEventListener("change",showExpiryDate);showExpiryDate();
+$("listing-form").addEventListener("submit",saveListing);
+$("clear-button").addEventListener("click",resetForm);
+$("refresh-button").addEventListener("click",loadListings);
+$("upload-photo").addEventListener("click",uploadPhoto);
+
+initialize().catch(error=>{
+message("status","Initialization error: "+errorText(error),true);
+});
+})();
+</script>
+</body>
+</html>
