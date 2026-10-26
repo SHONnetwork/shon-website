@@ -43,6 +43,7 @@ white-space:nowrap
 .brand span{font-weight:400}
 nav{
 display:flex;
+align-items:center;
 gap:12px;
 flex-wrap:wrap
 }
@@ -174,6 +175,35 @@ text-align:center;
 padding:26px 16px
 }
 footer a{color:#fff1d8}
+
+/* Signed-in message notification bell */
+#shon-bell{
+display:inline-flex;
+align-items:center;
+gap:5px;
+white-space:nowrap;
+text-decoration:none;
+color:#173b32;
+background:#fff3cf;
+border:1px solid #cfb56b;
+border-radius:9px;
+padding:8px 11px;
+font-size:13px;
+font-weight:700;
+min-height:42px
+}
+#shon-bell:hover{background:#ffe9a7}
+.bell-badge{
+display:inline-block;
+background:#b43427;
+color:white;
+border-radius:99px;
+padding:2px 9px;
+font-size:12px;
+font-weight:800
+}
+[hidden]{display:none!important}
+
 @media(max-width:720px){
 .grid,.form-grid{grid-template-columns:1fr}
 .panel{padding:16px}
@@ -201,6 +231,7 @@ footer a{color:#fff1d8}
 <a href="community.html">Community</a>
 <a href="resources.html" aria-current="page">Resources</a>
 <a href="partners.html">Partners</a>
+<a id="shon-bell" href="connections.html" hidden aria-label="Messages">🔔 Messages <span id="bell-count" class="bell-badge" hidden></span></a>
 </nav>
 </div>
 </header>
@@ -254,63 +285,25 @@ required
 <label for="category">
 What are you looking for?
 <select id="category" name="category">
-<option value="free food pantry">
-Free food and food pantries
-</option>
-<option value="free community meals">
-Free community meals
-</option>
-<option value="homeless shelters">
-Homeless shelters
-</option>
-<option value="emergency housing assistance">
-Emergency housing assistance
-</option>
-<option value="public libraries">
-Public libraries
-</option>
-<option value="laundromats">
-Laundromats
-</option>
-<option value="fitness centers gyms">
-Fitness centers and gyms
-</option>
-<option value="public showers">
-Public showers
-</option>
-<option value="community health clinics">
-Community health clinics
-</option>
-<option value="free medical clinics">
-Free medical clinics
-</option>
-<option value="public parks">
-Public parks
-</option>
-<option value="community centers">
-Community centers
-</option>
-<option value="public swimming pools">
-Public swimming pools
-</option>
-<option value="social services assistance">
-Social services and assistance
-</option>
-<option value="food banks">
-Food banks
-</option>
-<option value="low cost housing">
-Affordable housing
-</option>
-<option value="homesharing programs">
-Homesharing programs
-</option>
-<option value="free wifi">
-Free Wi-Fi
-</option>
-<option value="charging stations">
-Charging stations
-</option>
+<option value="free food pantry">Free food and food pantries</option>
+<option value="free community meals">Free community meals</option>
+<option value="homeless shelters">Homeless shelters</option>
+<option value="emergency housing assistance">Emergency housing assistance</option>
+<option value="public libraries">Public libraries</option>
+<option value="laundromats">Laundromats</option>
+<option value="fitness centers gyms">Fitness centers and gyms</option>
+<option value="public showers">Public showers</option>
+<option value="community health clinics">Community health clinics</option>
+<option value="free medical clinics">Free medical clinics</option>
+<option value="public parks">Public parks</option>
+<option value="community centers">Community centers</option>
+<option value="public swimming pools">Public swimming pools</option>
+<option value="social services assistance">Social services and assistance</option>
+<option value="food banks">Food banks</option>
+<option value="low cost housing">Affordable housing</option>
+<option value="homesharing programs">Homesharing programs</option>
+<option value="free wifi">Free Wi-Fi</option>
+<option value="charging stations">Charging stations</option>
 </select>
 </label>
 
@@ -640,19 +633,17 @@ The people are the heart of it.
 </p>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.0/dist/umd/supabase.min.js"></script>
+
 <script>
 (function(){
 "use strict";
 
-const locationInput =
-document.getElementById("location");
-
-const categoryInput =
-document.getElementById("category");
+const locationInput=document.getElementById("location");
+const categoryInput=document.getElementById("category");
 
 function searchResources(category){
-
-const location = locationInput.value.trim();
+const location=locationInput.value.trim();
 
 if(!location){
 locationInput.focus();
@@ -660,41 +651,32 @@ locationInput.reportValidity();
 return;
 }
 
-const query = category + " near " + location;
+const query=category+" near "+location;
 
-const url =
+const url=
 "https://www.google.com/maps/search/?api=1&query="
-+ encodeURIComponent(query);
++encodeURIComponent(query);
 
 window.open(url,"_blank","noopener,noreferrer");
-
 }
 
 document.getElementById("resource-form")
 .addEventListener("submit",function(event){
-
 event.preventDefault();
 searchResources(categoryInput.value);
-
 });
 
 document.getElementById("clear-form")
 .addEventListener("click",function(){
-
 locationInput.value="";
 categoryInput.selectedIndex=0;
 locationInput.focus();
-
 });
 
 document.querySelectorAll("[data-category]")
 .forEach(function(button){
-
 button.addEventListener("click",function(){
-
-const category =
-button.getAttribute("data-category");
-
+const category=button.getAttribute("data-category");
 categoryInput.value=category;
 
 locationInput.scrollIntoView({
@@ -707,9 +689,196 @@ searchResources(category);
 }else{
 locationInput.focus();
 }
-
+});
 });
 
+/* SHONnetwork shared message notifications */
+
+const URL="https://wqcninwqeyfoyxlllwdy.supabase.co";
+const KEY="sb_publishable_YTHhpIPiKKHGBLMdkj_4og_Uyq_t_SX";
+const AUTH_KEY="sb-wqcninwqeyfoyxlllwdy-auth-token";
+
+const bell=document.getElementById("shon-bell");
+const badge=document.getElementById("bell-count");
+
+let db=null;
+let me=null;
+let timer=null;
+let busy=false;
+let generation=0;
+
+function setBell(count){
+bell.hidden=!me;
+badge.hidden=count===0;
+badge.textContent=count>99?"99+":String(count);
+
+bell.setAttribute(
+"aria-label",
+count?
+count+" unread messages. Open My Connections.":
+"Messages. Open My Connections."
+);
+
+document.title=count?
+"("+count+") Useful Resources | SHONnetwork":
+"Useful Resources | SHONnetwork";
+}
+
+function readMarkers(userId){
+try{
+const data=JSON.parse(
+localStorage.getItem("shon-message-read-v1-"+userId)||"{}"
+);
+return data&&typeof data==="object"?data:{};
+}catch(error){
+return {};
+}
+}
+
+async function checkedQuery(request){
+const {data,error}=await request;
+if(error)throw error;
+return data||[];
+}
+
+async function checkMessages(){
+if(!db||!me||busy)return;
+
+busy=true;
+const userId=me;
+const checkGeneration=generation;
+
+try{
+const conversations=await checkedQuery(
+db.from("shon_conversations")
+.select("id,member_a,member_b")
+);
+
+const blocks=await checkedQuery(
+db.from("shon_blocks")
+.select("blocked")
+.eq("blocker",userId)
+);
+
+const blocked=new Set(blocks.map(x=>x.blocked));
+
+const visible=conversations.filter(c=>
+!blocked.has(
+c.member_a===userId?c.member_b:c.member_a
+)
+);
+
+const markers=readMarkers(userId);
+let count=0;
+
+for(let i=0;i<visible.length;i+=30){
+const ids=visible.slice(i,i+30).map(c=>c.id);
+
+const messages=await checkedQuery(
+db.from("shon_messages")
+.select("conversation_id,sender,created_at")
+.in("conversation_id",ids)
+.order("created_at",{ascending:false})
+.limit(1000)
+);
+
+for(const item of messages){
+const timestamp=new Date(item.created_at).getTime();
+
+if(item.sender!==userId &&
+timestamp>(
+Number(markers[String(item.conversation_id)])||0
+)){
+count++;
+}
+}
+}
+
+if(me===userId&&generation===checkGeneration){
+setBell(count);
+}
+
+}catch(error){
+console.warn(
+"SHONnetwork notification check:",
+error.message
+);
+}finally{
+busy=false;
+}
+}
+
+function stopNotifications(){
+generation++;
+if(timer){
+clearInterval(timer);
+timer=null;
+}
+}
+
+function showSignedOut(){
+stopNotifications();
+me=null;
+setBell(0);
+}
+
+function showSignedIn(user){
+if(me===user.id)return;
+
+stopNotifications();
+me=user.id;
+setBell(0);
+checkMessages();
+
+timer=setInterval(()=>{
+if(!document.hidden)checkMessages();
+},30000);
+}
+
+async function initializeNotifications(){
+if(!window.supabase?.createClient)return;
+
+db=window.supabase.createClient(URL,KEY,{
+auth:{
+storageKey:AUTH_KEY,
+persistSession:true,
+autoRefreshToken:true,
+detectSessionInUrl:true
+}
+});
+
+db.auth.onAuthStateChange((_event,session)=>{
+if(session?.user){
+showSignedIn(session.user);
+}else{
+showSignedOut();
+}
+});
+
+const {data,error}=await db.auth.getUser();
+
+if(!error&&data?.user){
+showSignedIn(data.user);
+}else{
+showSignedOut();
+}
+}
+
+document.addEventListener("visibilitychange",()=>{
+if(!document.hidden&&me)checkMessages();
+});
+
+window.addEventListener("storage",event=>{
+if(me&&event.key==="shon-message-read-v1-"+me){
+checkMessages();
+}
+});
+
+initializeNotifications().catch(error=>{
+console.warn(
+"SHONnetwork notifications unavailable:",
+error.message
+);
 });
 
 })();
