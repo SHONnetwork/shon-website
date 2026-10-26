@@ -43,10 +43,10 @@ async function check(){
 function ensureChatNav(){
  document.querySelectorAll('.shon-global-nav a[href="members.html"]').forEach(a=>{if(a.textContent.includes('Sign In/Out'))a.textContent='Sign In/Out';});
  const nav=document.querySelector('.shon-global-header .shon-global-nav');
- if(!nav||nav.querySelector('a[href="chat.html"]'))return;
- const link=document.createElement('a');link.href='chat.html';link.textContent='Chat';
+ if(!nav)return;
  const community=nav.querySelector('a[href="community.html"]');
- if(community)nav.insertBefore(link,community);else nav.appendChild(link);
+ if(!nav.querySelector('a[href="chat.html"]')){const link=document.createElement('a');link.href='chat.html';link.textContent='Chat';if(community)nav.insertBefore(link,community);else nav.appendChild(link);}
+ if(!nav.querySelector('a[href="games.html"]')){const link=document.createElement('a');link.href='games.html';link.textContent='Games';if(community)nav.insertBefore(link,community);else nav.appendChild(link);}
 }
 async function init(){
  ensureChatNav();

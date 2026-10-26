@@ -36,6 +36,10 @@ article p{white-space:pre-wrap}
 article{border-top:5px solid var(--cat,#9bb7a6)}
 article .discovery-tags{display:flex;gap:5px;flex-wrap:wrap;margin:8px 0}article .discovery-tag{background:#e9f1eb;color:#254b3c;border-radius:14px;padding:3px 9px;font-size:12px;font-weight:650}article .listing-visual{min-height:75px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#e7f2e8,#f6f8f5);border-radius:9px;margin-bottom:10px;font-size:36px}
 
+/* Full photograph, with category label anchored to its lower edge. */
+article .listing-visual.has-photo{position:relative;display:block;min-height:0;background:#f2f6f3;overflow:hidden}
+article .listing-visual.has-photo img{display:block;width:100%;height:auto;max-height:420px;object-fit:contain;object-position:center;margin:0 auto}
+article .listing-visual.has-photo .category-label{position:absolute;bottom:0;left:0;margin:0;border-radius:0 8px 0 0;max-width:100%;box-sizing:border-box}
 .status{padding:12px;background:#eef5ed;border-radius:8px;margin:15px 0}
 footer{text-align:center;background:#174c3c;color:white}
 footer a{color:white}
@@ -157,11 +161,11 @@ return String(v??"").replace(/[&<>"']/g,c=>({
 })[c]);
 }
 
-function listingVisual(r,symbol){
+function listingVisual(r,symbol,label){
  const path=photoByListing[String(r.id)];
  if(!path)return `<div class="listing-visual" aria-hidden="true">${symbol}</div>`;
  const url=db.storage.from("shon-public-photos").getPublicUrl(path).data.publicUrl;
- return `<div class="listing-visual"><img src="${safe(url)}" alt="Opportunity photograph" loading="lazy" style="width:100%;height:170px;object-fit:cover;border-radius:9px"></div>`;
+ return `<div class="listing-visual has-photo"><a href="${safe(url)}" target="_blank" rel="noopener noreferrer" aria-label="Open full-size opportunity photograph"><img src="${safe(url)}" alt="Opportunity photograph" loading="lazy"></a><span class="category-label">${safe(label)}</span></div>`;
 }
 function render(){
 const q=$("search").value.toLowerCase().trim();
@@ -191,8 +195,8 @@ const label=cat?cat[1]:(mode==="listings"?"Other Opportunity":"Member Profile");
 const color=cat?cat[2]:"#546c61";
 const symbol=cat?cat[3]:"👤";
 return `<article style="--cat:${color}">
-${mode==="listings"?listingVisual(r,symbol):`<div class="listing-visual" aria-hidden="true">${symbol}</div>`}
-<span class="category-label ${cat?"":"unknown"}">${safe(label)}</span>
+${mode==="listings"?listingVisual(r,symbol,label):`<div class="listing-visual" aria-hidden="true">${symbol}</div>`}
+${mode==="listings"&&photoByListing[String(r.id)]?"":`<span class="category-label ${cat?"":"unknown"}">${safe(label)}</span>`}
 <h3>${safe(title)}</h3>
 <small>${safe(place)}</small>
 <p>${safe(desc)}</p>
