@@ -11,7 +11,7 @@ header{background:#fff;border-bottom:1px solid #dce6dc;padding:14px 18px}
 .bar{max-width:1050px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .brand{font-size:27px;font-weight:800;color:#111;text-decoration:none}
 .brand span{font-weight:400}
-nav{display:flex;gap:12px;flex-wrap:wrap}
+nav{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 nav a{color:#205342;text-decoration:none;font-weight:650}
 main{max-width:920px;margin:auto;padding:24px 16px 70px}
 h1{font-size:clamp(29px,5vw,40px);margin:0 0 7px}
@@ -25,7 +25,12 @@ summary{padding:15px;cursor:pointer;font-weight:750;background:#edf4ec}
 .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 15px}
 label{display:block;font-weight:650;margin:13px 0 5px}
 input,select,textarea{width:100%;min-height:44px;padding:10px;border:1px solid #88a69a;border-radius:8px;font:inherit;background:#fff;color:#173b32}
-textarea{resize:vertical;min-height:90px}fieldset{border:1px solid #d8e6dc;border-radius:10px;margin:15px 0;padding:12px}legend{font-weight:750}.check{font-weight:400;margin:7px 0}.check input{width:auto;min-height:auto}button{background:#16604c;color:white;border:0;border-radius:9px;padding:12px 18px;font:inherit;font-weight:700;cursor:pointer}
+textarea{resize:vertical;min-height:90px}
+fieldset{border:1px solid #d8e6dc;border-radius:10px;margin:15px 0;padding:12px}
+legend{font-weight:750}
+.check{font-weight:400;margin:7px 0}
+.check input{width:auto;min-height:auto}
+button{background:#16604c;color:white;border:0;border-radius:9px;padding:12px 18px;font:inherit;font-weight:700;cursor:pointer}
 button.secondary{background:#e5eee7;color:#173b32}
 .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:17px}
 .notice{background:#e9f3e6;border-radius:10px;padding:14px;margin:16px 0}
@@ -33,6 +38,8 @@ button.secondary{background:#e5eee7;color:#173b32}
 .match{border:1px solid #d8e6dc;border-radius:10px;padding:14px;margin:10px 0;overflow-wrap:anywhere}
 [hidden]{display:none!important}
 :focus-visible{outline:3px solid #bd7d25;outline-offset:2px}
+#shon-bell{display:inline-flex;align-items:center;gap:5px;white-space:nowrap;text-decoration:none;color:#173b32;background:#fff3cf;border:1px solid #cfb56b;border-radius:9px;padding:8px 11px;font-size:14px;font-weight:700;min-height:42px}
+.bell-badge{display:inline-block;background:#b43427;color:white;border-radius:99px;padding:2px 9px;font-size:12px;font-weight:800}
 @media(max-width:650px){.grid{grid-template-columns:1fr}.panel{padding:15px}}
 </style>
 </head>
@@ -44,6 +51,7 @@ button.secondary{background:#e5eee7;color:#173b32}
 <a href="profile.html" aria-current="page">My Profile</a>
 <a href="listings.html">My Listings</a>
 <a href="connections.html">My Connections</a>
+<a id="shon-bell" href="connections.html" hidden aria-label="Messages">🔔 Messages <span id="bell-count" class="bell-badge" hidden></span></a>
 </nav>
 </div></header>
 
@@ -66,9 +74,9 @@ Connecting to SHONnetwork...
 All questions are optional. Your household questionnaire is saved to your account's private preferences table. It is not a public biography.
 </div>
 
-
 <section class="panel" id="personal-profile">
-<h2>👤 About Me</h2><p class="hint">Your story, in your words. Every question is optional. Public visibility is your choice.</p>
+<h2>👤 About Me</h2>
+<p class="hint">Your story, in your words. Every question is optional. Public visibility is your choice.</p>
 <div class="grid">
 <div><label for="member-profile-name">Display name</label><input id="member-profile-name" maxlength="80" autocomplete="nickname"></div>
 <div><label for="member-region">My approximate location</label><input id="member-region" maxlength="120" placeholder="City or region, not a street address"></div>
@@ -78,11 +86,15 @@ All questions are optional. Your household questionnaire is saved to your accoun
 <label class="check"><input type="checkbox" id="role-need-place"> I need a home or place</label>
 <label class="check"><input type="checkbox" id="role-have-space"> I have space to share</label>
 <label class="check"><input type="checkbox" id="role-offer-help"> I can offer help or companionship</label>
-<label class="check"><input type="checkbox" id="role-looking-person"> I want to build a household or community</label></fieldset>
+<label class="check"><input type="checkbox" id="role-looking-person"> I want to build a household or community</label>
+</fieldset>
 <label for="member-bio">About me</label><textarea id="member-bio" rows="4" placeholder="Who are you? What matters to you?"></textarea>
 <label for="member-needs">What I need</label><textarea id="member-needs" rows="3"></textarea>
 <label for="member-offers">What I can offer</label><textarea id="member-offers" rows="3"></textarea>
-<details><summary>🌱 My interests, relationships and future</summary><div class="fields">
+
+<details>
+<summary>🌱 My interests, relationships and future</summary>
+<div class="fields">
 <label for="story-interests">Interests, hobbies, activities and habits</label><textarea id="story-interests" rows="3"></textarea>
 <label for="story-household">The kind of household and daily life I would enjoy</label><textarea id="story-household" rows="3"></textarea>
 <label for="story-family">Family, children, pets and people important to me</label><textarea id="story-family" rows="3"></textarea>
@@ -90,11 +102,15 @@ All questions are optional. Your household questionnaire is saved to your accoun
 <label for="story-contributions">Skills, strengths and contributions</label><textarea id="story-contributions" rows="3"></textarea>
 <label for="story-practical">Practical needs, accessibility and considerations I choose to share</label><textarea id="story-practical" rows="3"></textarea>
 <label for="story-future">Hopes and possibilities for the future</label><textarea id="story-future" rows="3"></textarea>
-</div></details>
-<fieldset><legend>Visibility choices</legend>
+</div>
+</details>
+
+<fieldset>
+<legend>Visibility choices</legend>
 <label class="check"><input type="checkbox" id="member-discoverable"> Allow my basic profile to appear in discovery</label>
 <label class="check"><input type="checkbox" id="member-directory-opt-in"> Include me in the member directory</label>
-<p class="hint">Private story answers are stored separately. Do not share details you would not want stored.</p></fieldset>
+<p class="hint">Private story answers are stored separately. Do not share details you would not want stored.</p>
+</fieldset>
 <p id="personal-status" role="status" aria-live="polite"></p>
 </section>
 
@@ -253,7 +269,12 @@ All questions are optional. Your household questionnaire is saved to your accoun
 </form>
 </section>
 
-<div class="panel"><button type="button" id="save-all">Save My Complete Profile</button> <button type="button" class="secondary" id="reload-all">Reload My Saved Profile</button><p id="save-all-status" style="white-space:pre-wrap" role="status" aria-live="polite"></p></div>
+<div class="panel">
+<button type="button" id="save-all">Save My Complete Profile</button>
+<button type="button" class="secondary" id="reload-all">Reload My Saved Profile</button>
+<p id="save-all-status" style="white-space:pre-wrap" role="status" aria-live="polite"></p>
+</div>
+
 <section class="panel">
 <h2>🤝 Mutual Household Connections</h2>
 <p class="hint">Results are supplied by SHONnetwork's existing mutual-match database function. A match is a starting point for conversation, not an assurance of safety or suitability.</p>
@@ -272,8 +293,12 @@ All questions are optional. Your household questionnaire is saved to your accoun
 const URL="https://wqcninwqeyfoyxlllwdy.supabase.co";
 const KEY="sb_publishable_YTHhpIPiKKHGBLMdkj_4og_Uyq_t_SX";
 const $=id=>document.getElementById(id);
+
 let db=null;
 let currentUser=null;
+let notificationTimer=null;
+let notificationBusy=false;
+let notificationGeneration=0;
 
 function message(id,value){
 $(id).textContent=value;
@@ -283,18 +308,48 @@ function errorText(error){
 return error?.message||"Unknown error";
 }
 
+function setBell(count){
+const bell=$("shon-bell");
+const badge=$("bell-count");
+bell.hidden=!currentUser;
+badge.hidden=count===0;
+badge.textContent=count>99?"99+":String(count);
+bell.setAttribute("aria-label",count?
+count+" unread messages. Open My Connections.":
+"Messages. Open My Connections.");
+document.title=count?
+"("+count+") My Profile | SHONnetwork":
+"My Profile | SHONnetwork";
+}
+
+function stopNotifications(){
+notificationGeneration++;
+if(notificationTimer){
+clearInterval(notificationTimer);
+notificationTimer=null;
+}
+}
+
 function showSignedOut(){
+stopNotifications();
 currentUser=null;
 $("signed-out").hidden=false;
 $("workspace").hidden=true;
+setBell(0);
 message("status","Sign in to access your saved preferences.");
 }
 
 function showSignedIn(user){
+const changed=currentUser?.id!==user.id;
 currentUser=user;
 $("signed-out").hidden=true;
 $("workspace").hidden=false;
 message("status","Signed in as "+(user.email||"SHONnetwork member"));
+if(changed){
+stopNotifications();
+setBell(0);
+startNotifications();
+}
 }
 
 async function getUser(){
@@ -385,7 +440,6 @@ data?"Your saved household preferences are loaded.":
 async function saveHousehold(event){
 event.preventDefault();
 if(!currentUser)return;
-
 try{
 const values=householdValues();
 validateHousehold(values);
@@ -438,7 +492,6 @@ data?"Saved discovery preferences loaded.":
 async function saveMatchPreferences(event){
 event.preventDefault();
 if(!currentUser)return;
-
 try{
 message("match-status","Saving discovery preferences...");
 
@@ -518,54 +571,261 @@ message("matches-status",
 }
 }
 
-
-const ROLES={need_place:"role-need-place",have_space:"role-have-space",offer_help:"role-offer-help",looking_person:"role-looking-person"};
-const STORY_KEYS=["interests","household","family","companionship","contributions","practical","future"];
+const ROLES={
+need_place:"role-need-place",
+have_space:"role-have-space",
+offer_help:"role-offer-help",
+looking_person:"role-looking-person"
+};
+const STORY_KEYS=[
+"interests","household","family","companionship",
+"contributions","practical","future"
+];
 let personalReady=false,householdReady=false,matchReady=false;
+
 async function loadPersonal(){
-  const r=await db.from("member_profiles").select("display_name,roles,region,bio,needs_text,offers_text,contact_preference,profile_discoverable,directory_opt_in").eq("user_id",currentUser.id).maybeSingle();
-  if(r.error)throw r.error;
-  const p=r.data||{};
-  $("member-profile-name").value=p.display_name||currentUser.user_metadata?.display_name||"";
-  $("member-region").value=p.region||"";
-  $("member-bio").value=p.bio||"";
-  $("member-needs").value=p.needs_text||"";
-  $("member-offers").value=p.offers_text||"";
-  $("member-contact").value=p.contact_preference||"platform";
-  $("member-discoverable").checked=Boolean(p.profile_discoverable);
-  $("member-directory-opt-in").checked=Boolean(p.directory_opt_in);
-  for(const [role,id] of Object.entries(ROLES))$(id).checked=(p.roles||[]).includes(role);
-  const story=await db.from("member_private_stories").select("answers").eq("user_id",currentUser.id).maybeSingle();
-  if(story.error)throw story.error;
-  for(const key of STORY_KEYS)$("story-"+key).value=story.data?.answers?.[key]||"";
-  personalReady=true;
-  message("personal-status", "Your personal profile and private story are loaded.");
+const r=await db.from("member_profiles")
+.select("display_name,roles,region,bio,needs_text,offers_text,contact_preference,profile_discoverable,directory_opt_in")
+.eq("user_id",currentUser.id).maybeSingle();
+
+if(r.error)throw r.error;
+
+const p=r.data||{};
+$("member-profile-name").value=p.display_name||currentUser.user_metadata?.display_name||"";
+$("member-region").value=p.region||"";
+$("member-bio").value=p.bio||"";
+$("member-needs").value=p.needs_text||"";
+$("member-offers").value=p.offers_text||"";
+$("member-contact").value=p.contact_preference||"platform";
+$("member-discoverable").checked=Boolean(p.profile_discoverable);
+$("member-directory-opt-in").checked=Boolean(p.directory_opt_in);
+
+for(const [role,id] of Object.entries(ROLES)){
+$(id).checked=(p.roles||[]).includes(role);
 }
+
+const story=await db.from("member_private_stories")
+.select("answers")
+.eq("user_id",currentUser.id)
+.maybeSingle();
+
+if(story.error)throw story.error;
+
+for(const key of STORY_KEYS){
+$("story-"+key).value=story.data?.answers?.[key]||"";
+}
+
+personalReady=true;
+message("personal-status",
+"Your personal profile and private story are loaded.");
+}
+
 async function savePersonal(){
-  const payload={user_id:currentUser.id,display_name:$("member-profile-name").value.trim(),roles:Object.entries(ROLES).filter(([,id])=>$(id).checked).map(([role])=>role),region:$("member-region").value.trim(),bio:$("member-bio").value.trim(),needs_text:$("member-needs").value.trim(),offers_text:$("member-offers").value.trim(),contact_preference:$("member-contact").value,profile_discoverable:$("member-discoverable").checked,directory_opt_in:$("member-directory-opt-in").checked,updated_at:new Date().toISOString()};
-  // The original database may enforce a nonempty display name. Preserve optional UI with a neutral fallback.
-  if(!payload.display_name)payload.display_name="SHON member";
-  let r=await db.from("member_profiles").upsert(payload,{onConflict:"user_id"});if(r.error)throw r.error;
-  const answers=Object.fromEntries(STORY_KEYS.map(k=>[k,$("story-"+k).value.trim()]));
-  r=await db.from("member_private_stories").upsert({user_id:currentUser.id,answers,updated_at:new Date().toISOString()},{onConflict:"user_id"});if(r.error)throw r.error;
+const payload={
+user_id:currentUser.id,
+display_name:$("member-profile-name").value.trim(),
+roles:Object.entries(ROLES)
+.filter(([,id])=>$(id).checked)
+.map(([role])=>role),
+region:$("member-region").value.trim(),
+bio:$("member-bio").value.trim(),
+needs_text:$("member-needs").value.trim(),
+offers_text:$("member-offers").value.trim(),
+contact_preference:$("member-contact").value,
+profile_discoverable:$("member-discoverable").checked,
+directory_opt_in:$("member-directory-opt-in").checked,
+updated_at:new Date().toISOString()
+};
+
+if(!payload.display_name){
+payload.display_name="SHON member";
 }
+
+let r=await db.from("member_profiles")
+.upsert(payload,{onConflict:"user_id"});
+if(r.error)throw r.error;
+
+const answers=Object.fromEntries(
+STORY_KEYS.map(k=>[k,$("story-"+k).value.trim()])
+);
+
+r=await db.from("member_private_stories")
+.upsert({
+user_id:currentUser.id,
+answers,
+updated_at:new Date().toISOString()
+},{onConflict:"user_id"});
+
+if(r.error)throw r.error;
+}
+
 let saving=false;
+
 async function saveAll(){
- if(!currentUser||saving)return;
- if(!personalReady||!householdReady||!matchReady){message("save-all-status","Some saved data did not load. Reload the profile before saving to avoid overwriting existing answers.");return;}
- saving=true;$("save-all").disabled=true;
- const results=[];
- for(const [name,fn] of [["Personal profile and private story",savePersonal],["Household preferences",async()=>{const v=householdValues();validateHousehold(v);const r=await db.from("shon_household_preferences").upsert(v,{onConflict:"user_id"});if(r.error)throw r.error;}],["Discovery preferences",async()=>{const r=await db.from("shon_match_preferences").upsert(matchValues(),{onConflict:"user_id"});if(r.error)throw r.error;}]]){
-   try{await fn();results.push(name+": saved");}catch(e){results.push(name+": FAILED ("+errorText(e)+")");}
- }
- message("save-all-status",results.join("\n"));saving=false;$("save-all").disabled=false;
+if(!currentUser||saving)return;
+
+if(!personalReady||!householdReady||!matchReady){
+message("save-all-status",
+"Some saved data did not load. Reload the profile before saving to avoid overwriting existing answers.");
+return;
 }
+
+saving=true;
+$("save-all").disabled=true;
+const results=[];
+
+for(const [name,fn] of [
+["Personal profile and private story",savePersonal],
+["Household preferences",async()=>{
+const v=householdValues();
+validateHousehold(v);
+const r=await db.from("shon_household_preferences")
+.upsert(v,{onConflict:"user_id"});
+if(r.error)throw r.error;
+}],
+["Discovery preferences",async()=>{
+const r=await db.from("shon_match_preferences")
+.upsert(matchValues(),{onConflict:"user_id"});
+if(r.error)throw r.error;
+}]
+]){
+try{
+await fn();
+results.push(name+": saved");
+}catch(e){
+results.push(name+": FAILED ("+errorText(e)+")");
+}
+}
+
+message("save-all-status",results.join("\n"));
+saving=false;
+$("save-all").disabled=false;
+}
+
 $("save-all").addEventListener("click",saveAll);
+
 $("reload-all").addEventListener("click",async()=>{
- if(!currentUser)return;
- const tasks=await Promise.allSettled([loadPersonal(),loadHousehold(),loadMatchPreferences()]);
- message("save-all-status",tasks.every(x=>x.status==="fulfilled")?"Saved profile reloaded.":"Some saved information could not be reloaded. Review the section messages.");
+if(!currentUser)return;
+const tasks=await Promise.allSettled([
+loadPersonal(),
+loadHousehold(),
+loadMatchPreferences()
+]);
+message("save-all-status",
+tasks.every(x=>x.status==="fulfilled")?
+"Saved profile reloaded.":
+"Some saved information could not be reloaded. Review the section messages.");
 });
+
+/* Shared SHONnetwork unread-message notifications */
+
+function readMarkers(userId){
+try{
+const data=JSON.parse(
+localStorage.getItem("shon-message-read-v1-"+userId)||"{}"
+);
+return data&&typeof data==="object"?data:{};
+}catch(error){
+return {};
+}
+}
+
+async function checkedQuery(request){
+const {data,error}=await request;
+if(error)throw error;
+return data||[];
+}
+
+async function checkNotifications(){
+if(!db||!currentUser||notificationBusy)return;
+
+notificationBusy=true;
+const userId=currentUser.id;
+const generation=notificationGeneration;
+
+try{
+const conversations=await checkedQuery(
+db.from("shon_conversations")
+.select("id,member_a,member_b")
+);
+
+const blocks=await checkedQuery(
+db.from("shon_blocks")
+.select("blocked")
+.eq("blocker",userId)
+);
+
+const blocked=new Set(blocks.map(x=>x.blocked));
+
+const visible=conversations.filter(c=>
+!blocked.has(
+c.member_a===userId?c.member_b:c.member_a
+)
+);
+
+const markers=readMarkers(userId);
+let count=0;
+
+for(let i=0;i<visible.length;i+=30){
+const ids=visible.slice(i,i+30).map(c=>c.id);
+
+const messages=await checkedQuery(
+db.from("shon_messages")
+.select("conversation_id,sender,created_at")
+.in("conversation_id",ids)
+.order("created_at",{ascending:false})
+.limit(1000)
+);
+
+for(const item of messages){
+const timestamp=new Date(item.created_at).getTime();
+
+if(item.sender!==userId &&
+timestamp>(
+Number(markers[String(item.conversation_id)])||0
+)){
+count++;
+}
+}
+}
+
+if(currentUser?.id===userId &&
+generation===notificationGeneration){
+setBell(count);
+}
+}catch(error){
+console.warn(
+"SHONnetwork notification check:",error.message
+);
+}finally{
+notificationBusy=false;
+}
+}
+
+function startNotifications(){
+if(!db||!currentUser)return;
+
+checkNotifications();
+
+notificationTimer=setInterval(()=>{
+if(!document.hidden)checkNotifications();
+},30000);
+}
+
+document.addEventListener("visibilitychange",()=>{
+if(!document.hidden&&currentUser){
+checkNotifications();
+}
+});
+
+window.addEventListener("storage",event=>{
+if(currentUser &&
+event.key==="shon-message-read-v1-"+currentUser.id){
+checkNotifications();
+}
+});
+
+/* Original profile initialization */
 
 async function initialize(){
 if(!window.supabase?.createClient){
@@ -588,6 +848,7 @@ if(!session?.user)showSignedOut();
 
 try{
 const user=await getUser();
+
 if(!user){
 showSignedOut();
 return;
@@ -618,6 +879,7 @@ const targets=[
 
 householdReady=results[1].status==="fulfilled";
 matchReady=results[2].status==="fulfilled";
+
 results.forEach((result,index)=>{
 if(result.status==="rejected"){
 message(targets[index],
@@ -631,12 +893,20 @@ message("status","Account check failed: "+errorText(error));
 }
 }
 
-$("household-form").addEventListener("submit",e=>{e.preventDefault();saveAll();});
-$("match-form").addEventListener("submit",e=>{e.preventDefault();saveAll();});
+$("household-form").addEventListener("submit",e=>{
+e.preventDefault();
+saveAll();
+});
+
+$("match-form").addEventListener("submit",e=>{
+e.preventDefault();
+saveAll();
+});
 
 $("reload-household").addEventListener("click",()=>{
 loadHousehold().catch(error=>
-message("household-status","Could not reload: "+errorText(error))
+message("household-status",
+"Could not reload: "+errorText(error))
 );
 });
 
@@ -645,6 +915,7 @@ $("refresh-matches").addEventListener("click",loadMatches);
 initialize().catch(error=>{
 message("status","Initialization failed: "+errorText(error));
 });
+
 })();
 </script>
 </body>
