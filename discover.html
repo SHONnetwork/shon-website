@@ -3,13 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#ffffff">
 <title>Discover | SHONnetwork</title>
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#f8faf6;color:#194436;font:16px/1.5 system-ui,Arial}
 header,main,footer{padding:20px}
 header{background:white;border-bottom:1px solid #d9e5db}
-nav{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px}
+.brand{color:#111;font-size:27px;font-weight:800;text-decoration:none}
+.brand span{font-weight:400}
+nav{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:10px}
 a{color:#176049}
 nav a{font-size:14px;font-weight:700}
 main{max-width:1050px;margin:auto}
@@ -28,14 +31,22 @@ article p{white-space:pre-wrap}
 .status{padding:12px;background:#eef5ed;border-radius:8px;margin:15px 0}
 footer{text-align:center;background:#174c3c;color:white}
 footer a{color:white}
+#shon-bell{display:inline-flex;align-items:center;gap:5px;white-space:nowrap;text-decoration:none;color:#173b32;background:#fff3cf;border:1px solid #cfb56b;border-radius:9px;padding:8px 11px;font-size:14px;font-weight:700;min-height:42px}
+#shon-bell[hidden],#bell-count[hidden]{display:none!important}
+.bell-badge{display:inline-block;background:#b43427;color:white;border-radius:99px;padding:2px 9px;font-size:12px;font-weight:800}
+:focus-visible{outline:3px solid #bd7d25;outline-offset:2px}
+@media(max-width:650px){
+.hero{padding:20px}
+.panel{padding:16px}
+}
 </style>
 </head>
 <body>
 <header>
-<strong>🏡 SHONnetwork</strong>
-<nav>
+<a class="brand" href="index.html">🏡 SHON<span>network</span></a>
+<nav aria-label="Site navigation">
 <a href="index.html">Home</a>
-<a href="discover.html">Discover</a>
+<a href="discover.html" aria-current="page">Discover</a>
 <a href="members.html">Members</a>
 <a href="profile.html">Profile</a>
 <a href="listings.html">Listings</a>
@@ -43,6 +54,7 @@ footer a{color:white}
 <a href="community.html">Community</a>
 <a href="resources.html">Resources</a>
 <a href="partners.html">Partners</a>
+<a id="shon-bell" href="connections.html" hidden aria-label="Messages">🔔 Messages <span id="bell-count" class="bell-badge" hidden></span></a>
 </nav>
 </header>
 
@@ -87,7 +99,7 @@ footer a{color:white}
 <a href="index.html">Home</a>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.0/dist/umd/supabase.min.js"></script>
 <script>
 (function(){
 "use strict";
@@ -95,8 +107,15 @@ footer a{color:white}
 const $=id=>document.getElementById(id);
 const url="https://wqcninwqeyfoyxlllwdy.supabase.co";
 const key="sb_publishable_YTHhpIPiKKHGBLMdkj_4og_Uyq_t_SX";
+const AUTH_KEY="sb-wqcninwqeyfoyxlllwdy-auth-token";
 
-let db,mode="listings",rows=[];
+let db;
+let mode="listings";
+let rows=[];
+let me=null;
+let notificationTimer=null;
+let checkingNotifications=false;
+let directoryRequest=0;
 
 function safe(v){
 return String(v??"").replace(/[&<>"']/g,c=>({
@@ -110,9 +129,12 @@ const q=$("search").value.toLowerCase().trim();
 const loc=$("location").value.toLowerCase().trim();
 
 const matches=rows.filter(r=>{
-const text=Object.values(r).filter(v=>typeof v==="string").join(" ").toLowerCase();
+const text=Object.values(r)
+.filter(v=>typeof v==="string")
+.join(" ").toLowerCase();
 const place=String(r.region||r.location||r.city||"").toLowerCase();
-return (!q||text.includes(q))&&(!loc||place.includes(loc)||text.includes(loc));
+return (!q||text.includes(q))&&
+(!loc||place.includes(loc)||text.includes(loc));
 });
 
 $("status").textContent=matches.length+" public results found.";
@@ -132,10 +154,13 @@ return `<article>
 
 async function load(which){
 mode=which;
+const request=++directoryRequest;
 $("status").textContent="Loading public "+which+"…";
 $("results").innerHTML="";
+
 try{
 let result;
+
 if(which==="listings"){
 result=await db.from("listings")
 .select("*")
@@ -144,11 +169,139 @@ result=await db.from("listings")
 }else{
 result=await db.rpc("shon_public_directory");
 }
+
+if(request!==directoryRequest)return;
 if(result.error)throw result.error;
+
 rows=Array.isArray(result.data)?result.data:[];
 render();
+
 }catch(e){
+if(request===directoryRequest){
 $("status").textContent="Directory error: "+e.message;
+}
+}
+}
+
+function readMarkers(){
+if(!me)return {};
+try{
+const data=JSON.parse(
+localStorage.getItem("shon-message-read-v1-"+me)||"{}"
+);
+return data&&typeof data==="object"?data:{};
+}catch(error){
+return {};
+}
+}
+
+function setBell(count){
+const bell=$("shon-bell");
+const badge=$("bell-count");
+
+bell.hidden=!me;
+badge.hidden=count===0;
+badge.textContent=count>99?"99+":String(count);
+
+bell.setAttribute("aria-label",count?
+count+" unread messages. Open My Connections.":
+"Messages. Open My Connections.");
+
+document.title=count?
+"("+count+") Discover | SHONnetwork":
+"Discover | SHONnetwork";
+}
+
+async function checkedQuery(request){
+const {data,error}=await request;
+if(error)throw error;
+return data||[];
+}
+
+async function checkNotifications(){
+if(!me||checkingNotifications)return;
+checkingNotifications=true;
+const checkingUser=me;
+
+try{
+const conversations=await checkedQuery(
+db.from("shon_conversations")
+.select("id,member_a,member_b")
+);
+
+const blocks=await checkedQuery(
+db.from("shon_blocks")
+.select("blocked")
+.eq("blocker",checkingUser)
+);
+
+const blocked=new Set(blocks.map(x=>x.blocked));
+
+const visible=conversations.filter(c=>
+!blocked.has(
+c.member_a===checkingUser?c.member_b:c.member_a
+)
+);
+
+const markers=readMarkers();
+let count=0;
+
+for(let i=0;i<visible.length;i+=30){
+const ids=visible.slice(i,i+30).map(c=>c.id);
+
+const messages=await checkedQuery(
+db.from("shon_messages")
+.select("conversation_id,sender,created_at")
+.in("conversation_id",ids)
+.order("created_at",{ascending:false})
+.limit(1000)
+);
+
+for(const message of messages){
+const timestamp=new Date(message.created_at).getTime();
+if(message.sender!==checkingUser&&
+timestamp>(Number(markers[String(message.conversation_id)])||0)){
+count++;
+}
+}
+}
+
+if(me===checkingUser)setBell(count);
+
+}catch(error){
+console.warn("SHONnetwork notifications:",error.message);
+}finally{
+checkingNotifications=false;
+}
+}
+
+async function initializeNotifications(){
+try{
+const {data,error}=await db.auth.getUser();
+if(error||!data?.user)return;
+
+me=data.user.id;
+setBell(0);
+await checkNotifications();
+
+notificationTimer=setInterval(()=>{
+if(!document.hidden)checkNotifications();
+},30000);
+
+db.auth.onAuthStateChange((_event,session)=>{
+if(!session?.user){
+me=null;
+if(notificationTimer){
+clearInterval(notificationTimer);
+notificationTimer=null;
+}
+$("shon-bell").hidden=true;
+document.title="Discover | SHONnetwork";
+}
+});
+
+}catch(error){
+console.warn("SHONnetwork member notification setup:",error.message);
 }
 }
 
@@ -162,16 +315,33 @@ $("location").value="";
 render();
 };
 
+document.addEventListener("visibilitychange",()=>{
+if(!document.hidden&&me)checkNotifications();
+});
+
+window.addEventListener("storage",event=>{
+if(me&&event.key==="shon-message-read-v1-"+me){
+checkNotifications();
+}
+});
+
 if(!window.supabase){
 $("status").textContent="Unable to load the database library.";
 return;
 }
 
 db=window.supabase.createClient(url,key,{
-auth:{persistSession:false,autoRefreshToken:false}
+auth:{
+storageKey:AUTH_KEY,
+persistSession:true,
+autoRefreshToken:true,
+detectSessionInUrl:true
+}
 });
 
 load("listings");
+initializeNotifications();
+
 })();
 </script>
 </body>
