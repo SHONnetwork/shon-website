@@ -67,8 +67,19 @@ function ensureChatNav(){
      a!==nav.querySelector('a[href="'+a.getAttribute('href')+'"]'))a.remove();
  }
 }
+function ensureTopActions(){
+ const area=document.querySelector('.shon-global-header .shon-header-actions');
+ if(!area)return;
+ const support=area.querySelector('#shon-global-support');
+ for(const [id,label,url,w,h] of [['shon-global-messenger','💬 Messenger','messenger.html',380,690],['shon-global-meetings','👥 Meetings','meetings.html',880,750]]){
+  let a=document.getElementById(id);
+  if(!a){a=document.createElement('a');a.id=id;a.className='shon-header-action';a.href=url;a.textContent=label; if(support)area.insertBefore(a,support);else area.append(a);}
+  a.addEventListener('click',e=>{const win=window.open(url,id,'popup=yes,width='+w+',height='+h+',resizable=yes,scrollbars=yes');if(win){e.preventDefault();win.focus();}});
+ }
+}
 async function init(){
  ensureChatNav();
+ ensureTopActions();
  const bell=$("shon-global-messages");if(!bell)return;
  if(!window.supabase){console.warn("Supabase not available for header notifications");return;}
  try{
