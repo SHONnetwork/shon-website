@@ -16,7 +16,7 @@ header{background:#fffdf7;border-bottom:1px solid #d8e7d8}
 .bar{max-width:1160px;margin:auto;padding:13px 20px;display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap}
 .brand{color:#111;text-decoration:none;font-size:27px;font-weight:850;white-space:nowrap}
 .brand span{font-weight:400}
-nav{display:flex;gap:12px;flex-wrap:wrap}
+nav{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 nav a{font-size:13px;font-weight:700;text-decoration:none}
 nav a:hover{text-decoration:underline}
 main{max-width:1120px;margin:auto;padding:25px 16px 65px}
@@ -43,6 +43,9 @@ h3{font-size:19px;margin:8px 0}
 .duo article:nth-child(2){background:#eaf3fc}
 footer{background:#123e32;color:#fff1d8;text-align:center;padding:26px 16px}
 footer a{color:#fff1d8}
+#shon-bell{display:inline-flex;align-items:center;gap:5px;white-space:nowrap;text-decoration:none;color:#173b32;background:#fff3cf;border:1px solid #cfb56b;border-radius:9px;padding:8px 11px;font-size:14px;font-weight:700;min-height:42px}
+#shon-bell[hidden],#bell-count[hidden]{display:none!important}
+.bell-badge{display:inline-block;background:#b43427;color:white;border-radius:99px;padding:2px 9px;font-size:12px;font-weight:800}
 @media(max-width:720px){
 .grid,.duo{grid-template-columns:1fr}
 .panel{padding:16px}
@@ -66,6 +69,7 @@ footer a{color:#fff1d8}
 <a href="community.html">Community</a>
 <a href="resources.html">Resources</a>
 <a href="partners.html" aria-current="page">Partners</a>
+<a id="shon-bell" href="connections.html" hidden aria-label="Messages">🔔 Messages <span id="bell-count" class="bell-badge" hidden></span></a>
 </nav>
 </div>
 </header>
@@ -114,7 +118,6 @@ footer a{color:#fff1d8}
 <section class="panel" id="partner-types">
 <h2>Ways to Partner</h2>
 <p>Different organizations can contribute in different ways. Partnerships may begin with information sharing, referrals, pilot programs, technical development, or new opportunities.</p>
-
 <div class="grid">
 
 <article class="card">
@@ -179,7 +182,6 @@ footer a{color:#fff1d8}
 <p>Support development, outreach, accessibility, partnerships, and the creation of more housing opportunities.</p>
 <a href="#support">Support the network</a>
 </article>
-
 </div>
 </section>
 
@@ -307,5 +309,158 @@ footer a{color:#fff1d8}
 </p>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.0/dist/umd/supabase.min.js"></script>
+<script>
+(function(){
+"use strict";
+
+const URL="https://wqcninwqeyfoyxlllwdy.supabase.co";
+const KEY="sb_publishable_YTHhpIPiKKHGBLMdkj_4og_Uyq_t_SX";
+const AUTH_KEY="sb-wqcninwqeyfoyxlllwdy-auth-token";
+const $=id=>document.getElementById(id);
+
+let db=null;
+let me=null;
+let timer=null;
+let busy=false;
+let generation=0;
+
+function readMarkers(){
+try{
+const data=JSON.parse(
+localStorage.getItem("shon-message-read-v1-"+me)||"{}"
+);
+return data&&typeof data==="object"?data:{};
+}catch(error){
+return {};
+}
+}
+
+function setBell(count){
+const bell=$("shon-bell");
+const badge=$("bell-count");
+bell.hidden=!me;
+badge.hidden=count===0;
+badge.textContent=count>99?"99+":String(count);
+bell.setAttribute("aria-label",count?
+count+" unread messages. Open My Connections.":
+"Messages. Open My Connections.");
+document.title=count?
+"("+count+") Partnerships & Support | SHONnetwork":
+"Partnerships & Support | SHONnetwork";
+}
+
+async function checkedQuery(request){
+const {data,error}=await request;
+if(error)throw error;
+return data||[];
+}
+
+async function checkMessages(){
+if(!me||busy)return;
+busy=true;
+const userId=me;
+const checkGeneration=generation;
+
+try{
+const conversations=await checkedQuery(
+db.from("shon_conversations")
+.select("id,member_a,member_b")
+);
+
+const blocks=await checkedQuery(
+db.from("shon_blocks")
+.select("blocked")
+.eq("blocker",userId)
+);
+
+const blocked=new Set(blocks.map(x=>x.blocked));
+const visible=conversations.filter(c=>
+!blocked.has(c.member_a===userId?c.member_b:c.member_a)
+);
+
+const markers=readMarkers();
+let count=0;
+
+for(let i=0;i<visible.length;i+=30){
+const ids=visible.slice(i,i+30).map(c=>c.id);
+const messages=await checkedQuery(
+db.from("shon_messages")
+.select("conversation_id,sender,created_at")
+.in("conversation_id",ids)
+.order("created_at",{ascending:false})
+.limit(1000)
+);
+
+for(const item of messages){
+const timestamp=new Date(item.created_at).getTime();
+if(item.sender!==userId &&
+timestamp>(Number(markers[String(item.conversation_id)])||0)){
+count++;
+}
+}
+}
+
+if(me===userId&&generation===checkGeneration){
+setBell(count);
+}
+}catch(error){
+console.warn("SHONnetwork message check:",error.message);
+}finally{
+busy=false;
+}
+}
+
+async function initialize(){
+if(!window.supabase?.createClient)return;
+
+db=window.supabase.createClient(URL,KEY,{
+auth:{
+storageKey:AUTH_KEY,
+persistSession:true,
+autoRefreshToken:true,
+detectSessionInUrl:true
+}
+});
+
+const {data,error}=await db.auth.getUser();
+if(error||!data?.user)return;
+
+me=data.user.id;
+setBell(0);
+await checkMessages();
+
+timer=setInterval(()=>{
+if(!document.hidden)checkMessages();
+},30000);
+
+db.auth.onAuthStateChange((_event,session)=>{
+if(!session?.user){
+generation++;
+me=null;
+if(timer){
+clearInterval(timer);
+timer=null;
+}
+setBell(0);
+}
+});
+}
+
+document.addEventListener("visibilitychange",()=>{
+if(!document.hidden&&me)checkMessages();
+});
+
+window.addEventListener("storage",event=>{
+if(me&&event.key==="shon-message-read-v1-"+me){
+checkMessages();
+}
+});
+
+initialize().catch(error=>{
+console.warn("SHONnetwork notifications unavailable:",error.message);
+});
+})();
+</script>
 </body>
 </html>
