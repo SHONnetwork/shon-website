@@ -1,0 +1,17 @@
+
+/* SHONnetwork shared header, version 1 */
+.shon-global-header{background:#fff!important;color:#142b25!important;border-bottom:1px solid #dce5e1!important;padding:0!important;position:relative;z-index:10}
+.shon-global-header .shon-header-inner{max-width:1100px;margin:auto;padding:13px 17px}
+.shon-global-header .shon-header-top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.shon-global-header .shon-global-brand{font:800 25px Arial,Helvetica,sans-serif!important;color:#142b25!important;text-decoration:none!important;display:inline-flex;gap:6px;align-items:center}
+.shon-global-header .shon-global-brand span span{font-weight:400}
+.shon-global-header .shon-header-actions{display:flex;gap:9px;align-items:center;flex-wrap:wrap}
+.shon-global-header .shon-header-action{color:#205b4b!important;background:#f8fbf9!important;border:1px solid #cbded5!important;border-radius:9px!important;padding:9px 12px!important;font:700 14px Arial,Helvetica,sans-serif!important;text-decoration:none!important;display:inline-flex!important;align-items:center;gap:5px;min-height:40px}
+.shon-global-header .shon-global-nav{display:flex!important;flex-wrap:wrap!important;gap:5px 13px!important;margin-top:11px!important;align-items:center!important;justify-content:flex-start!important;position:static!important;background:transparent!important;border:0!important;box-shadow:none!important;padding:0!important;width:auto!important}
+.shon-global-header .shon-global-nav a{color:#205b4b!important;font:400 14px Arial,Helvetica,sans-serif!important;text-decoration:none!important;padding:5px 0!important;background:transparent!important;border:0!important;white-space:normal!important}
+.shon-global-header .shon-global-nav a[aria-current=page]{font-weight:700!important;text-decoration:underline!important;text-underline-offset:3px}
+.shon-global-header .shon-global-count{display:inline-block;background:#b43427;color:#fff;border-radius:99px;padding:2px 7px;font-size:12px;font-weight:800;line-height:1.3}
+.shon-global-header [hidden],.shon-global-count[hidden]{display:none!important}
+.shon-global-header .shon-header-action:focus-visible,.shon-global-header .shon-global-nav a:focus-visible{outline:3px solid #b77d26;outline-offset:2px}
+.shon-legacy-bells{display:none!important}
+@media(max-width:600px){.shon-global-header .shon-global-brand{font-size:22px!important}.shon-global-header .shon-global-nav{gap:3px 10px!important}.shon-global-header .shon-global-nav a{font-size:13px!important}.shon-global-header .shon-header-action{font-size:12px!important;padding:7px 9px!important}}

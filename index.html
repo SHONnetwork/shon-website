@@ -254,64 +254,27 @@ main{padding:0 12px}
 html{scroll-behavior:auto}
 }
 </style>
+<link rel="stylesheet" href="shon-header.css">
 </head>
 <body>
 
 <a class="skip" href="#main">Skip to content</a>
 
-<header>
-<div class="bar">
-<a class="brand" href="index.html">
-<span class="house" aria-hidden="true">🏡</span>
-<span>
-<span class="word">SHON<span>network</span></span>
-<small>Supported Housing Opportunity Network</small>
-</span>
-</a>
-
-<nav class="nav" aria-label="Main navigation">
-<a href="#explore">Explore</a>
-<a href="#how">How it works</a>
-<a href="#resources">Resources</a>
-<a href="#about">About</a>
-<a href="members.html">Join / Sign in</a>
-<a id="shon-bell-desktop"
+<header class="shon-global-header"><div class="shon-header-inner"><div class="shon-header-top"><a class="shon-global-brand" href="index.html">🏡 <span>SHON<span>network</span></span></a><div class="shon-header-actions"><a id="shon-global-messages" class="shon-header-action" href="members.html">🔔 Messages <span id="shon-global-member-count" class="shon-global-count" hidden></span></a><a id="shon-global-support" class="shon-header-action" href="contact.html">Support / Contact SHON <span id="shon-global-support-count" class="shon-global-count" hidden></span></a></div></div><nav class="shon-global-nav" aria-label="Site navigation"><a href="index.html" aria-current="page">Home</a><a href="members.html">SHONnetwork - Sign In/Out</a><a href="discover.html">Discover</a><a href="profile.html">Profile</a><a href="listings.html">Listings</a><a href="connections.html">Connections</a><a href="community.html">Community</a><a href="resources.html">Resources</a><a href="partners.html">Partners</a></nav></div></header><div class="shon-legacy-bells" aria-hidden="true"><a id="shon-bell-desktop"
    class="shon-bell"
    href="connections.html"
    hidden
    aria-label="Messages">
 🔔 Messages
 <span id="bell-count-desktop" class="bell-count" hidden></span>
-</a>
-<a class="support"
-   href="mailto:info@shonnetwork.org?subject=Support%20SHON">
-♥ Support SHON
-</a>
-</nav>
-
-<details class="menu">
-<summary>Menu ☰</summary>
-<nav aria-label="Mobile navigation">
-<a href="#explore">Explore</a>
-<a href="#how">How it works</a>
-<a href="#resources">Resources</a>
-<a href="#about">About</a>
-<a href="members.html">Join / Sign in</a>
-<a id="shon-bell-mobile"
+</a><a id="shon-bell-mobile"
    class="shon-bell"
    href="connections.html"
    hidden
    aria-label="Messages">
 🔔 Messages
 <span id="bell-count-mobile" class="bell-count" hidden></span>
-</a>
-<a href="mailto:info@shonnetwork.org?subject=Support%20SHON">
-Support SHON
-</a>
-</nav>
-</details>
-</div>
-</header>
+</a></div>
 
 <main id="main">
 
@@ -885,5 +848,6 @@ initializeNotifications();
 
 })();
 </script>
+<script src="shon-notifications.js" defer></script>
 </body>
 </html>

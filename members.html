@@ -75,26 +75,11 @@ font-weight:800
 .panel,.card{padding:17px}
 }
 </style>
+<link rel="stylesheet" href="shon-header.css">
 </head>
 <body>
 
-<header>
-<div class="bar">
-<a class="brand" href="index.html">🏡 SHON<span>network</span></a>
-<nav aria-label="Member navigation">
-<a href="index.html">Home</a>
-<a href="discover.html">Discover</a>
-<a href="members.html" aria-current="page">My SHONnetwork</a>
-<a href="profile.html">My Profile</a>
-<a href="listings.html">My Listings</a>
-<a href="connections.html">My Connections</a>
-<a href="community.html">Community</a>
-<a href="resources.html">Resources</a>
-<a href="partners.html">Partners</a>
-<a id="shon-bell" href="connections.html" hidden aria-label="Messages">🔔 Messages <span id="bell-count" class="bell-badge" hidden></span></a>
-</nav>
-</div>
-</header>
+<header class="shon-global-header"><div class="shon-header-inner"><div class="shon-header-top"><a class="shon-global-brand" href="index.html">🏡 <span>SHON<span>network</span></span></a><div class="shon-header-actions"><a id="shon-global-messages" class="shon-header-action" href="members.html">🔔 Messages <span id="shon-global-member-count" class="shon-global-count" hidden></span></a><a id="shon-global-support" class="shon-header-action" href="contact.html">Support / Contact SHON <span id="shon-global-support-count" class="shon-global-count" hidden></span></a></div></div><nav class="shon-global-nav" aria-label="Site navigation"><a href="index.html">Home</a><a href="members.html" aria-current="page">SHONnetwork - Sign In/Out</a><a href="discover.html">Discover</a><a href="profile.html">Profile</a><a href="listings.html">Listings</a><a href="connections.html">Connections</a><a href="community.html">Community</a><a href="resources.html">Resources</a><a href="partners.html">Partners</a></nav></div></header><div class="shon-legacy-bells" aria-hidden="true"><a id="shon-bell" href="connections.html" hidden aria-label="Messages">🔔 Messages <span id="bell-count" class="bell-badge" hidden></span></a></div>
 
 <main>
 <h1>My SHONnetwork</h1>
@@ -639,5 +624,6 @@ checkNotifications();
 init();
 })();
 </script>
+<script src="shon-notifications.js" defer></script>
 </body>
 </html>
