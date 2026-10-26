@@ -75,6 +75,10 @@ footer a{color:white}
 <button id="clear" type="button">Clear</button>
 </div>
 
+<div class="controls" id="living-filter-wrap">
+<label for="living-filter" style="font-weight:700">Living arrangement</label>
+<select id="living-filter" aria-label="Filter by living arrangement"><option value="">All living arrangements</option><option value="Private room">Private room</option><option value="Entire home / apartment">Entire home / apartment</option><option value="Homesharing">Homesharing</option><option value="Room and board">Room and board</option><option value="Shared household">Shared household</option><option value="Extended family / chosen family">Extended family / chosen family</option><option value="Intergenerational living">Intergenerational living</option><option value="Companion living">Companion living</option><option value="Live-in apprenticeship">Live-in apprenticeship</option><option value="Property presence / house-sitting">Property presence / house-sitting</option><option value="Caretaker residence">Caretaker residence</option><option value="Cooperative / intentional community">Cooperative / intentional community</option><option value="Accessible living">Accessible living</option><option value="Pet-friendly living">Pet-friendly living</option><option value="Temporary / transitional living">Temporary / transitional living</option><option value="Other / specify">Other / specify</option></select>
+</div>
 <div id="category-filters" class="category-filter" aria-label="Filter opportunities by category"></div>
 <p id="status" class="status" role="status">Loading directory…</p>
 <div id="results"></div>
@@ -95,7 +99,8 @@ footer a{color:white}
 <a href="index.html">Home</a>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.0/dist/umd/supabase.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.0/dist/umd/supabase.min.js">$("living-filter").addEventListener("change",render);
+</script>
 <script>
 (function(){
 "use strict";
@@ -161,10 +166,12 @@ function listingVisual(r,symbol){
 function render(){
 const q=$("search").value.toLowerCase().trim();
 const loc=$("location").value.toLowerCase().trim();
+const living=$("living-filter").value;
 
 renderFilters();
 const matches=rows.filter(r=>{
 if(mode==="listings"&&category!=="all"&&categoryFor(r)!==category)return false;
+if(mode==="listings"&&living&&!(Array.isArray(r.discovery_tags)&&r.discovery_tags.includes(living)))return false;
 const text=Object.values(r)
 .filter(v=>typeof v==="string")
 .join(" ").toLowerCase();
@@ -189,8 +196,8 @@ ${mode==="listings"?listingVisual(r,symbol):`<div class="listing-visual" aria-hi
 <h3>${safe(title)}</h3>
 <small>${safe(place)}</small>
 <p>${safe(desc)}</p>
-${mode==="listings"&&Array.isArray(r.discovery_tags)?`<div class="discovery-tags">${r.discovery_tags.slice(0,8).map(t=>`<span class="discovery-tag">${safe(t)}</span>`).join("")}</div>`:""}
-<a href="members.html">Sign in to connect</a>
+${mode==="listings"&&Array.isArray(r.discovery_tags)?`<div class="discovery-tags">${r.discovery_tags.slice(0,30).map(t=>`<span class="discovery-tag">${safe(t)}</span>`).join("")}</div>`:""}
+${r.user_id?`<a href="public-profile.html?user=${encodeURIComponent(r.user_id)}">View member profile</a>`:`<a href="members.html">Sign in to connect</a>`}
 </article>`;
 }).join("")||"<p>No matching entries found.</p>";
 }
@@ -218,6 +225,7 @@ if(request!==directoryRequest)return;
 if(result.error)throw result.error;
 
 rows=Array.isArray(result.data)?result.data:[];
+if(which==="listings")rows=rows.filter(r=>!r.expires_at||new Date(r.expires_at).getTime()>Date.now());
 photoByListing={};
 if(which==="listings"&&rows.length){
  try{
@@ -363,7 +371,7 @@ $("people").onclick=()=>load("people");
 $("search").oninput=render;
 $("location").oninput=render;
 $("clear").onclick=()=>{
-$("search").value="";
+$("search").value="";$("living-filter").value="";
 $("location").value="";
 render();
 };

@@ -106,7 +106,25 @@ You can create more than one listing. Drafts, paused listings, and closed listin
 <option value="property_presence">🟣 Property Presence</option><option value="help_skills">🔴 Help / Skills Offered</option>
 <option value="companionship">🟡 Companionship</option><option value="community">🟦 Community / Collaboration</option>
 </select>
-<label for="listing-tags">Additional tags (optional)</label>
+<label for="listing-duration">Advertisement expiration (optional)</label>
+<select id="listing-duration">
+<option value="">Until I remove it (default)</option>
+<option value="7">7 days</option><option value="14">14 days</option>
+<option value="30">30 days</option><option value="60">60 days</option>
+<option value="90">90 days</option><option value="custom">Specify expiration date</option>
+</select>
+<div id="listing-custom-expiry-wrap" hidden>
+<label for="listing-custom-expiry">Expiration date</label>
+<input type="date" id="listing-custom-expiry">
+</div>
+<p class="hint">Expired advertisements stay in My Listings. To make one visible again, edit it and choose a new date or duration. Housing duration is separate from advertisement expiration.</p>
+<label for="living-arrangements">Living arrangements (optional, choose any that apply)</label>
+<p class="hint">These describe the type of living arrangement, not the advertisement category. Select multiple if useful.</p>
+<div id="living-arrangements" class="detail-options" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:6px;margin:8px 0 12px"></div>
+<div id="living-other-wrap" hidden><label for="living-other">Other living arrangement (please specify)</label><input id="living-other" maxlength="120" placeholder="Describe the living arrangement"></div>
+<label for="listing-detail-categories">Describe this opportunity (optional, select several)</label>
+<div id="listing-detail-categories" class="detail-options" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:6px;margin:8px 0 14px"></div>
+<label for="listing-tags">Other descriptive tags (optional)</label>
 <input id="listing-tags" maxlength="240" placeholder="Pet Friendly, Long-Term, Shared Costs">
 <p class="hint">Separate tags with commas. These help people scan and search listings. Avoid private contact details.</p>
 <label for="listing-title">Listing Title</label>
@@ -182,6 +200,9 @@ const KEY="sb_publishable_YTHhpIPiKKHGBLMdkj_4og_Uyq_t_SX";
 const $=id=>document.getElementById(id);
 
 const CATEGORY_COLORS={housing_needed:"#367d35",housing_offered:"#0878c9",help_offered:"#c84835",connection_sought:"#aa7a0c"};
+const LIVING_OPTIONS=["Private room", "Entire home / apartment", "Homesharing", "Room and board", "Shared household", "Extended family / chosen family", "Intergenerational living", "Companion living", "Live-in apprenticeship", "Property presence / house-sitting", "Caretaker residence", "Cooperative / intentional community", "Accessible living", "Pet-friendly living", "Temporary / transitional living", "Other / specify"];
+const DETAIL_OPTIONS=[
+"Long-Term","Permanent Home","Emergency Housing","No Rent Required","Shared Costs","Mutual Exchange","Friendship","Families Welcome","Children Welcome","Cats Welcome","Dogs Welcome","Non-Smoking","Quiet Household","Skills Exchange","Tutoring","Mentoring","Research","Remote / Online","Volunteering","Local Activities","Creative Collaboration","Learning Together","Flexible Location","Wi-Fi Available","Utilities Included","Private Bathroom","No Driving Required"];
 const TYPE_LABELS={
 housing_needed:"Needs a home, room and board",
 housing_offered:"Has a home to share",
@@ -230,8 +251,22 @@ function value(id){
 return $(id).value.trim();
 }
 
+function selectedDetails(){return [...document.querySelectorAll('#listing-detail-categories input:checked')].map(el=>el.value);}
+function fillDetails(tags){const set=new Set(tags||[]);document.querySelectorAll('#listing-detail-categories input').forEach(el=>el.checked=set.has(el.value));}
+function renderDetailOptions(){const root=$("listing-detail-categories");root.replaceChildren();for(const name of DETAIL_OPTIONS){const label=document.createElement("label");label.style.cssText="display:flex;align-items:center;gap:6px;font-weight:normal;font-size:14px";const input=document.createElement("input");input.type="checkbox";input.value=name;label.append(input,document.createTextNode(name));root.append(label);}}
+function selectedLiving(){return [...document.querySelectorAll('#living-arrangements input:checked')].map(el=>el.value);}
+function showLivingOther(){const active=selectedLiving().includes("Other / specify");$("living-other-wrap").hidden=!active;}
+function renderLivingOptions(){const root=$("living-arrangements");root.replaceChildren();for(const name of LIVING_OPTIONS){const label=document.createElement("label");label.style.cssText="display:flex;align-items:center;gap:6px;font-weight:normal;font-size:14px";const input=document.createElement("input");input.type="checkbox";input.value=name;input.addEventListener("change",showLivingOther);label.append(input,document.createTextNode(name));root.append(label);}}
+function fillLiving(tags){const set=new Set(tags||[]);document.querySelectorAll('#living-arrangements input').forEach(el=>el.checked=set.has(el.value));const custom=(tags||[]).find(t=>t.startsWith('Living: '));$("living-other").value=custom?custom.slice(8):"";showLivingOther();}
+function livingTags(){const tags=selectedLiving();const other=$("living-other").value.trim();if(tags.includes("Other / specify")&&other)tags.push("Living: "+other);return tags;}
+function durationExpiry(days){return days?new Date(Date.now()+Number(days)*86400000).toISOString():null;}
+function customExpiry(date){return date?date+"T23:59:59.999Z":null;}
+function showExpiryDate(){const custom=value("listing-duration")==="custom";$("listing-custom-expiry-wrap").hidden=!custom;$("listing-custom-expiry").required=custom;}
+function isExpired(item){return Boolean(item?.expires_at&&new Date(item.expires_at).getTime()<=Date.now());}
 function resetForm(){
 $("listing-form").reset();
+fillDetails([]);fillLiving([]);
+$("listing-custom-expiry").value="";showExpiryDate();
 $("listing-id").value="";
 $("listing-status").value="draft";
 $("editor-heading").textContent="Create a Listing";
@@ -255,7 +290,8 @@ arrangement:value("listing-arrangement"),
 housing_type:value("listing-housing-type"),
 remote_possible:$("listing-remote").checked,
 visual_category:value("visual-category")||null,
-discovery_tags:value("listing-tags").split(",").map(s=>s.trim()).filter(Boolean).slice(0,8),
+discovery_tags:[...new Set([...selectedLiving(),...livingTags().filter(t=>t.startsWith("Living: ")),...selectedDetails(),...value("listing-tags").split(",").map(s=>s.trim()).filter(Boolean)])].slice(0,30),
+expires_at:null,
 updated_at:new Date().toISOString()
 };
 }
@@ -305,6 +341,21 @@ message("editor-status","Saving to SHONnetwork...");
 try{
 const id=value("listing-id");
 const payload=getPayload();
+const duration=value("listing-duration");
+const previous=listings.find(x=>String(x.id)===String(id));
+const previousDuration=previous?.listing_duration_days==null?"":String(previous.listing_duration_days);
+const previousCustom=previous?.expires_at?new Date(previous.expires_at).toISOString().slice(0,10):"";
+const selectedDate=value("listing-custom-expiry");
+if(duration==="custom"&&(!selectedDate||selectedDate<new Date().toISOString().slice(0,10))){
+ throw new Error("Choose today or a future expiration date.");
+}
+payload.listing_duration_days=duration&&duration!=="custom"?Number(duration):null;
+if(!id||duration!==previousDuration||(duration==="custom"&&selectedDate!==previousCustom)||isExpired(previous)){
+ payload.expires_at=duration==="custom"?customExpiry(selectedDate):duration?durationExpiry(duration):null;
+}else{delete payload.expires_at;}
+if(previous?.status!=="published"&&payload.status==="published"&&duration&&duration!=="custom"){
+ payload.expires_at=durationExpiry(duration);
+}
 
 let result;
 
@@ -404,8 +455,9 @@ type.style.color="#fff";type.style.padding="5px 10px";type.style.borderRadius="8
 card.style.borderTop="5px solid "+(CATEGORY_COLORS[item.listing_type]||"#546c61");
 card.append(status,type);
 if(item.visual_category){const names={housing_needed:"Housing Needed",housing_offered:"Housing Offered",property_presence:"Property Presence",help_skills:"Help / Skills Offered",companionship:"Companionship",community:"Community / Collaboration"};const colors={...CATEGORY_COLORS,property_presence:"#8838b5",help_skills:"#c84835",companionship:"#aa7a0c",community:"#087b79"};const t=create("span",names[item.visual_category]||item.visual_category,"tag");t.style.background=colors[item.visual_category]||"#546c61";t.style.color="#fff";card.append(t);}
-if(Array.isArray(item.discovery_tags))for(const tag of item.discovery_tags.slice(0,8))card.append(create("span",tag,"tag"));
+if(Array.isArray(item.discovery_tags))for(const tag of item.discovery_tags.slice(0,30))card.append(create("span",tag,"tag"));
 
+if(item.expires_at){const expired=new Date(item.expires_at).getTime()<=Date.now();card.append(create("p",expired?"Expired: edit and enter a new expiration date or duration":"Visible until: "+new Date(item.expires_at).toLocaleDateString(),"hint"));}
 if(item.region){
 card.append(create("p",item.region,"hint"));
 }
@@ -441,7 +493,13 @@ if(!item)return;
 $("listing-id").value=item.id;
 $("listing-type").value=item.listing_type||"housing_needed";
 $("visual-category").value=item.visual_category||"";
-$("listing-tags").value=Array.isArray(item.discovery_tags)?item.discovery_tags.join(", "):"";
+const allTags=Array.isArray(item.discovery_tags)?item.discovery_tags:[];
+fillDetails(allTags);fillLiving(allTags);
+$("listing-tags").value=allTags.filter(t=>!DETAIL_OPTIONS.includes(t)&&!LIVING_OPTIONS.includes(t)&&!t.startsWith("Living: ")).join(", ");
+const preset=item.listing_duration_days==null?"":String(item.listing_duration_days);
+$("listing-duration").value=preset||(item.expires_at?"custom":"");
+$("listing-custom-expiry").value=item.expires_at?new Date(item.expires_at).toISOString().slice(0,10):"";
+showExpiryDate();
 $("listing-status").value=item.status||"draft";
 $("listing-title").value=item.title||"";
 $("listing-description").value=item.description||"";
@@ -618,6 +676,9 @@ message("status",
 }
 }
 
+renderDetailOptions();
+renderLivingOptions();
+$("listing-duration").addEventListener("change",showExpiryDate);showExpiryDate();
 $("listing-form").addEventListener("submit",saveListing);
 $("clear-button").addEventListener("click",resetForm);
 $("refresh-button").addEventListener("click",loadListings);
