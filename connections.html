@@ -8,11 +8,11 @@
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#f7f9f5;color:#173b32;font:16px/1.5 system-ui,Arial,sans-serif}
-header{background:white;border-bottom:1px solid #dce6dc;padding:14px 18px}
+header{background:#fff;border-bottom:1px solid #dce6dc;padding:14px 18px}
 .bar{max-width:1100px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
 .brand{font-size:27px;font-weight:800;color:#111;text-decoration:none}
 .brand span{font-weight:400}
-nav{display:flex;gap:12px;flex-wrap:wrap}
+nav{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
 nav a{color:#205342;text-decoration:none;font-weight:650}
 main{max-width:1050px;margin:auto;padding:24px 16px 70px}
 h1{font-size:clamp(29px,5vw,40px);margin:0 0 8px}
@@ -43,31 +43,29 @@ label{display:block;font-weight:700;margin:12px 0 5px}
 .preview{font-size:14px;color:#466052}
 .alert{background:#fff2d6;border:1px solid #e4bc70;padding:15px;border-radius:11px;margin:14px 0}
 .small{font-size:13px;color:#50675e}
+#shon-bell{display:inline-flex;align-items:center;gap:5px;white-space:nowrap;text-decoration:none;color:#173b32;background:#fff3cf;border:1px solid #cfb56b;border-radius:9px;padding:8px 11px;font-weight:700;min-height:42px}
 [hidden]{display:none!important}
 :focus-visible{outline:3px solid #bd7d25;outline-offset:2px}
 @media(max-width:650px){.panel{padding:14px}.tabs button{flex:1 1 130px}}
 </style>
 </head>
 <body>
-<header>
-<div class="bar">
+<header><div class="bar">
 <a class="brand" href="index.html">🏡 SHON<span>network</span></a>
 <nav aria-label="Member navigation">
 <a href="members.html">My SHONnetwork</a>
 <a href="profile.html">My Profile</a>
 <a href="listings.html">My Listings</a>
 <a href="connections.html" aria-current="page">My Connections</a>
+<a id="shon-bell" href="connections.html" hidden aria-label="Messages">🔔 Messages <span id="bell-count" class="badge" hidden></span></a>
 </nav>
-</div>
-</header>
+</div></header>
 
 <main>
 <h1>My Connections</h1>
 <p class="muted">People, conversations, friendships, and opportunities you've chosen to remember.</p>
 
-<div id="status" class="notice" role="status" aria-live="polite">
-Connecting to SHONnetwork...
-</div>
+<div id="status" class="notice" role="status" aria-live="polite">Connecting to SHONnetwork...</div>
 
 <section id="signed-out" class="panel" hidden>
 <h2>Sign in to see your connections</h2>
@@ -79,9 +77,7 @@ Connecting to SHONnetwork...
 <div id="message-alert" class="alert" role="status" aria-live="polite" hidden></div>
 
 <div class="tabs" role="group" aria-label="Connection sections">
-<button class="active" data-tab="messages" aria-pressed="true">
-💬 Messages <span id="messages-badge" class="badge" hidden></span>
-</button>
+<button class="active" data-tab="messages" aria-pressed="true">💬 Messages <span id="messages-badge" class="badge" hidden></span></button>
 <button class="secondary" data-tab="people" aria-pressed="false">👥 People</button>
 <button class="secondary" data-tab="saved" aria-pressed="false">⭐ Saved</button>
 <button class="secondary" data-tab="discover" aria-pressed="false">🔎 Find People</button>
@@ -90,7 +86,7 @@ Connecting to SHONnetwork...
 
 <section id="messages" class="panel">
 <h2>Private Messages</h2>
-<p class="muted">New messages are highlighted. Conversations are checked automatically while this page is open.</p>
+<p class="muted">New messages are highlighted. This page checks for updates approximately every 30 seconds.</p>
 <button id="refresh" class="secondary" type="button">Refresh Conversations</button>
 <div id="conversations"></div>
 
@@ -124,9 +120,7 @@ Connecting to SHONnetwork...
 <p>Search members who have chosen to be discoverable and included in the member directory.</p>
 <label for="search-name">Name or search phrase</label>
 <input id="search-name" placeholder="Search SHONnetwork members">
-<div class="actions">
-<button id="search" type="button">Search Members</button>
-</div>
+<div class="actions"><button id="search" type="button">Search Members</button></div>
 <div id="search-results"></div>
 </section>
 
@@ -149,94 +143,76 @@ const $=id=>document.getElementById(id);
 
 let db=null,me=null,active=null,peer=null;
 let contacts={},threads=[],blockedIds=new Set();
-let messageInfo=new Map();
-let readTimes={};
-let currentTab="messages";
-let checking=false;
-let timer=null;
-let lastUnread=0;
-let hasChecked=false;
+let messageInfo=new Map(),readTimes={};
+let currentTab="messages",checking=false,timer=null;
+let lastUnread=0,hasChecked=false;
 
 function status(message,error=false){
 const node=$("status");
 node.textContent=message;
 node.classList.toggle("error",error);
 }
-
 function element(tag,text,cls){
 const node=document.createElement(tag);
 node.textContent=text==null?"":String(text);
 if(cls)node.className=cls;
 return node;
 }
-
 function button(text,callback,cls="secondary"){
 const node=element("button",text,cls);
 node.type="button";
 node.addEventListener("click",callback);
 return node;
 }
-
 function empty(root,text){
 root.replaceChildren(element("div",text,"empty"));
 }
-
 async function call(query){
 const {data,error}=await query;
 if(error)throw error;
 return data;
 }
-
 async function act(fn){
 try{await fn();}
 catch(error){status("Action unsuccessful: "+error.message,true);}
 }
-
 function name(id){
 return contacts[id]||"SHONnetwork member";
 }
-
 function storageKey(){
 return "shon-message-read-v1-"+me;
 }
-
 function loadReadTimes(){
 try{
 const saved=JSON.parse(localStorage.getItem(storageKey())||"{}");
 readTimes=saved&&typeof saved==="object"?saved:{};
 }catch(error){readTimes={};}
 }
-
 function saveReadTimes(){
-try{localStorage.setItem(storageKey(),JSON.stringify(readTimes));}
-catch(error){}
+try{
+localStorage.setItem(storageKey(),JSON.stringify(readTimes));
+}catch(error){}
 }
-
 function showSignedOut(){
 me=null;active=null;peer=null;
-blockedIds.clear();
-messageInfo.clear();
-readTimes={};
-hasChecked=false;
-lastUnread=0;
+blockedIds.clear();messageInfo.clear();
+readTimes={};hasChecked=false;lastUnread=0;
 if(timer){clearInterval(timer);timer=null;}
 $("conversation-panel").hidden=true;
 $("signed-out").hidden=false;
 $("workspace").hidden=true;
+$("shon-bell").hidden=true;
 status("Sign in to access your connections.");
 }
-
 function otherMember(conversation){
 return conversation.member_a===me?
 conversation.member_b:conversation.member_a;
 }
-
 function getInfo(id){
 return messageInfo.get(String(id))||{
 latest:null,preview:"",unread:0,latestTime:0
 };
 }
-
 function unreadTotal(){
 let count=0;
 for(const conversation of threads){
@@ -245,25 +221,27 @@ count+=getInfo(conversation.id).unread;
 }
 return count;
 }
-
 function updateBadge(){
 const count=unreadTotal();
 const badge=$("messages-badge");
+const bellCount=$("bell-count");
+const bell=$("shon-bell");
+
 badge.hidden=count===0;
-badge.textContent=count>99?"99+":String(count);
+bellCount.hidden=count===0;
+badge.textContent=bellCount.textContent=
+count>99?"99+":String(count);
+
+bell.setAttribute("aria-label",count?
+count+" unread messages. Open My Connections.":
+"Messages. Open My Connections.");
 
 const alert=$("message-alert");
-
-if(count>0){
-alert.hidden=false;
-alert.textContent=
+alert.hidden=count===0;
+alert.textContent=count?
 "You have "+count+" unread message"+
 (count===1?"":"s")+
-". Open a highlighted conversation to read them.";
-}else{
-alert.hidden=true;
-alert.textContent="";
-}
+". Open a highlighted conversation to read them.":"";
 
 document.title=count?
 "("+count+") My Connections | SHONnetwork":
@@ -271,109 +249,75 @@ document.title=count?
 
 lastUnread=count;
 }
-
 function markRead(conversationId,messages){
 const incoming=(messages||[])
 .filter(x=>x.sender!==me)
 .map(x=>new Date(x.created_at).getTime())
 .filter(Number.isFinite);
-
 const newest=incoming.length?Math.max(...incoming):0;
 const id=String(conversationId);
-
 if(newest){
 readTimes[id]=Math.max(Number(readTimes[id])||0,newest);
 saveReadTimes();
 }
-
 const info=getInfo(conversationId);
 info.unread=0;
 messageInfo.set(id,info);
 updateBadge();
 renderConversations();
 }
-
 async function checkMessages(){
 if(!me||checking)return;
 checking=true;
-
 try{
-const visible=threads.filter(c=>
-!blockedIds.has(otherMember(c))
-);
-
+const visible=threads.filter(c=>!blockedIds.has(otherMember(c)));
 if(!visible.length){
-messageInfo.clear();
-updateBadge();
-return;
+messageInfo.clear();updateBadge();return;
 }
-
 const ids=visible.map(c=>c.id);
 const next=new Map();
 
 for(let offset=0;offset<ids.length;offset+=30){
-const batch=ids.slice(offset,offset+30);
-
 const messages=await call(
 db.from("shon_messages")
 .select("id,conversation_id,sender,body,created_at")
-.in("conversation_id",batch)
+.in("conversation_id",ids.slice(offset,offset+30))
 .order("created_at",{ascending:false})
 .limit(1000)
 );
-
 for(const item of messages||[]){
 const id=String(item.conversation_id);
 let info=next.get(id);
-
 if(!info){
-info={
-latest:null,
-preview:"",
-unread:0,
-latestTime:0
-};
+info={latest:null,preview:"",unread:0,latestTime:0};
 next.set(id,info);
 }
-
 const stamp=new Date(item.created_at).getTime();
-
-if(!info.latest || stamp>info.latestTime){
+if(!info.latest||stamp>info.latestTime){
 info.latest=item;
 info.latestTime=stamp;
 info.preview=item.body||"";
 }
-
-if(item.sender!==me &&
-stamp>(Number(readTimes[id])||0)){
+if(item.sender!==me&&stamp>(Number(readTimes[id])||0)){
 info.unread++;
 }
 }
 }
-
 messageInfo=next;
-
 const total=unreadTotal();
-
 if(hasChecked&&total>lastUnread){
 status("You have received a new message.");
 }
-
 hasChecked=true;
 updateBadge();
 renderConversations();
-
 }catch(error){
 status("Message notifications could not refresh: "+error.message,true);
-}finally{
-checking=false;
+}finally{checking=false;}
 }
-}
-
 async function refresh(silent=false){
 if(!me)return;
 if(!silent)status("Loading your connections...");
-
 const results=await Promise.allSettled([
 call(db.from("shon_conversations")
 .select("id,member_a,member_b,created_at")
@@ -383,83 +327,52 @@ call(db.from("shon_friend_requests")
 .order("created_at",{ascending:false})),
 call(db.rpc("shon_my_contacts")),
 call(db.from("shon_member_marks")
-.select("item_type,item_id,mark_type")
-.eq("user_id",me)),
+.select("item_type,item_id,mark_type").eq("user_id",me)),
 call(db.from("shon_blocks")
-.select("blocker,blocked")
-.eq("blocker",me))
+.select("blocker,blocked").eq("blocker",me))
 ]);
-
-const labels=[
-"Conversations","Friendships","Contact names",
-"Saved items","Blocked members"
-];
-
+const labels=["Conversations","Friendships","Contact names","Saved items","Blocked members"];
 results.forEach((result,i)=>{
 if(result.status==="rejected"){
-status(labels[i]+" could not load: "+
-result.reason.message,true);
+status(labels[i]+" could not load: "+result.reason.message,true);
 }
 });
-
 if(results[2].status==="fulfilled"){
 contacts=Object.fromEntries(
-(results[2].value||[])
-.map(x=>[x.user_id,x.display_name])
+(results[2].value||[]).map(x=>[x.user_id,x.display_name])
 );
 }
-
 if(results[4].status==="fulfilled"){
-blockedIds=new Set(
-(results[4].value||[]).map(x=>x.blocked)
-);
+blockedIds=new Set((results[4].value||[]).map(x=>x.blocked));
 renderBlocked();
 }
-
 if(results[0].status==="fulfilled"){
 threads=results[0].value||[];
 renderConversations();
 }
-
 if(results[1].status==="fulfilled"){
 renderFriends(results[1].value||[]);
 }
-
 if(results[3].status==="fulfilled"){
 renderSaved(results[3].value||[]);
 }
-
 if(active&&blockedIds.has(peer)){
 active=null;peer=null;
 $("conversation-panel").hidden=true;
 }
-
-if(results[0].status==="fulfilled"){
-await checkMessages();
-}
-
-if(active&&!$("conversation-panel").hidden){
-await loadThread();
-}
-
+if(results[0].status==="fulfilled")await checkMessages();
+if(active&&!$("conversation-panel").hidden)await loadThread();
 if(results.every(x=>x.status==="fulfilled")&&!silent){
 status("Your SHONnetwork connections are ready.");
 }
 }
-
 function renderConversations(){
 const root=$("conversations");
 root.replaceChildren();
-
-const available=threads.filter(c=>
-!blockedIds.has(otherMember(c))
-);
-
+const available=threads.filter(c=>!blockedIds.has(otherMember(c)));
 if(!available.length){
-empty(root,"No available conversations yet.");
-return;
+empty(root,"No available conversations yet.");return;
 }
-
 available.sort((a,b)=>{
 const ai=getInfo(a.id),bi=getInfo(b.id);
 if(Boolean(ai.unread)!==Boolean(bi.unread)){
@@ -469,65 +382,45 @@ const at=ai.latestTime||new Date(a.created_at).getTime();
 const bt=bi.latestTime||new Date(b.created_at).getTime();
 return bt-at;
 });
-
 for(const conversation of available){
 const other=otherMember(conversation);
 const info=getInfo(conversation.id);
-
-const card=element("article","",
-"entry"+(info.unread?" unread":""));
-
+const card=element("article","","entry"+(info.unread?" unread":""));
 const title=element("h3",name(other));
 if(info.unread){
-title.append(element("span",
-String(info.unread)+" new","badge"));
+title.append(element("span",String(info.unread)+" new","badge"));
 }
 card.append(title);
-
 if(info.latest){
-const prefix=info.latest.sender===me?
-"You: ":"";
+const prefix=info.latest.sender===me?"You: ":"";
 const preview=prefix+info.preview;
+card.append(element("p",preview.length>150?
+preview.slice(0,150)+"…":preview,"preview"));
 card.append(element("p",
-preview.length>150?
-preview.slice(0,150)+"…":preview,
-"preview"));
-
-card.append(element("p",
-new Date(info.latest.created_at).toLocaleString(),
-"small"));
+new Date(info.latest.created_at).toLocaleString(),"small"));
 }
-
 card.append(button(
 info.unread?"Read New Messages":"Open Conversation",
 ()=>act(()=>openThread(conversation.id,other))
 ));
-
 root.append(card);
 }
 }
-
 async function openThread(id,other){
 if(blockedIds.has(other)){
-status("This member is blocked.",true);
-return;
+status("This member is blocked.",true);return;
 }
-active=id;
-peer=other;
+active=id;peer=other;
 $("conversation-panel").hidden=false;
-$("thread-title").textContent=
-"Conversation with "+name(other);
+$("thread-title").textContent="Conversation with "+name(other);
 selectTab("messages");
 await loadThread();
 }
-
 async function loadThread(){
 if(!active)return;
-
 const conversationId=active;
 const root=$("thread");
 root.replaceChildren(element("p","Loading messages..."));
-
 try{
 const messages=await call(
 db.from("shon_messages")
@@ -536,367 +429,236 @@ db.from("shon_messages")
 .order("created_at",{ascending:true})
 .limit(200)
 );
-
 if(active!==conversationId)return;
-
 root.replaceChildren();
-
 for(const item of messages||[]){
 const bubble=element("article","",
 "bubble"+(item.sender===me?" mine":""));
-
 const heading=element("strong",
 item.sender===me?"You":name(item.sender));
-
 const date=element("span",
-" · "+new Date(item.created_at).toLocaleString(),
-"muted");
-
+" · "+new Date(item.created_at).toLocaleString(),"muted");
 const body=element("div",item.body||"");
 bubble.append(heading,date,body);
 root.append(bubble);
 }
-
 if(!messages?.length){
 empty(root,"No messages yet. You can start the conversation.");
 }
-
 root.scrollTop=root.scrollHeight;
 markRead(conversationId,messages);
-
 }catch(error){
 empty(root,"Could not load messages: "+error.message);
 }
 }
-
 async function send(){
 if(!me||!active||blockedIds.has(peer))return;
-
 const body=$("message-body").value.trim();
 if(!body)return;
-
-const conversationId=active;
-
 await act(async()=>{
-await call(
-db.from("shon_messages").insert({
-conversation_id:conversationId,
-sender:me,
-body
-})
-);
-
+await call(db.from("shon_messages").insert({
+conversation_id:active,sender:me,body
+}));
 $("message-body").value="";
 await loadThread();
 await checkMessages();
 status("Message sent.");
 });
 }
-
 function renderFriends(requests){
 const root=$("friends");
 root.replaceChildren();
-
 if(!requests.length){
-empty(root,"No friendships or requests yet.");
-return;
+empty(root,"No friendships or requests yet.");return;
 }
-
 for(const item of requests){
-const other=item.requester===me?
-item.recipient:item.requester;
+const other=item.requester===me?item.recipient:item.requester;
 if(blockedIds.has(other))continue;
-
 const card=element("article","","entry");
 card.append(element("h3",name(other)));
-
 const description=item.status==="pending"?
-(item.recipient===me?
-"Friend request received":"Friend request sent"):
+(item.recipient===me?"Friend request received":"Friend request sent"):
 item.status;
-
 card.append(element("p",description,"muted"));
-
 const actions=element("div","","actions");
-
 if(item.status==="pending"&&item.recipient===me){
-for(const [label,next] of [
-["Accept","accepted"],
-["Decline","declined"]
-]){
+for(const [label,next] of [["Accept","accepted"],["Decline","declined"]]){
 actions.append(button(label,()=>act(async()=>{
-await call(
-db.from("shon_friend_requests")
-.update({
-status:next,
-updated_at:new Date().toISOString()
-})
-.eq("id",item.id)
-);
+await call(db.from("shon_friend_requests").update({
+status:next,updated_at:new Date().toISOString()
+}).eq("id",item.id));
 await refresh();
 })));
 }
 }
-
 if(item.status==="accepted"){
 actions.append(button("Message",()=>act(async()=>{
-const id=await call(
-db.rpc("shon_start_conversation",{
+const id=await call(db.rpc("shon_start_conversation",{
 other_user:other
-})
-);
+}));
 await refresh();
 await openThread(id,other);
 })));
-
 actions.append(button("Remove Connection",()=>act(async()=>{
 if(!confirm("Remove this connection?"))return;
-await call(
-db.from("shon_friend_requests")
-.delete().eq("id",item.id)
-);
+await call(db.from("shon_friend_requests")
+.delete().eq("id",item.id));
 await refresh();
 }),"danger"));
 }
-
-card.append(actions);
-root.append(card);
+card.append(actions);root.append(card);
 }
 }
-
 function renderSaved(items){
 const root=$("saved-items");
 root.replaceChildren();
-
 if(!items.length){
-empty(root,"No saved people or opportunities yet.");
-return;
+empty(root,"No saved people or opportunities yet.");return;
 }
-
 for(const item of items){
 const card=element("article","","entry");
-
-card.append(element("h3",
-item.item_type==="person"?
+card.append(element("h3",item.item_type==="person"?
 "Saved Person":"Saved Opportunity"));
-
-card.append(element("p",
-"Reference: "+item.item_id,"muted"));
-
-card.append(element("p",
-item.mark_type==="interested"?
+card.append(element("p","Reference: "+item.item_id,"muted"));
+card.append(element("p",item.mark_type==="interested"?
 "Marked Interested":"Saved for Later"));
-
 card.append(button("Remove Mark",()=>act(async()=>{
-await call(
-db.from("shon_member_marks")
-.delete()
+await call(db.from("shon_member_marks").delete()
 .eq("user_id",me)
 .eq("item_type",item.item_type)
 .eq("item_id",item.item_id)
-.eq("mark_type",item.mark_type)
-);
+.eq("mark_type",item.mark_type));
 await refresh();
 })));
-
 root.append(card);
 }
 }
-
 async function searchPeople(){
 const query=$("search-name").value.trim();
 const root=$("search-results");
 root.replaceChildren(element("p","Searching..."));
-
 await act(async()=>{
-const people=await call(
-db.rpc("shon_find_people",{q:query})
-);
-
+const people=await call(db.rpc("shon_find_people",{q:query}));
 root.replaceChildren();
 let shown=0;
-
 for(const person of people||[]){
-if(person.user_id===me||
-blockedIds.has(person.user_id))continue;
-
+if(person.user_id===me||blockedIds.has(person.user_id))continue;
 shown++;
-
 const card=element("article","","entry");
-card.append(element("h3",
-person.display_name||"SHONnetwork member"));
-
+card.append(element("h3",person.display_name||"SHONnetwork member"));
 if(person.region){
 card.append(element("p",person.region,"muted"));
 }
-
 const actions=element("div","","actions");
-
 actions.append(button("Message",()=>act(async()=>{
-const id=await call(
-db.rpc("shon_start_conversation",{
+const id=await call(db.rpc("shon_start_conversation",{
 other_user:person.user_id
-})
-);
+}));
 contacts[person.user_id]=person.display_name;
 await refresh();
 await openThread(id,person.user_id);
 })));
-
 actions.append(button("Add Friend",()=>act(async()=>{
-await call(
-db.from("shon_friend_requests").insert({
-requester:me,
-recipient:person.user_id
-})
-);
+await call(db.from("shon_friend_requests").insert({
+requester:me,recipient:person.user_id
+}));
 status("Friend request sent.");
 await refresh();
 })));
-
 actions.append(button("Save Person",()=>act(async()=>{
-await call(
-db.from("shon_member_marks").insert({
-user_id:me,
-item_type:"person",
-item_id:String(person.user_id),
-mark_type:"saved"
-})
-);
+await call(db.from("shon_member_marks").insert({
+user_id:me,item_type:"person",
+item_id:String(person.user_id),mark_type:"saved"
+}));
 status("Person saved.");
 await refresh();
 })));
-
-card.append(actions);
-root.append(card);
+card.append(actions);root.append(card);
 }
-
 if(!shown){
 empty(root,"No matching discoverable members found.");
 }
 });
 }
-
 async function blockMember(){
-if(!peer)return;
-if(!confirm("Block this member?"))return;
-
+if(!peer||!confirm("Block this member?"))return;
 await act(async()=>{
-await call(
-db.from("shon_blocks").insert({
-blocker:me,
-blocked:peer
-})
-);
-active=null;
-peer=null;
+await call(db.from("shon_blocks").insert({
+blocker:me,blocked:peer
+}));
+active=null;peer=null;
 $("conversation-panel").hidden=true;
 status("Member blocked.");
 selectTab("blocked");
 await refresh();
 });
 }
-
 async function reportMember(){
 if(!peer)return;
-
-const reason=prompt(
-"Briefly describe the concern (5–1000 characters)."
-);
+const reason=prompt("Briefly describe the concern (5–1000 characters).");
 if(reason===null)return;
-
 const text=reason.trim();
-
 if(text.length<5||text.length>1000){
-status("Please enter 5 to 1000 characters.",true);
-return;
+status("Please enter 5 to 1000 characters.",true);return;
 }
-
 await act(async()=>{
-await call(
-db.from("shon_reports").insert({
-reporter:me,
-reported_user:peer,
-reason:text
-})
-);
+await call(db.from("shon_reports").insert({
+reporter:me,reported_user:peer,reason:text
+}));
 status("Report recorded for administrator review.");
 });
 }
-
 function renderBlocked(){
 const root=$("blocked-items");
 root.replaceChildren();
-
 if(!blockedIds.size){
-empty(root,"You have not blocked any members.");
-return;
+empty(root,"You have not blocked any members.");return;
 }
-
 for(const id of blockedIds){
 const card=element("article","","entry");
 card.append(element("h3",name(id)));
-
 card.append(button("Unblock Member",()=>act(async()=>{
 if(!confirm("Unblock this member?"))return;
-await call(
-db.from("shon_blocks").delete()
-.eq("blocker",me)
-.eq("blocked",id)
-);
+await call(db.from("shon_blocks").delete()
+.eq("blocker",me).eq("blocked",id));
 status("Member unblocked.");
 await refresh();
 })));
-
 root.append(card);
 }
 }
-
 function selectTab(id){
 currentTab=id;
-
 for(const tab of document.querySelectorAll("[data-tab]")){
 const selected=tab.dataset.tab===id;
 tab.classList.toggle("active",selected);
 tab.classList.toggle("secondary",!selected);
 tab.setAttribute("aria-pressed",String(selected));
 }
-
-for(const section of [
-"messages","people","saved","discover","blocked"
-]){
+for(const section of ["messages","people","saved","discover","blocked"]){
 $(section).hidden=section!==id;
 }
 }
-
 async function backgroundRefresh(){
 if(!me||document.hidden)return;
-
 try{
 const conversations=await call(
 db.from("shon_conversations")
 .select("id,member_a,member_b,created_at")
 .order("created_at",{ascending:false})
 );
-
 threads=conversations||[];
 await checkMessages();
-
-if(active&&currentTab==="messages"){
-await loadThread();
-}
-
+if(active&&currentTab==="messages")await loadThread();
 }catch(error){
 console.warn("Background message check:",error.message);
 }
 }
-
 async function initialize(){
 if(!window.supabase?.createClient){
 status("Supabase library unavailable. Check your connection.",true);
 return;
 }
-
 db=window.supabase.createClient(URL,KEY,{
 auth:{
 storageKey:"sb-wqcninwqeyfoyxlllwdy-auth-token",
@@ -905,56 +667,38 @@ autoRefreshToken:true,
 detectSessionInUrl:true
 }
 });
-
 db.auth.onAuthStateChange((_event,session)=>{
 if(!session?.user)showSignedOut();
 });
-
 const {data,error}=await db.auth.getUser();
 if(error)throw error;
-
-if(!data?.user){
-showSignedOut();
-return;
-}
-
+if(!data?.user){showSignedOut();return;}
 me=data.user.id;
 loadReadTimes();
-
 $("signed-out").hidden=true;
 $("workspace").hidden=false;
-
+$("shon-bell").hidden=false;
 await refresh();
-
 timer=setInterval(backgroundRefresh,30000);
 }
 
 document.querySelectorAll("[data-tab]").forEach(tab=>{
-tab.addEventListener("click",()=>{
-selectTab(tab.dataset.tab);
+tab.addEventListener("click",()=>selectTab(tab.dataset.tab));
 });
-});
-
 $("refresh").addEventListener("click",()=>act(()=>refresh()));
 $("reload-thread").addEventListener("click",()=>act(loadThread));
 $("send").addEventListener("click",send);
 $("search").addEventListener("click",searchPeople);
 $("block").addEventListener("click",blockMember);
 $("report").addEventListener("click",reportMember);
-
 $("search-name").addEventListener("keydown",event=>{
 if(event.key==="Enter"){
-event.preventDefault();
-searchPeople();
+event.preventDefault();searchPeople();
 }
 });
-
 document.addEventListener("visibilitychange",()=>{
-if(!document.hidden&&me){
-backgroundRefresh();
-}
+if(!document.hidden&&me)backgroundRefresh();
 });
-
 initialize().catch(error=>{
 status("Could not connect: "+error.message,true);
 });
