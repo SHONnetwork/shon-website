@@ -6,175 +6,546 @@
 <title>SHONnetwork Administrator Inbox</title>
 <style>
 *{box-sizing:border-box}
-body{font-family:Arial,Helvetica,sans-serif;background:#f5f8f7;color:#23332d;margin:0;line-height:1.5}
-header{background:white;border-bottom:1px solid #dce5e1;padding:18px}
-.wrap{max-width:1050px;margin:auto}
-.brand{font-size:25px;font-weight:800;color:#142b25;text-decoration:none}
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f5f8f7;
+  color:#23332d;
+  margin:0;
+  line-height:1.5
+}
+header{
+  background:white;
+  border-bottom:1px solid #dce5e1
+}
+.wrap{
+  max-width:1050px;
+  margin:auto;
+  padding:15px 18px
+}
+.header-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap
+}
+.header-actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap
+}
+.brand{
+  font-size:25px;
+  font-weight:800;
+  color:#142b25;
+  text-decoration:none
+}
 .brand span{font-weight:400}
-main{max-width:1000px;margin:25px auto;padding:0 16px}
-.panel{background:white;border:1px solid #dce5e1;border-radius:12px;padding:20px;margin:15px 0}
-.ticket{border:1px solid #dce5e1;border-radius:10px;margin:12px 0;padding:15px}
-button,select,textarea{font:inherit;border-radius:8px;padding:10px}
-button{background:#16654f;color:white;border:0;cursor:pointer;margin:8px 5px 8px 0}
+.header-link{
+  display:inline-block;
+  padding:9px 12px;
+  border:1px solid #d5e3dc;
+  border-radius:8px;
+  text-decoration:none;
+  color:#205b4b;
+  font-size:14px;
+  font-weight:bold
+}
+.header-link:hover{background:#eef7f3}
+.badge{
+  display:inline-block;
+  background:#b72232;
+  color:white;
+  border-radius:15px;
+  padding:1px 7px;
+  font-size:12px;
+  margin-left:4px
+}
+nav{
+  display:flex;
+  flex-wrap:wrap;
+  gap:13px;
+  margin-top:13px;
+  font-size:14px
+}
+nav a{
+  color:#205b4b;
+  text-decoration:none
+}
+main{
+  max-width:1000px;
+  margin:25px auto;
+  padding:0 16px
+}
+.panel{
+  background:white;
+  border:1px solid #dce5e1;
+  border-radius:12px;
+  padding:20px;
+  margin:15px 0
+}
+.ticket{
+  border:1px solid #dce5e1;
+  border-radius:10px;
+  margin:12px 0;
+  padding:15px
+}
+.ticket.unread{
+  border-left:5px solid #16654f;
+  background:#fbfefd
+}
+button,select,textarea{
+  font:inherit;
+  border-radius:8px;
+  padding:10px
+}
+button{
+  background:#16654f;
+  color:white;
+  border:0;
+  cursor:pointer;
+  margin:8px 5px 8px 0
+}
 button:disabled{opacity:.6}
 select,textarea{border:1px solid #aebeb8}
-textarea{display:block;width:100%;min-height:110px}
-.message{background:#f5f8f7;border-left:3px solid #9eb9ae;margin:10px 0;padding:12px;white-space:pre-wrap;overflow-wrap:anywhere}
+textarea{
+  display:block;
+  width:100%;
+  min-height:110px
+}
+.message{
+  background:#f5f8f7;
+  border-left:3px solid #9eb9ae;
+  margin:10px 0;
+  padding:12px;
+  white-space:pre-wrap;
+  overflow-wrap:anywhere
+}
+.notice{
+  background:#eef7f3;
+  padding:12px;
+  border-radius:8px;
+  margin-top:12px
+}
 small{color:#586b63}
 [hidden]{display:none!important}
 </style>
 </head>
 <body>
+
 <header>
 <div class="wrap">
+<div class="header-top">
 <a class="brand" href="index.html">🏡 SHON<span>network</span></a>
-<p>Private Support Administration</p>
+<div class="header-actions">
+<a id="messages-link" class="header-link" href="connections.html">🔔 Messages</a>
+<a class="header-link" href="contact.html">Support / Contact SHON</a>
+</div>
+</div>
+<nav aria-label="Site navigation">
+<a href="index.html">Home</a>
+<a href="members.html">SHONnetwork - Sign In/Out</a>
+<a href="discover.html">Discover</a>
+<a href="profile.html">Profile</a>
+<a href="listings.html">Listings</a>
+<a href="connections.html">Connections</a>
+<a href="community.html">Community</a>
+<a href="resources.html">Resources</a>
+<a href="partners.html">Partners</a>
+</nav>
 </div>
 </header>
+
 <main>
 <section class="panel">
 <h1>SHONnetwork Administrator Inbox</h1>
 <p id="status" role="status">Checking administrator access...</p>
-<button id="refresh" hidden>Refresh inbox</button>
+<div id="support-notice" class="notice" hidden role="status"></div>
+<button id="refresh" hidden type="button">Refresh inbox</button>
 </section>
+
 <section class="panel" id="inbox-section" hidden>
-<h2>Support inquiries</h2>
+<h2>Support inquiries <span id="unread-count" class="badge" hidden></span></h2>
+<p id="unread-summary">Checking notifications...</p>
 <div id="inbox"></div>
 </section>
 </main>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const SUPABASE_URL="https://wqcninwqeyfoyxlllwdy.supabase.co";
 const KEY="sb_publishable_YTHhpIPiKKHGBLMdkj_4og_Uyq_t_SX";
-const db=window.supabase.createClient(SUPABASE_URL,KEY,{
-auth:{storageKey:"sb-wqcninwqeyfoyxlllwdy-auth-token"}
-});
+
 const el=id=>document.getElementById(id);
+let db=null;
 let me=null;
+let unreadTotal=0;
+const originalTitle=document.title;
+
 function node(tag,text,className){
-const e=document.createElement(tag);
-if(text!==undefined)e.textContent=text;
-if(className)e.className=className;
-return e;
+  const e=document.createElement(tag);
+  if(text!==undefined)e.textContent=text;
+  if(className)e.className=className;
+  return e;
 }
-function date(s){return new Date(s).toLocaleString()}
+
+function date(s){
+  return new Date(s).toLocaleString();
+}
+
+async function refreshUnread(){
+  if(!me)return;
+
+  const {data,error}=await db.rpc("shon_support_unread_count");
+
+  if(error){
+    console.error("Unread support count:",error.message);
+    el("unread-summary").textContent=
+      "Unable to check unread messages: "+error.message;
+    return;
+  }
+
+  unreadTotal=Number(data)||0;
+
+  const badge=el("unread-count");
+  const summary=el("unread-summary");
+  const notice=el("support-notice");
+
+  badge.hidden=unreadTotal===0;
+  badge.textContent=unreadTotal;
+
+  if(unreadTotal>0){
+    summary.textContent=
+      unreadTotal+" unread support message"+
+      (unreadTotal===1:"s")+
+      " waiting for your attention.";
+
+    notice.hidden=false;
+    notice.textContent=
+      "🔔 New SHONnetwork support activity: "+
+      unreadTotal+" unread message"+
+      (unreadTotal===1?"":"s")+
+      ".";
+
+    document.title="("+unreadTotal+") "+originalTitle;
+  }else{
+    summary.textContent="No unread support messages.";
+    notice.hidden=true;
+    document.title=originalTitle;
+  }
+}
+
 async function start(){
-try{
-const {data,error}=await db.auth.getUser();
-if(error||!data.user){
-el("status").textContent="Please sign in to SHONnetwork first.";
-return;
+  try{
+    if(!window.supabase){
+      throw new Error("The Supabase library did not load.");
+    }
+
+    db=window.supabase.createClient(SUPABASE_URL,KEY,{
+      auth:{
+        storageKey:"sb-wqcninwqeyfoyxlllwdy-auth-token"
+      }
+    });
+
+    const {data,error}=await db.auth.getUser();
+
+    if(error||!data.user){
+      el("status").textContent="Please sign in to SHONnetwork first.";
+      el("messages-link").href="members.html";
+      return;
+    }
+
+    me=data.user;
+
+    const {data:role,error:roleError}=await db
+      .from("shon_support_admins")
+      .select("user_id")
+      .eq("user_id",me.id)
+      .maybeSingle();
+
+    if(roleError)throw roleError;
+
+    if(!role){
+      el("status").textContent=
+        "Access restricted to authorized SHONnetwork support administrators.";
+      return;
+    }
+
+    el("status").textContent="Administrator access confirmed.";
+    el("refresh").hidden=false;
+    el("inbox-section").hidden=false;
+
+    await loadInbox();
+    await refreshUnread();
+
+    setInterval(async()=>{
+      await refreshUnread();
+    },30000);
+
+  }catch(e){
+    el("status").textContent=e.message;
+  }
 }
-me=data.user;
-const {data:role,error:roleError}=await db
-.from("shon_support_admins")
-.select("user_id")
-.eq("user_id",me.id)
-.maybeSingle();
-if(roleError)throw roleError;
-if(!role){
-el("status").textContent="Access restricted to authorized SHONnetwork support administrators.";
-return;
+
+async function markRead(ticketId){
+  const {error}=await db.rpc("shon_mark_support_read",{
+    p_ticket_id:ticketId
+  });
+
+  if(error){
+    console.error("Could not mark conversation read:",error.message);
+    return;
+  }
+
+  await refreshUnread();
 }
-el("status").textContent="Administrator access confirmed.";
-el("refresh").hidden=false;
-el("inbox-section").hidden=false;
-await loadInbox();
-}catch(e){el("status").textContent=e.message}
+
+async function getUnreadTickets(tickets){
+  const ids=tickets
+    .filter(t=>t.user_id!==me.id)
+    .map(t=>t.id);
+
+  if(!ids.length)return new Set();
+
+  const [messagesResult,readsResult]=await Promise.all([
+    db.from("shon_support_messages")
+      .select("ticket_id,created_at,sender_id")
+      .in("ticket_id",ids),
+    db.from("shon_support_reads")
+      .select("ticket_id,last_read_at")
+      .eq("user_id",me.id)
+      .in("ticket_id",ids)
+  ]);
+
+  if(messagesResult.error||readsResult.error){
+    console.error(
+      "Unread ticket lookup:",
+      messagesResult.error?.message||
+      readsResult.error?.message
+    );
+    return new Set();
+  }
+
+  const lastRead=new Map();
+  for(const r of readsResult.data){
+    lastRead.set(r.ticket_id,r.last_read_at);
+  }
+
+  const unread=new Set();
+
+  for(const m of messagesResult.data){
+    const ticket=tickets.find(t=>t.id===m.ticket_id);
+    if(!ticket)continue;
+
+    if(m.sender_id!==ticket.user_id)continue;
+
+    const readAt=lastRead.get(m.ticket_id);
+
+    if(!readAt||new Date(m.created_at)>new Date(readAt)){
+      unread.add(m.ticket_id);
+    }
+  }
+
+  return unread;
 }
+
 async function loadInbox(){
-const target=el("inbox");
-target.replaceChildren(node("p","Loading inquiries..."));
-const {data,error}=await db
-.from("shon_support_tickets")
-.select("id,user_id,subject,category,status,created_at")
-.order("created_at",{ascending:false});
-target.replaceChildren();
-if(error){target.textContent=error.message;return}
-if(!data.length){target.textContent="No inquiries have arrived yet.";return}
-for(const t of data){
-const box=node("article",undefined,"ticket");
-box.append(node("h3",t.subject));
-box.append(node("small",t.category+" · "+date(t.created_at)));
-const statusLine=node("div");
-statusLine.append(node("strong","Status: "));
-const select=node("select");
-for(const s of ["new","in_progress","answered","closed"]){
-const opt=node("option",s.replaceAll("_"," "));
-opt.value=s;
-opt.selected=s===t.status;
-select.append(opt);
+  const target=el("inbox");
+  target.replaceChildren(node("p","Loading inquiries..."));
+
+  const {data,error}=await db
+    .from("shon_support_tickets")
+    .select("id,user_id,subject,category,status,created_at")
+    .order("created_at",{ascending:false});
+
+  target.replaceChildren();
+
+  if(error){
+    target.textContent=error.message;
+    return;
+  }
+
+  if(!data.length){
+    target.textContent="No inquiries have arrived yet.";
+    return;
+  }
+
+  const unreadTickets=await getUnreadTickets(data);
+
+  for(const t of data){
+    const box=node(
+      "article",
+      undefined,
+      unreadTickets.has(t.id)?"ticket unread":"ticket"
+    );
+
+    box.append(node("h3",t.subject));
+
+    box.append(node(
+      "small",
+      t.category+" · "+date(t.created_at)+
+      (t.user_id===me.id?" · Your own test inquiry":"")
+    ));
+
+    if(unreadTickets.has(t.id)){
+      box.append(node("p","🔔 Unread member message"));
+    }
+
+    const statusLine=node("div");
+    statusLine.append(node("strong","Status: "));
+
+    const select=node("select");
+
+    for(const s of ["new","in_progress","answered","closed"]){
+      const opt=node("option",s.replaceAll("_"," "));
+      opt.value=s;
+      opt.selected=s===t.status;
+      select.append(opt);
+    }
+
+    const save=node("button","Update status");
+    const statusText=node("small");
+
+    save.onclick=async()=>{
+      save.disabled=true;
+
+      const {error:e}=await db
+        .from("shon_support_tickets")
+        .update({
+          status:select.value,
+          updated_at:new Date().toISOString()
+        })
+        .eq("id",t.id);
+
+      save.disabled=false;
+
+      if(e){
+        statusText.textContent="Error: "+e.message;
+      }else{
+        statusText.textContent="Status updated.";
+        t.status=select.value;
+      }
+    };
+
+    statusLine.append(select,save,statusText);
+    box.append(statusLine);
+
+    const messages=node("div");
+    const open=node("button","Open conversation");
+
+    async function openConversation(){
+      open.disabled=true;
+      messages.textContent="Loading...";
+
+      const {data:rows,error:e}=await db
+        .from("shon_support_messages")
+        .select("sender_id,body,created_at")
+        .eq("ticket_id",t.id)
+        .order("created_at",{ascending:true});
+
+      messages.replaceChildren();
+
+      if(e){
+        messages.textContent=e.message;
+        open.disabled=false;
+        return;
+      }
+
+      for(const m of rows){
+        const b=node("div",undefined,"message");
+
+        let senderLabel;
+
+        if(t.user_id===me.id){
+          senderLabel="Your administrator test account";
+        }else{
+          senderLabel=
+            m.sender_id===t.user_id
+              ?"Member"
+              :"SHONnetwork Support";
+        }
+
+        b.append(node("strong",senderLabel));
+        b.append(node("div",m.body));
+        b.append(node("small",date(m.created_at)));
+        messages.append(b);
+      }
+
+      await markRead(t.id);
+
+      box.classList.remove("unread");
+
+      const form=node("form");
+      const input=node("textarea");
+      input.placeholder="Write your response";
+      input.maxLength=10000;
+      input.required=true;
+
+      const send=node("button","Send response");
+      send.type="submit";
+
+      const feedback=node("div");
+      form.append(input,send,feedback);
+
+      form.onsubmit=async ev=>{
+        ev.preventDefault();
+
+        const body=input.value.trim();
+        if(!body)return;
+
+        send.disabled=true;
+
+        const {error:sendError}=await db
+          .from("shon_support_messages")
+          .insert({
+            ticket_id:t.id,
+            sender_id:me.id,
+            body
+          });
+
+        if(sendError){
+          feedback.textContent=sendError.message;
+          send.disabled=false;
+          return;
+        }
+
+        const {error:statusError}=await db
+          .from("shon_support_tickets")
+          .update({
+            status:"answered",
+            updated_at:new Date().toISOString()
+          })
+          .eq("id",t.id);
+
+        if(statusError){
+          feedback.textContent=
+            "Response sent, but status could not be updated.";
+        }else{
+          select.value="answered";
+          t.status="answered";
+        }
+
+        send.disabled=false;
+        await openConversation();
+      };
+
+      messages.append(form);
+      open.textContent="Refresh conversation";
+      open.disabled=false;
+    }
+
+    open.onclick=openConversation;
+    box.append(open,messages);
+    target.append(box);
+  }
 }
-const save=node("button","Update status");
-save.onclick=async()=>{
-save.disabled=true;
-const {error:e}=await db.from("shon_support_tickets")
-.update({status:select.value,updated_at:new Date().toISOString()})
-.eq("id",t.id);
-save.disabled=false;
-if(e)alert(e.message);
-else{statusText.textContent="Status updated.";t.status=select.value}
+
+el("refresh").onclick=async()=>{
+  await loadInbox();
+  await refreshUnread();
 };
-const statusText=node("small");
-statusLine.append(select,save,statusText);
-box.append(statusLine);
-const messages=node("div");
-const open=node("button","Open conversation");
-open.onclick=async()=>{
-open.disabled=true;
-messages.textContent="Loading...";
-const {data:rows,error:e}=await db
-.from("shon_support_messages")
-.select("sender_id,body,created_at")
-.eq("ticket_id",t.id)
-.order("created_at",{ascending:true});
-messages.replaceChildren();
-if(e){messages.textContent=e.message;open.disabled=false;return}
-for(const m of rows){
-const b=node("div",undefined,"message");
-b.append(node("strong",m.sender_id===me.id?"SHONnetwork Support":"Member"));
-b.append(node("div",m.body));
-b.append(node("small",date(m.created_at)));
-messages.append(b);
-}
-const form=node("form");
-const input=node("textarea");
-input.placeholder="Write your response";
-input.maxLength=10000;
-input.required=true;
-const send=node("button","Send response");
-send.type="submit";
-const feedback=node("div");
-form.append(input,send,feedback);
-form.onsubmit=async ev=>{
-ev.preventDefault();
-const body=input.value.trim();
-if(!body)return;
-send.disabled=true;
-const {error:sendError}=await db.from("shon_support_messages")
-.insert({ticket_id:t.id,sender_id:me.id,body});
-if(sendError){
-feedback.textContent=sendError.message;
-send.disabled=false;
-return;
-}
-const {error:statusError}=await db.from("shon_support_tickets")
-.update({status:"answered",updated_at:new Date().toISOString()})
-.eq("id",t.id);
-if(statusError)feedback.textContent="Response sent, but status could not be updated.";
-else{select.value="answered";t.status="answered"}
-send.disabled=false;
-open.click();
-};
-messages.append(form);
-open.textContent="Refresh conversation";
-open.disabled=false;
-};
-box.append(open,messages);
-target.append(box);
-}
-}
-el("refresh").onclick=loadInbox;
+
 start();
 </script>
 </body>
