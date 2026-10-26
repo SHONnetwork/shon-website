@@ -12,7 +12,7 @@ header{background:#fff;border-bottom:1px solid #dce6dc;padding:14px 18px}
 .bar{max-width:1080px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
 .brand{font-size:27px;font-weight:800;color:#111;text-decoration:none;white-space:nowrap}
 .brand span{font-weight:400}
-nav{display:flex;gap:12px;flex-wrap:wrap}
+nav{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 nav a{color:#205342;text-decoration:none;font-weight:650;font-size:14px}
 nav a:hover{text-decoration:underline}
 main{max-width:1050px;margin:auto;padding:25px 17px 65px}
@@ -42,6 +42,34 @@ button:disabled{opacity:.6;cursor:wait}
 :focus-visible{outline:3px solid #bd7d25;outline-offset:2px}
 footer{background:#173b32;color:white;text-align:center;padding:23px}
 footer a{color:white}
+
+/* Message notification bell */
+#shon-bell{
+display:inline-flex;
+align-items:center;
+gap:5px;
+white-space:nowrap;
+text-decoration:none;
+color:#173b32;
+background:#fff3cf;
+border:1px solid #cfb56b;
+border-radius:9px;
+padding:8px 11px;
+font-size:14px;
+font-weight:700;
+min-height:42px
+}
+#shon-bell:hover{background:#ffe9a7}
+.bell-badge{
+display:inline-block;
+background:#b43427;
+color:white;
+border-radius:99px;
+padding:2px 9px;
+font-size:12px;
+font-weight:800
+}
+
 @media(max-width:650px){
 .grid{grid-template-columns:1fr}
 .panel,.card{padding:17px}
@@ -63,6 +91,7 @@ footer a{color:white}
 <a href="community.html">Community</a>
 <a href="resources.html">Resources</a>
 <a href="partners.html">Partners</a>
+<a id="shon-bell" href="connections.html" hidden aria-label="Messages">🔔 Messages <span id="bell-count" class="bell-badge" hidden></span></a>
 </nav>
 </div>
 </header>
@@ -222,11 +251,17 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
 "sb_publishable_YTHhpIPiKKHGBLMdkj_4og_Uyq_t_SX";
 
+const AUTH_KEY =
+"sb-wqcninwqeyfoyxlllwdy-auth-token";
+
 const $ = id => document.getElementById(id);
 
 let db;
 let currentUser = null;
 let refreshNumber = 0;
+let notificationTimer = null;
+let checkingNotifications = false;
+let notificationGeneration = 0;
 
 function status(message,isError=false){
 const box=$("status");
@@ -235,29 +270,158 @@ box.classList.toggle("error",isError);
 box.hidden=!message;
 }
 
+function setBell(count){
+const bell=$("shon-bell");
+const badge=$("bell-count");
+
+bell.hidden=!currentUser;
+badge.hidden=count===0;
+badge.textContent=count>99?"99+":String(count);
+
+bell.setAttribute("aria-label",count?
+count+" unread messages. Open My Connections.":
+"Messages. Open My Connections.");
+
+document.title=count?
+"("+count+") My SHONnetwork | Member Area":
+"My SHONnetwork | Member Area";
+}
+
+function stopNotifications(){
+notificationGeneration++;
+if(notificationTimer){
+clearInterval(notificationTimer);
+notificationTimer=null;
+}
+checkingNotifications=false;
+}
+
 function showGuest(){
+refreshNumber++;
+stopNotifications();
 currentUser=null;
 $("guest").hidden=false;
 $("member").hidden=true;
+setBell(0);
 }
 
 function showMember(user){
+const changed=currentUser?.id!==user.id;
 currentUser=user;
 $("guest").hidden=true;
 $("member").hidden=false;
 $("account-email").textContent=
 "Signed in as "+(user.email||"SHONnetwork member");
+
+if(changed){
+stopNotifications();
+setBell(0);
+startNotifications();
+}
 }
 
 function errorMessage(error){
 return error?.message||"Something went wrong.";
 }
 
+function readMarkers(userId){
+try{
+const data=JSON.parse(
+localStorage.getItem("shon-message-read-v1-"+userId)||"{}"
+);
+return data&&typeof data==="object"?data:{};
+}catch(error){
+return {};
+}
+}
+
+async function checkedQuery(request){
+const {data,error}=await request;
+if(error)throw error;
+return data||[];
+}
+
+async function checkNotifications(){
+if(!db||!currentUser||checkingNotifications)return;
+
+checkingNotifications=true;
+const checkingUser=currentUser.id;
+const generation=notificationGeneration;
+
+try{
+const conversations=await checkedQuery(
+db.from("shon_conversations")
+.select("id,member_a,member_b")
+);
+
+const blocks=await checkedQuery(
+db.from("shon_blocks")
+.select("blocked")
+.eq("blocker",checkingUser)
+);
+
+const blocked=new Set(blocks.map(x=>x.blocked));
+
+const visible=conversations.filter(c=>
+!blocked.has(
+c.member_a===checkingUser?c.member_b:c.member_a
+)
+);
+
+const markers=readMarkers(checkingUser);
+let count=0;
+
+for(let i=0;i<visible.length;i+=30){
+const ids=visible.slice(i,i+30).map(c=>c.id);
+
+const messages=await checkedQuery(
+db.from("shon_messages")
+.select("conversation_id,sender,created_at")
+.in("conversation_id",ids)
+.order("created_at",{ascending:false})
+.limit(1000)
+);
+
+for(const item of messages){
+const timestamp=new Date(item.created_at).getTime();
+
+if(item.sender!==checkingUser &&
+timestamp>(
+Number(markers[String(item.conversation_id)])||0
+)){
+count++;
+}
+}
+}
+
+if(currentUser?.id===checkingUser &&
+generation===notificationGeneration){
+setBell(count);
+}
+
+}catch(error){
+console.warn("SHONnetwork notification check:",error.message);
+}finally{
+if(generation===notificationGeneration){
+checkingNotifications=false;
+}
+}
+}
+
+function startNotifications(){
+if(!currentUser||!db)return;
+
+checkNotifications();
+
+notificationTimer=setInterval(()=>{
+if(!document.hidden)checkNotifications();
+},30000);
+}
+
 async function refreshMember(){
 if(!db)return;
 
 const thisRefresh=++refreshNumber;
-
 const {data,error}=await db.auth.getUser();
 
 if(thisRefresh!==refreshNumber)return;
@@ -276,11 +440,6 @@ $("welcome").textContent="Welcome to SHONnetwork!";
 $("directory-summary").textContent="Loading your profile...";
 
 try{
-
-// The Profile page saves to member_profiles,
-// using user_id as the account identifier.
-// This dashboard reads that same record.
-
 const result=await db
 .from("member_profiles")
 .select("display_name,bio,region,needs_text,offers_text")
@@ -299,7 +458,6 @@ return;
 const profile=result.data;
 
 if(profile){
-
 const name=String(profile.display_name||"").trim();
 
 $("welcome").textContent=
@@ -318,20 +476,16 @@ $("directory-summary").textContent=
 summary||"Your profile is saved. You can update it at any time.";
 
 }else{
-
 $("directory-summary").textContent=
 "Your account is active. You can begin by completing your member profile.";
-
 }
 
 }catch(error){
-
 if(thisRefresh!==refreshNumber)return;
 
 $("directory-summary").textContent=
 "Your account is active. Profile information could not be loaded: "+
 errorMessage(error);
-
 }
 }
 
@@ -425,13 +579,11 @@ status(errorMessage(error),true);
 return;
 }
 
-refreshNumber++;
 showGuest();
 status("You have signed out.");
 }
 
 async function init(){
-
 if(!window.supabase?.createClient){
 showGuest();
 status("The Supabase library could not load. Check your internet connection and reload.",true);
@@ -439,13 +591,12 @@ return;
 }
 
 try{
-
 db=window.supabase.createClient(
 SUPABASE_URL,
 SUPABASE_KEY,
 {
 auth:{
-storageKey:"sb-wqcninwqeyfoyxlllwdy-auth-token",
+storageKey:AUTH_KEY,
 persistSession:true,
 autoRefreshToken:true,
 detectSessionInUrl:true
@@ -455,7 +606,6 @@ detectSessionInUrl:true
 
 db.auth.onAuthStateChange((_event,session)=>{
 if(!session?.user){
-refreshNumber++;
 showGuest();
 }else{
 showMember(session.user);
@@ -474,6 +624,17 @@ $("auth-form").addEventListener("submit",signIn);
 $("signup").addEventListener("click",signUp);
 $("reset").addEventListener("click",resetPassword);
 $("signout").addEventListener("click",signOut);
+
+document.addEventListener("visibilitychange",()=>{
+if(!document.hidden&&currentUser)checkNotifications();
+});
+
+window.addEventListener("storage",event=>{
+if(currentUser &&
+event.key==="shon-message-read-v1-"+currentUser.id){
+checkNotifications();
+}
+});
 
 init();
 })();
