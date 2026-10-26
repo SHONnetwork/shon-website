@@ -1,0 +1,10 @@
+{
+  "name": "SHONnetwork Messenger",
+  "short_name": "SHON Messenger",
+  "start_url": "./messenger.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f7f9f5",
+  "theme_color": "#174c3c",
+  "icons": []
+}
