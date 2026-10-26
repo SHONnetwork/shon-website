@@ -253,6 +253,23 @@ main{padding:0 12px}
 @media(prefers-reduced-motion:reduce){
 html{scroll-behavior:auto}
 }
+
+/* SHONnetwork homepage concept and mission */
+.concept-preview{padding:18px 0 10px}
+.concept-preview h2{font:clamp(25px,3vw,34px) Georgia,serif;color:#174c3c;margin:0 0 8px}
+.concept-preview p{margin:5px 0 12px;color:#435d51}
+.concept-image-link{display:block;border:1px solid #d7e6d9;border-radius:15px;overflow:hidden;background:#fff;box-shadow:0 5px 18px #174c3c13}
+.concept-image-link img{width:100%;height:auto;display:block}
+.concept-caption{font-size:13px;color:#50665a}
+.impact-panel{background:#f4f9f5;border:1px solid #d5e7da;border-radius:18px;padding:24px}
+.impact-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:15px 0}
+.impact-stat{background:white;border:1px solid #d9e8dc;border-radius:13px;padding:18px}
+.impact-stat strong{display:block;font-size:clamp(22px,3vw,32px);color:#124d3e;line-height:1.2;margin-bottom:7px}
+.impact-stat p{margin:0;font-size:14px}
+.impact-quote{font:clamp(19px,2.6vw,28px)/1.4 Georgia,serif;color:#143e32;border-left:5px solid #d4ad5b;padding:8px 0 8px 20px;margin:18px 0}
+.impact-notes{font-size:13px;color:#52675a}
+@media(max-width:650px){.impact-grid{grid-template-columns:1fr}.impact-panel{padding:17px}.concept-preview{padding-top:16px}}
+
 </style>
 <link rel="stylesheet" href="shon-header.css">
 </head>
@@ -294,6 +311,15 @@ Free to participate. People before profit.
 Join SHONnetwork / Sign in
 </a>
 </div>
+</section>
+
+<section class="concept-preview" aria-labelledby="concept-title">
+<h2 id="concept-title">A glimpse of what we can create together</h2>
+<p>Explore the SHONnetwork vision for finding people, sharing homes, and building learning communities.</p>
+<a class="concept-image-link" href="SHONnetwork_People_Places_Possibilities.jpg" target="_blank" rel="noopener" aria-label="Open full-size SHONnetwork illustrated vision in a new tab">
+<img src="SHONnetwork_People_Places_Possibilities.jpg" alt="Illustrated SHONnetwork vision: Everyone Belongs, Find and Connect, and Learning and Communities, with examples of member listings, private messaging, resources and statistics." width="1536" height="1024" loading="eager" decoding="async">
+</a>
+<p class="concept-caption">Illustrative vision. Some pictured features and organizations are examples, not currently active SHONnetwork services or confirmed partners. Select the image to see it larger.</p>
 </section>
 
 <section class="section" id="pathways">
@@ -395,6 +421,22 @@ or current availability.
 </div>
 </section>
 
+<section class="section" id="why-connections-matter" aria-labelledby="why-title">
+<div class="impact-panel">
+<div class="eyebrow">People before profit</div>
+<h2 id="why-title">Why connections matter</h2>
+<p>Abundant resources. Too many people without a home. SHONnetwork helps people find one another, discover existing opportunities, and build mutually beneficial relationships.</p>
+<div class="impact-grid">
+<div class="impact-stat"><strong>745,652</strong><p>People counted as experiencing homelessness on one night in January 2025, approximately 1 in 460 Americans.</p></div>
+<div class="impact-stat"><strong>$74.6 billion</strong><p>Illustrative total at $100,000 for each of 745,652 people.</p></div>
+<div class="impact-stat"><strong>$745.7 billion</strong><p>Illustrative total at $1,000,000 for each of 745,652 people.</p></div>
+</div>
+<blockquote class="impact-quote">“It is absurd that any country as wealthy as the United States cannot ensure housing for such a small percentage of the population.”</blockquote>
+<p>SHONnetwork begins with a practical idea: the home is the opportunity, and the people are the heart of it. A room, a friendship, shared knowledge, a welcoming household, or a new community can begin with one connection.</p>
+<p class="impact-notes">The dollar figures are mathematical comparisons, not proposed spending programs. HUD count: January 2025 point-in-time estimate. They do not imply that everyone experiencing homelessness has the same housing needs.</p>
+</div>
+</section>
+
 <section class="section" id="about">
 <h2>A people-centered network</h2>
 <p>
@@ -455,7 +497,7 @@ Support SHON
 (()=>{
 "use strict";
 
-const URL="https://wqcninwqeyfoyxlllwdy.supabase.co";
+const SUPABASE_URL="https://wqcninwqeyfoyxlllwdy.supabase.co";
 const KEY="sb_publishable_YTHhpIPiKKHGBLMdkj_4og_Uyq_t_SX";
 const AUTH_KEY="sb-wqcninwqeyfoyxlllwdy-auth-token";
 const $=id=>document.getElementById(id);
@@ -642,7 +684,7 @@ encodeURIComponent(term+" near "+where)
 
 document.querySelectorAll(".menu nav a").forEach(a=>{
 a.addEventListener("click",()=>{
-document.querySelector(".menu").open=false;
+const menu=document.querySelector(".menu"); if(menu)menu.open=false;
 });
 });
 
@@ -664,7 +706,7 @@ console.warn("Supabase library did not load; notifications unavailable.");
 return;
 }
 
-client=window.supabase.createClient(URL,KEY,{
+client=window.supabase.createClient(SUPABASE_URL,KEY,{
 auth:{
 storageKey:AUTH_KEY,
 persistSession:true,
