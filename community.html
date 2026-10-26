@@ -10,15 +10,17 @@
 *{box-sizing:border-box}
 body{margin:0;background:#f7f9f5;color:#173b32;font:16px/1.6 system-ui,Arial,sans-serif}
 header{background:#fff;border-bottom:1px solid #dce6dc}
-.bar{max-width:1160px;margin:auto;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.bar{max-width:1160px;margin:auto;padding:12px 16px;display:flex;flex-direction:column;align-items:stretch;gap:10px}
+.header-top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.header-actions{display:flex;align-items:center;justify-content:flex-end;gap:10px;flex-wrap:wrap}
 .brand{color:#111;font-size:27px;font-weight:800;text-decoration:none;white-space:nowrap}
 .brand span{font-weight:400}
 nav{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
 nav a{color:#205342;text-decoration:none;font-size:13px;font-weight:650;padding:7px 6px;border-radius:7px}
 nav a:hover{background:#edf4ec}
 nav a[aria-current="page"]{background:#e3f0e5;color:#124b39}
-nav a.support-link{background:#16604c;color:white;padding:9px 12px}
-nav a.support-link:hover{background:#104c3b}
+.support-link{display:inline-flex;align-items:center;background:#16604c;color:white;text-decoration:none;font-size:13px;font-weight:700;padding:9px 12px;border-radius:9px;min-height:42px}
+.support-link:hover{background:#104c3b}
 main{max-width:1080px;margin:auto;padding:28px 17px 65px}
 h1{font-size:clamp(30px,5vw,44px);line-height:1.2;margin:0 0 12px}
 h2{font-size:clamp(24px,3vw,32px);margin:0 0 12px}
@@ -47,7 +49,8 @@ footer a{color:#fff}
 @media(max-width:720px){
 .grid{grid-template-columns:1fr}
 .panel{padding:17px}
-.bar{align-items:flex-start}
+.header-top{align-items:flex-start}
+.header-actions{justify-content:flex-start}
 nav{gap:3px}
 nav a{font-size:12px;padding:7px 6px}
 }
@@ -56,7 +59,13 @@ nav a{font-size:12px;padding:7px 6px}
 <body>
 <header>
 <div class="bar">
+<div class="header-top">
 <a class="brand" href="index.html">🏡 SHON<span>network</span></a>
+<div class="header-actions">
+<a id="shon-bell" href="connections.html" hidden aria-label="Messages">🔔 Messages <span id="bell-count" class="bell-badge" hidden></span></a>
+<a class="support-link" href="partners.html#contact">Support / Contact SHON</a>
+</div>
+</div>
 <nav aria-label="Site navigation">
 <a href="index.html">Home</a>
 <a href="discover.html">Discover</a>
@@ -67,8 +76,6 @@ nav a{font-size:12px;padding:7px 6px}
 <a href="community.html" aria-current="page">Community</a>
 <a href="resources.html">Resources</a>
 <a href="partners.html">Partners</a>
-<a id="shon-bell" href="connections.html" hidden aria-label="Messages">🔔 Messages <span id="bell-count" class="bell-badge" hidden></span></a>
-<a class="support-link" href="partners.html#contact">Support / Contact SHON</a>
 </nav>
 </div>
 </header>
