@@ -1,19 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#ffffff">
-<title>My SHONnetwork | Member Area</title>
-<style>
-*{box-sizing:border-box}
-body{margin:0;background:#f7f9f5;color:#173b32;font:16px/1.55 system-ui,Arial,sans-serif}
-header{background:#fff;border-bottom:1px solid #dce6dc;padding:14px 18px}
-.bar{max-width:1080px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
-.brand{font-size:27px;font-weight:800;color:#111;text-decoration:none;white-space:nowrap}
-.brand span{font-weight:400}
 nav{display:flex;gap:12px;flex-wrap:wrap}
-nav a{color:#205342;text-decoration:none;font-weight:650}
+nav a{color:#205342;text-decoration:none;font-weight:650;font-size:14px}
+nav a:hover{text-decoration:underline}
 main{max-width:1050px;margin:auto;padding:25px 17px 65px}
 h1{font-size:clamp(29px,5vw,40px);margin:0 0 8px}
 h2{margin:0 0 10px;font-size:23px}
@@ -21,6 +8,10 @@ h2{margin:0 0 10px;font-size:23px}
 .panel{background:white;border:1px solid #d8e6dc;border-radius:15px;padding:23px;margin:18px 0}
 .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;margin:22px 0}
 .card{background:white;border:1px solid #d8e6dc;border-radius:15px;padding:22px}
+.card:nth-child(4n+1){background:#edf5e8}
+.card:nth-child(4n+2){background:#e9f3fc}
+.card:nth-child(4n+3){background:#fff0df}
+.card:nth-child(4n+4){background:#faedf0}
 .card p{color:#496258}
 label{display:block;font-weight:700;margin:14px 0 5px}
 input{width:100%;min-height:46px;padding:11px;border:1px solid #88a69a;border-radius:8px;font:inherit}
@@ -33,20 +24,31 @@ button:disabled{opacity:.6;cursor:wait}
 .muted{color:#496258}
 [hidden]{display:none!important}
 #status{white-space:pre-wrap}
+#directory-summary{white-space:pre-wrap;overflow-wrap:anywhere}
 :focus-visible{outline:3px solid #bd7d25;outline-offset:2px}
-@media(max-width:650px){.grid{grid-template-columns:1fr}.panel,.card{padding:17px}}
+footer{background:#173b32;color:white;text-align:center;padding:23px}
+footer a{color:white}
+@media(max-width:650px){
+.grid{grid-template-columns:1fr}
+.panel,.card{padding:17px}
+}
 </style>
 </head>
 <body>
+
 <header>
 <div class="bar">
 <a class="brand" href="index.html">🏡 SHON<span>network</span></a>
 <nav aria-label="Member navigation">
 <a href="index.html">Home</a>
+<a href="discover.html">Discover</a>
 <a href="members.html" aria-current="page">My SHONnetwork</a>
 <a href="profile.html">My Profile</a>
 <a href="listings.html">My Listings</a>
 <a href="connections.html">My Connections</a>
+<a href="community.html">Community</a>
+<a href="resources.html">Resources</a>
+<a href="partners.html">Partners</a>
 </nav>
 </div>
 </header>
@@ -100,7 +102,9 @@ an account. No payment is required to participate.
 <h2 id="welcome">Welcome to SHONnetwork</h2>
 <p id="account-email" class="muted"></p>
 <p id="directory-summary"></p>
+
 <div class="actions">
+<a class="button" href="profile.html">Edit My Profile</a>
 <button type="button" class="secondary" id="signout">
 Sign Out
 </button>
@@ -108,6 +112,7 @@ Sign Out
 </div>
 
 <div class="grid">
+
 <section class="card">
 <h2>👤 My Profile</h2>
 <p>
@@ -142,10 +147,34 @@ saved opportunities, and people you've met.
 Explore people, households, and opportunities
 that may be compatible with your hopes.
 </p>
-<a class="button" href="index.html#connect">
+<a class="button" href="discover.html">
 Discover Opportunities
 </a>
 </section>
+
+<section class="card">
+<h2>🎲 Community & Games</h2>
+<p>
+Explore community interests, social activities,
+learning opportunities, and our plans for
+chat rooms and multiplayer games.
+</p>
+<a class="button" href="community.html">
+Explore Community
+</a>
+</section>
+
+<section class="card">
+<h2>📍 Useful Resources</h2>
+<p>
+Find libraries, food assistance, laundry,
+fitness centers, healthcare, and other services.
+</p>
+<a class="button" href="resources.html">
+Find Resources
+</a>
+</section>
+
 </div>
 
 <div class="notice">
@@ -162,6 +191,12 @@ not simply renting rooms.
 </section>
 </main>
 
+<footer>
+<strong>🏡 SHONnetwork</strong>
+<p>The home is the opportunity. The people are the heart of it.</p>
+<p><a href="index.html">Home</a> · <a href="community.html">Community</a></p>
+</footer>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.0/dist/umd/supabase.min.js"></script>
 <script>
 (function(){
@@ -177,6 +212,7 @@ const $ = id => document.getElementById(id);
 
 let db;
 let currentUser = null;
+let refreshNumber = 0;
 
 function status(message,isError=false){
 const box=$("status");
@@ -206,7 +242,11 @@ return error?.message||"Something went wrong.";
 async function refreshMember(){
 if(!db)return;
 
+const thisRefresh=++refreshNumber;
+
 const {data,error}=await db.auth.getUser();
+
+if(thisRefresh!==refreshNumber)return;
 
 if(error || !data?.user){
 showGuest();
@@ -214,44 +254,75 @@ status("");
 return;
 }
 
-showMember(data.user);
+const user=data.user;
+showMember(user);
 status("");
 
+$("welcome").textContent="Welcome to SHONnetwork!";
+$("directory-summary").textContent="Loading your profile...";
+
 try{
+
+// The Profile page saves to member_profiles,
+// using user_id as the account identifier.
+// This dashboard must read the same record.
+
 const result=await db
-.from("member_directory")
-.select("display_name,bio,region,last_active_at")
-.eq("owner_id",data.user.id)
+.from("member_profiles")
+.select("display_name,bio,region,needs_text,offers_text")
+.eq("user_id",user.id)
 .maybeSingle();
+
+if(thisRefresh!==refreshNumber)return;
 
 if(result.error){
 $("directory-summary").textContent=
-"Your member directory information is not available yet.";
+"Your account is active, but your saved profile could not be loaded: "+
+errorMessage(result.error);
 return;
 }
 
 const profile=result.data;
 
 if(profile){
+
+const name=String(profile.display_name||"").trim();
+
 $("welcome").textContent=
-"Welcome"+(profile.display_name?
-", "+profile.display_name:"")+"!";
+"Welcome"+(name?", "+name:"")+"!";
+
+const summary=[
+profile.region,
+profile.bio,
+profile.needs_text
+?"Needs: "+profile.needs_text:"",
+profile.offers_text
+?"Offers: "+profile.offers_text:""
+].filter(Boolean).join("\n\n");
 
 $("directory-summary").textContent=
-[profile.region,profile.bio].filter(Boolean).join(" • ");
+summary||"Your profile is saved. You can update it at any time.";
+
 }else{
+
 $("directory-summary").textContent=
-"You can begin by completing your member profile.";
+"Your account is active. You can begin by completing your member profile.";
+
 }
+
 }catch(error){
+
+if(thisRefresh!==refreshNumber)return;
+
 $("directory-summary").textContent=
-"Your account is active. Profile information could not be loaded.";
+"Your account is active. Profile information could not be loaded: "+
+errorMessage(error);
+
 }
 }
 
 async function signIn(event){
 event.preventDefault();
-
 if(!db)return;
 
 const email=$("email").value.trim();
@@ -340,11 +411,13 @@ status(errorMessage(error),true);
 return;
 }
 
+refreshNumber++;
 showGuest();
 status("You have signed out.");
 }
 
 async function init(){
+
 if(!window.supabase?.createClient){
 showGuest();
 status("The Supabase library could not load. Check your internet connection and reload.",true);
@@ -352,6 +425,7 @@ return;
 }
 
 try{
+
 db=window.supabase.createClient(
 SUPABASE_URL,
 SUPABASE_KEY,
@@ -367,6 +441,7 @@ detectSessionInUrl:true
 
 db.auth.onAuthStateChange((_event,session)=>{
 if(!session?.user){
+refreshNumber++;
 showGuest();
 }else{
 showMember(session.user);
