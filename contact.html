@@ -9,11 +9,17 @@
 *{box-sizing:border-box}
 body{margin:0;background:#f5f8f7;line-height:1.5}
 header{background:white;border-bottom:1px solid #dce5e1}
-.wrap{max-width:1050px;margin:auto;padding:18px}
+.wrap{max-width:1050px;margin:auto;padding:15px 18px}
+.header-top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.header-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .brand{font-size:25px;font-weight:800;color:#142b25;text-decoration:none}
 .brand span{font-weight:400}
-nav{display:flex;flex-wrap:wrap;gap:13px;margin-top:12px;font-size:14px}
+.header-link{display:inline-block;padding:9px 12px;border:1px solid #d5e3dc;border-radius:8px;text-decoration:none;color:#205b4b;font-size:14px;font-weight:bold}
+.header-link:hover{background:#eef7f3}
+.badge{display:inline-block;background:#b72232;color:white;border-radius:15px;padding:1px 7px;font-size:12px;margin-left:4px}
+nav{display:flex;flex-wrap:wrap;gap:13px;margin-top:13px;font-size:14px}
 nav a{color:#205b4b;text-decoration:none}
+nav a[aria-current=page]{font-weight:bold}
 main{max-width:850px;margin:28px auto;padding:0 16px}
 .panel{background:white;border:1px solid #dce5e1;border-radius:14px;padding:22px;margin-bottom:18px}
 h1{margin:0 0 12px}
@@ -26,15 +32,23 @@ button:disabled{opacity:.6;cursor:wait}
 .notice{background:#eef7f3;border-radius:8px;padding:12px;margin-top:12px}
 .error{background:#fff0ee;color:#922b20}
 .ticket{border:1px solid #dce5e1;border-radius:10px;padding:15px;margin-top:12px}
+.ticket.unread{border-left:5px solid #16654f}
 .message{border-left:3px solid #98b9ad;padding:8px 12px;margin:12px 0;background:#f7faf8;white-space:pre-wrap;overflow-wrap:anywhere}
 small{color:#596b64}
 [hidden]{display:none!important}
 </style>
 </head>
 <body>
+
 <header>
 <div class="wrap">
+<div class="header-top">
 <a class="brand" href="index.html">🏡 SHON<span>network</span></a>
+<div class="header-actions">
+<a id="messages-link" class="header-link" href="connections.html">🔔 Messages</a>
+<a class="header-link" href="contact.html" aria-current="page">Support / Contact SHON</a>
+</div>
+</div>
 <nav aria-label="Site navigation">
 <a href="index.html">Home</a>
 <a href="members.html">SHONnetwork - Sign In/Out</a>
@@ -59,6 +73,7 @@ small{color:#596b64}
 <p>Please sign in to send an inquiry or view your conversations.</p>
 <a class="button" href="members.html">Sign in to SHONnetwork</a>
 </div>
+<div id="support-alert" class="notice" hidden role="status"></div>
 </section>
 
 <section class="panel" id="new-section" hidden>
@@ -86,6 +101,8 @@ small{color:#596b64}
 
 <section class="panel" id="history-section" hidden>
 <h2>Your support conversations</h2>
+<p id="unread-summary"></p>
+<button type="button" id="refresh-tickets">Refresh conversations</button>
 <div id="tickets">Loading...</div>
 </section>
 </main>
@@ -94,125 +111,292 @@ small{color:#596b64}
 <script>
 const SUPABASE_URL="https://wqcninwqeyfoyxlllwdy.supabase.co";
 const KEY="sb_publishable_YTHhpIPiKKHGBLMdkj_4og_Uyq_t_SX";
-const db=window.supabase.createClient(SUPABASE_URL,KEY,{
-auth:{storageKey:"sb-wqcninwqeyfoyxlllwdy-auth-token"}
-});
-let me=null;
+
 const el=id=>document.getElementById(id);
+let db=null;
+let me=null;
+let supportUnread=0;
+const originalTitle=document.title;
+
 function msg(target,text,error=false){
-target.textContent=text;
-target.className="notice"+(error?" error":"");
+  target.textContent=text;
+  target.className="notice"+(error?" error":"");
 }
+
 function node(tag,text,className){
-const e=document.createElement(tag);
-if(text!==undefined)e.textContent=text;
-if(className)e.className=className;
-return e;
+  const e=document.createElement(tag);
+  if(text!==undefined)e.textContent=text;
+  if(className)e.className=className;
+  return e;
 }
-function formatDate(s){return new Date(s).toLocaleString()}
+
+function formatDate(s){
+  return new Date(s).toLocaleString();
+}
+
+async function refreshSupportCount(){
+  if(!me)return;
+
+  const {data,error}=await db.rpc("shon_support_unread_count");
+
+  if(error){
+    console.error("Support unread count:",error.message);
+    return;
+  }
+
+  supportUnread=Number(data)||0;
+
+  const alert=el("support-alert");
+  const summary=el("unread-summary");
+
+  if(supportUnread>0){
+    alert.hidden=false;
+    alert.textContent=
+      "🔔 You have "+supportUnread+
+      " unread SHONnetwork Support message"+
+      (supportUnread===1?".":"s.");
+
+    summary.textContent=
+      supportUnread+" unread support message"+
+      (supportUnread===1:"":"s")+
+      ". Open the relevant conversation to read it.";
+
+    document.title="("+supportUnread+") "+originalTitle;
+  }else{
+    alert.hidden=true;
+    summary.textContent="No unread support replies.";
+    document.title=originalTitle;
+  }
+}
+
+async function markRead(ticketId){
+  const {error}=await db.rpc("shon_mark_support_read",{
+    p_ticket_id:ticketId
+  });
+  if(error){
+    console.error("Could not mark support conversation read:",error.message);
+  }else{
+    await refreshSupportCount();
+  }
+}
+
 async function init(){
-try{
-const {data,error}=await db.auth.getUser();
-if(error||!data.user){
-msg(el("status"),"Sign in to use the Contact Center.");
-el("signin").hidden=false;
-return;
+  try{
+    if(!window.supabase){
+      throw new Error("The Supabase library did not load. Please refresh the page.");
+    }
+
+    db=window.supabase.createClient(SUPABASE_URL,KEY,{
+      auth:{
+        storageKey:"sb-wqcninwqeyfoyxlllwdy-auth-token"
+      }
+    });
+
+    const {data,error}=await db.auth.getUser();
+
+    if(error||!data.user){
+      msg(el("status"),"Sign in to use the Contact Center.");
+      el("signin").hidden=false;
+      el("messages-link").href="members.html";
+      return;
+    }
+
+    me=data.user;
+
+    msg(el("status"),"Signed in. Your support conversations are private.");
+    el("new-section").hidden=false;
+    el("history-section").hidden=false;
+
+    await loadTickets();
+    await refreshSupportCount();
+
+    setInterval(refreshSupportCount,30000);
+
+  }catch(e){
+    msg(el("status"),e.message,true);
+  }
 }
-me=data.user;
-msg(el("status"),"Signed in. Your support conversations are private.");
-el("new-section").hidden=false;
-el("history-section").hidden=false;
-await loadTickets();
-}catch(e){msg(el("status"),e.message,true)}
-}
+
 async function loadTickets(){
-const target=el("tickets");
-target.replaceChildren(node("p","Loading conversations..."));
-const {data,error}=await db.from("shon_support_tickets")
-.select("id,subject,category,status,created_at")
-.eq("user_id",me.id)
-.order("created_at",{ascending:false});
-if(error){target.textContent=error.message;return}
-target.replaceChildren();
-if(!data.length){
-target.append(node("p","You have no support conversations yet."));
-return;
+  const target=el("tickets");
+  target.replaceChildren(node("p","Loading conversations..."));
+
+  const {data,error}=await db
+    .from("shon_support_tickets")
+    .select("id,subject,category,status,created_at")
+    .eq("user_id",me.id)
+    .order("created_at",{ascending:false});
+
+  if(error){
+    target.textContent=error.message;
+    return;
+  }
+
+  target.replaceChildren();
+
+  if(!data.length){
+    target.append(node("p","You have no support conversations yet."));
+    return;
+  }
+
+  for(const ticket of data){
+    const box=node("article",undefined,"ticket");
+    box.append(node("h3",ticket.subject));
+    box.append(node(
+      "small",
+      ticket.category+" · "+ticket.status+" · "+formatDate(ticket.created_at)
+    ));
+
+    const messages=node("div");
+    const button=node("button","Open conversation");
+    button.type="button";
+
+    button.onclick=async()=>{
+      button.disabled=true;
+      messages.textContent="Loading messages...";
+
+      const {data:rows,error:err}=await db
+        .from("shon_support_messages")
+        .select("sender_id,body,created_at")
+        .eq("ticket_id",ticket.id)
+        .order("created_at",{ascending:true});
+
+      messages.replaceChildren();
+
+      if(err){
+        messages.textContent=err.message;
+        button.disabled=false;
+        return;
+      }
+
+      for(const m of rows){
+        const b=node("div",undefined,"message");
+
+        b.append(node(
+          "strong",
+          m.sender_id===me.id?"You":"SHONnetwork Support"
+        ));
+
+        b.append(node("div",m.body));
+        b.append(node("small",formatDate(m.created_at)));
+        messages.append(b);
+      }
+
+      await markRead(ticket.id);
+
+      const form=node("form");
+      const input=node("textarea");
+      input.required=true;
+      input.maxLength=10000;
+      input.placeholder="Write a follow-up message";
+
+      const send=node("button","Send reply");
+      send.type="submit";
+
+      const feedback=node("div");
+      form.append(input,send,feedback);
+
+      form.onsubmit=async ev=>{
+        ev.preventDefault();
+
+        const body=input.value.trim();
+        if(!body)return;
+
+        send.disabled=true;
+
+        const {error:e}=await db
+          .from("shon_support_messages")
+          .insert({
+            ticket_id:ticket.id,
+            sender_id:me.id,
+            body
+          });
+
+        if(e){
+          feedback.textContent=e.message;
+          send.disabled=false;
+          return;
+        }
+
+        await openConversation();
+      };
+
+      messages.append(form);
+      button.textContent="Refresh conversation";
+      button.disabled=false;
+    };
+
+    async function openConversation(){
+      await button.onclick();
+    }
+
+    box.append(button,messages);
+    target.append(box);
+  }
 }
-for(const ticket of data){
-const box=node("article",undefined,"ticket");
-box.append(node("h3",ticket.subject));
-box.append(node("small",ticket.category+" · "+ticket.status+" · "+formatDate(ticket.created_at)));
-const messages=node("div");
-const button=node("button","Open conversation");
-button.type="button";
-button.onclick=async()=>{
-button.disabled=true;
-messages.textContent="Loading messages...";
-const {data:rows,error:err}=await db
-.from("shon_support_messages")
-.select("sender_id,body,created_at")
-.eq("ticket_id",ticket.id)
-.order("created_at",{ascending:true});
-messages.replaceChildren();
-if(err){messages.textContent=err.message;button.disabled=false;return}
-for(const m of rows){
-const b=node("div",undefined,"message");
-b.append(node("strong",m.sender_id===me.id?"You":"SHONnetwork Support"));
-b.append(node("div",m.body));
-b.append(node("small",formatDate(m.created_at)));
-messages.append(b);
-}
-const form=node("form");
-const input=node("textarea");
-input.required=true;
-input.maxLength=10000;
-input.placeholder="Write a follow-up message";
-const send=node("button","Send reply");
-send.type="submit";
-const feedback=node("div");
-form.append(input,send,feedback);
-form.onsubmit=async ev=>{
-ev.preventDefault();
-const body=input.value.trim();
-if(!body)return;
-send.disabled=true;
-const {error:e}=await db.from("shon_support_messages")
-.insert({ticket_id:ticket.id,sender_id:me.id,body});
-send.disabled=false;
-if(e){feedback.textContent=e.message;return}
-button.click();
-};
-messages.append(form);
-button.textContent="Refresh conversation";
-button.disabled=false;
-};
-box.append(button,messages);
-target.append(box);
-}
-}
+
 el("contact-form").addEventListener("submit",async ev=>{
-ev.preventDefault();
-if(!me)return;
-const subject=el("subject").value.trim();
-const body=el("body").value.trim();
-if(subject.length<3||!body)return;
-const send=el("send");
-send.disabled=true;
-msg(el("form-status"),"Submitting your inquiry...");
-try{
-const {data:t,error:e1}=await db.from("shon_support_tickets")
-.insert({user_id:me.id,category:el("category").value,subject})
-.select("id").single();
-if(e1)throw e1;
-const {error:e2}=await db.from("shon_support_messages")
-.insert({ticket_id:t.id,sender_id:me.id,body});
-if(e2)throw e2;
-el("contact-form").reset();
-msg(el("form-status"),"Your inquiry has been received. Return here to check for a response.");
-await loadTickets();
-}catch(e){msg(el("form-status"),"Could not complete the inquiry: "+e.message,true)}
-finally{send.disabled=false}
+  ev.preventDefault();
+  if(!me)return;
+
+  const subject=el("subject").value.trim();
+  const body=el("body").value.trim();
+
+  if(subject.length<3||!body)return;
+
+  const send=el("send");
+  send.disabled=true;
+  msg(el("form-status"),"Submitting your inquiry...");
+
+  try{
+    const {data:t,error:e1}=await db
+      .from("shon_support_tickets")
+      .insert({
+        user_id:me.id,
+        category:el("category").value,
+        subject
+      })
+      .select("id")
+      .single();
+
+    if(e1)throw e1;
+
+    const {error:e2}=await db
+      .from("shon_support_messages")
+      .insert({
+        ticket_id:t.id,
+        sender_id:me.id,
+        body
+      });
+
+    if(e2)throw e2;
+
+    el("contact-form").reset();
+
+    msg(
+      el("form-status"),
+      "Your inquiry has been received. Return here to check for a response."
+    );
+
+    await loadTickets();
+    await refreshSupportCount();
+
+  }catch(e){
+    msg(
+      el("form-status"),
+      "Could not complete the inquiry: "+e.message,
+      true
+    );
+  }finally{
+    send.disabled=false;
+  }
 });
+
+el("refresh-tickets").onclick=async()=>{
+  await loadTickets();
+  await refreshSupportCount();
+};
+
 init();
 </script>
 </body>
