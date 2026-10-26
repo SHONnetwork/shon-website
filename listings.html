@@ -11,7 +11,7 @@ header{background:#fff;border-bottom:1px solid #dce6dc;padding:14px 18px}
 .bar{max-width:1050px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
 .brand{font-size:27px;font-weight:800;color:#111;text-decoration:none}
 .brand span{font-weight:400}
-nav{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+nav{display:flex;gap:12px;flex-wrap:wrap}
 nav a{color:#205342;text-decoration:none;font-weight:650}
 main{max-width:1000px;margin:auto;padding:24px 16px 70px}
 h1{font-size:clamp(29px,5vw,40px);margin:0 0 8px}
@@ -37,16 +37,22 @@ button:disabled{opacity:.6;cursor:wait}
 .tag{display:inline-block;background:#e7f2e9;border-radius:20px;padding:4px 10px;margin:4px 5px 4px 0;font-size:13px;font-weight:700}
 .tag.private{background:#fff0d9}
 .empty{padding:18px;border:1px dashed #b7cebf;border-radius:10px}
+.photo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px;margin-top:15px}.photo-tile{border:1px solid #d8e6dc;border-radius:10px;padding:8px}.photo-tile img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:6px}.photo-tile button{margin-top:8px;width:100%}
 [hidden]{display:none!important}
 :focus-visible{outline:3px solid #bd7d25;outline-offset:2px}
-#shon-bell{display:inline-flex;align-items:center;gap:5px;white-space:nowrap;text-decoration:none;color:#173b32;background:#fff3cf;border:1px solid #cfb56b;border-radius:9px;padding:8px 11px;font-weight:700;min-height:42px}
-.bell-badge{display:inline-block;background:#b43427;color:white;border-radius:99px;padding:2px 9px;font-size:12px;font-weight:800}
 @media(max-width:650px){.grid{grid-template-columns:1fr}.panel{padding:16px}}
 </style>
-<link rel="stylesheet" href="shon-header.css">
 </head>
 <body>
-<header class="shon-global-header"><div class="shon-header-inner"><div class="shon-header-top"><a class="shon-global-brand" href="index.html">🏡 <span>SHON<span>network</span></span></a><div class="shon-header-actions"><a id="shon-global-messages" class="shon-header-action" href="members.html">🔔 Messages <span id="shon-global-member-count" class="shon-global-count" hidden></span></a><a id="shon-global-support" class="shon-header-action" href="contact.html">Support / Contact SHON <span id="shon-global-support-count" class="shon-global-count" hidden></span></a></div></div><nav class="shon-global-nav" aria-label="Site navigation"><a href="index.html">Home</a><a href="members.html">SHONnetwork - Sign In/Out</a><a href="discover.html">Discover</a><a href="profile.html">Profile</a><a href="listings.html" aria-current="page">Listings</a><a href="connections.html">Connections</a><a href="community.html">Community</a><a href="resources.html">Resources</a><a href="partners.html">Partners</a></nav></div></header><div class="shon-legacy-bells" aria-hidden="true"><a id="shon-bell" href="connections.html" hidden aria-label="Messages">🔔 Messages <span id="bell-count" class="bell-badge" hidden></span></a></div>
+<header><div class="bar">
+<a class="brand" href="index.html">🏡 SHON<span>network</span></a>
+<nav>
+<a href="members.html">My SHONnetwork</a>
+<a href="profile.html">My Profile</a>
+<a href="listings.html" aria-current="page">My Listings</a>
+<a href="connections.html">My Connections</a>
+</nav>
+</div></header>
 
 <main>
 <h1>My Listings</h1>
@@ -93,12 +99,22 @@ You can create more than one listing. Drafts, paused listings, and closed listin
 </div>
 </div>
 
+<label for="visual-category">Color-coded opportunity label (optional)</label>
+<select id="visual-category">
+<option value="">Use the original listing type</option>
+<option value="housing_needed">🟢 Housing Needed</option><option value="housing_offered">🔵 Housing Offered</option>
+<option value="property_presence">🟣 Property Presence</option><option value="help_skills">🔴 Help / Skills Offered</option>
+<option value="companionship">🟡 Companionship</option><option value="community">🟦 Community / Collaboration</option>
+</select>
+<label for="listing-tags">Additional tags (optional)</label>
+<input id="listing-tags" maxlength="240" placeholder="Pet Friendly, Long-Term, Shared Costs">
+<p class="hint">Separate tags with commas. These help people scan and search listings. Avoid private contact details.</p>
 <label for="listing-title">Listing Title</label>
-<input id="listing-title" maxlength="120" required
+<input id="listing-title" maxlength="120"
 placeholder="What would you like people to know?">
 
 <label for="listing-description">Tell people about the opportunity</label>
-<textarea id="listing-description" maxlength="3000" required
+<textarea id="listing-description" maxlength="3000"
 placeholder="What are you hoping to find or create? Who might enjoy sharing this possibility with you?"></textarea>
 
 <div class="grid">
@@ -135,6 +151,15 @@ Remote or online contribution possible
 <button id="clear-button" type="button" class="secondary">Clear Form</button>
 </div>
 <p id="editor-status" role="status" aria-live="polite"></p>
+<section class="panel" aria-label="Listing photographs">
+<h2>📷 Listing photographs</h2>
+<p class="hint">Save and publish your listing, then select Edit to add up to eight public photographs. JPG, PNG or WebP, up to 5 MB each. Do not upload private documents or exact address details.</p>
+<label for="listing-photo">Choose a photograph</label>
+<input id="listing-photo" type="file" accept="image/jpeg,image/png,image/webp">
+<div class="actions"><button type="button" id="upload-photo" class="secondary">Add Photograph</button></div>
+<p id="photo-status" role="status" aria-live="polite"></p>
+<div id="photo-gallery" class="photo-grid"></div>
+</section>
 </form>
 </section>
 
@@ -152,10 +177,11 @@ Remote or online contribution possible
 (function(){
 "use strict";
 
-const URL="https://wqcninwqeyfoyxlllwdy.supabase.co";
+const SUPABASE_URL="https://wqcninwqeyfoyxlllwdy.supabase.co";
 const KEY="sb_publishable_YTHhpIPiKKHGBLMdkj_4og_Uyq_t_SX";
 const $=id=>document.getElementById(id);
 
+const CATEGORY_COLORS={housing_needed:"#367d35",housing_offered:"#0878c9",help_offered:"#c84835",connection_sought:"#aa7a0c"};
 const TYPE_LABELS={
 housing_needed:"Needs a home, room and board",
 housing_offered:"Has a home to share",
@@ -175,8 +201,6 @@ let user=null;
 let listings=[];
 let saving=false;
 let directoryName="SHON member";
-let notificationTimer=null;
-let checkingNotifications=false;
 
 function message(id,value,isError=false){
 const box=$(id);
@@ -188,27 +212,8 @@ function errorText(error){
 return error?.message||String(error);
 }
 
-function setBell(count){
-const bell=$("shon-bell");
-const badge=$("bell-count");
-bell.hidden=!user;
-badge.hidden=count===0;
-badge.textContent=count>99?"99+":String(count);
-bell.setAttribute("aria-label",count?
-count+" unread messages. Open My Connections.":
-"Messages. Open My Connections.");
-document.title=count?
-"("+count+") My Listings | SHONnetwork":
-"My Listings | SHONnetwork";
-}
-
 function showSignedOut(){
 user=null;
-if(notificationTimer){
-clearInterval(notificationTimer);
-notificationTimer=null;
-}
-setBell(0);
 $("signed-out").hidden=false;
 $("workspace").hidden=true;
 message("status","Sign in to manage your listings.");
@@ -218,7 +223,6 @@ function showSignedIn(member){
 user=member;
 $("signed-out").hidden=true;
 $("workspace").hidden=false;
-setBell(0);
 message("status","Signed in as "+(member.email||"SHONnetwork member"));
 }
 
@@ -233,6 +237,9 @@ $("listing-status").value="draft";
 $("editor-heading").textContent="Create a Listing";
 $("save-button").textContent="Save Listing";
 message("editor-status","");
+$("listing-photo").value="";
+$("photo-gallery").replaceChildren();
+message("photo-status","");
 }
 
 function getPayload(){
@@ -247,6 +254,8 @@ region:value("listing-region"),
 arrangement:value("listing-arrangement"),
 housing_type:value("listing-housing-type"),
 remote_possible:$("listing-remote").checked,
+visual_category:value("visual-category")||null,
+discovery_tags:value("listing-tags").split(",").map(s=>s.trim()).filter(Boolean).slice(0,8),
 updated_at:new Date().toISOString()
 };
 }
@@ -285,7 +294,7 @@ const title=value("listing-title");
 const description=value("listing-description");
 
 if(!title||!description){
-message("editor-status","Please enter a title and description.",true);
+message("editor-status","Please provide a listing title and description before saving. All other details are optional.",true);
 return;
 }
 
@@ -319,7 +328,7 @@ throw new Error("The database did not confirm the saved listing.");
 
 resetForm();
 await loadListings();
-message("editor-status","Your listing was saved to SHONnetwork.");
+message("editor-status","Your listing was saved to SHONnetwork. To add photos, select Edit on the saved, published listing.");
 }catch(error){
 message("editor-status",
 "Could not save listing: "+errorText(error),true);
@@ -390,7 +399,12 @@ const type=create("span",
 TYPE_LABELS[item.listing_type]||item.listing_type,
 "tag");
 
+type.style.background=CATEGORY_COLORS[item.listing_type]||"#546c61";
+type.style.color="#fff";type.style.padding="5px 10px";type.style.borderRadius="8px";type.style.fontWeight="750";
+card.style.borderTop="5px solid "+(CATEGORY_COLORS[item.listing_type]||"#546c61");
 card.append(status,type);
+if(item.visual_category){const names={housing_needed:"Housing Needed",housing_offered:"Housing Offered",property_presence:"Property Presence",help_skills:"Help / Skills Offered",companionship:"Companionship",community:"Community / Collaboration"};const colors={...CATEGORY_COLORS,property_presence:"#8838b5",help_skills:"#c84835",companionship:"#aa7a0c",community:"#087b79"};const t=create("span",names[item.visual_category]||item.visual_category,"tag");t.style.background=colors[item.visual_category]||"#546c61";t.style.color="#fff";card.append(t);}
+if(Array.isArray(item.discovery_tags))for(const tag of item.discovery_tags.slice(0,8))card.append(create("span",tag,"tag"));
 
 if(item.region){
 card.append(create("p",item.region,"hint"));
@@ -426,6 +440,8 @@ if(!item)return;
 
 $("listing-id").value=item.id;
 $("listing-type").value=item.listing_type||"housing_needed";
+$("visual-category").value=item.visual_category||"";
+$("listing-tags").value=Array.isArray(item.discovery_tags)?item.discovery_tags.join(", "):"";
 $("listing-status").value=item.status||"draft";
 $("listing-title").value=item.title||"";
 $("listing-description").value=item.description||"";
@@ -436,6 +452,7 @@ $("listing-remote").checked=Boolean(item.remote_possible);
 
 $("editor-heading").textContent="Edit Listing";
 $("save-button").textContent="Update Listing";
+loadPhotos(item.id).catch(e=>message("photo-status","Could not load photographs: "+errorText(e),true));
 
 $("listing-form").scrollIntoView({
 behavior:"smooth",block:"start"
@@ -494,91 +511,72 @@ await loadListings();
 message("status","Listing deleted.");
 }
 
-/* Notification bell, using Connections read markers */
-
-function readMarkers(){
-if(!user)return {};
-try{
-const data=JSON.parse(
-localStorage.getItem("shon-message-read-v1-"+user.id)||"{}"
-);
-return data&&typeof data==="object"?data:{};
-}catch(error){
-return {};
+const PHOTO_BUCKET="shon-public-photos";
+let photos=[];
+function photoUrl(path){return db.storage.from(PHOTO_BUCKET).getPublicUrl(path).data.publicUrl;}
+async function loadPhotos(listingId){
+  photos=[];
+  $("photo-gallery").replaceChildren();
+  if(!listingId)return;
+  const {data,error}=await db.from("shon_photos")
+    .select("id,item_type,item_id,storage_path,created_at,owner_id")
+    .eq("item_type","listing").eq("item_id",String(listingId))
+    .order("created_at",{ascending:true});
+  if(error)throw error;
+  photos=data||[];
+  const root=$("photo-gallery");
+  for(const photo of photos){
+    const tile=create("div","","photo-tile");
+    const img=document.createElement("img");
+    img.alt="Listing photograph";img.loading="lazy";
+    img.src=photoUrl(photo.storage_path);
+    tile.append(img,action("Remove",()=>removePhoto(photo),"danger"));
+    root.append(tile);
+  }
+  message("photo-status",photos.length+" of 8 photographs attached.");
 }
+async function uploadPhoto(){
+  if(!user)return;
+  const id=value("listing-id");
+  const item=listings.find(x=>String(x.id)===String(id));
+  if(!item){message("photo-status","Save your listing first, then select Edit.",true);return;}
+  if(item.status!=="published"){
+    message("photo-status","Publish and save the listing before adding public photographs.",true);return;
+  }
+  const file=$("listing-photo").files?.[0];
+  if(!file){message("photo-status","Choose a photograph first.",true);return;}
+  const ext=({"image/jpeg":"jpg","image/png":"png","image/webp":"webp"})[file.type];
+  if(!ext||file.size>5*1024*1024){message("photo-status","Use JPG, PNG or WebP under 5 MB.",true);return;}
+  const header=new Uint8Array(await file.slice(0,12).arrayBuffer());
+  const jpeg=header[0]===255&&header[1]===216&&header[2]===255;
+  const png=[137,80,78,71,13,10,26,10].every((v,i)=>header[i]===v);
+  const webp=String.fromCharCode(...header.slice(0,4))==="RIFF"&&String.fromCharCode(...header.slice(8,12))==="WEBP";
+  if(!(ext==="jpg"&&jpeg||ext==="png"&&png||ext==="webp"&&webp)){
+    message("photo-status","The selected file is not a valid supported image.",true);return;
+  }
+  try{
+    await loadPhotos(id);
+    if(photos.length>=8){message("photo-status","Eight photos already attached. Remove one first.",true);return;}
+    const path=user.id+"/listing/"+id+"/"+crypto.randomUUID()+"."+ext;
+    message("photo-status","Uploading photograph...");
+    const {error:uploadError}=await db.storage.from(PHOTO_BUCKET).upload(path,file,{contentType:file.type,upsert:false});
+    if(uploadError)throw uploadError;
+    const {error:recordError}=await db.from("shon_photos").insert({owner_id:user.id,item_type:"listing",item_id:String(id),storage_path:path});
+    if(recordError){await db.storage.from(PHOTO_BUCKET).remove([path]);throw recordError;}
+    $("listing-photo").value="";
+    await loadPhotos(id);
+    message("photo-status","Photograph added successfully.");
+  }catch(e){message("photo-status","Could not add photograph: "+errorText(e),true);}
 }
-
-async function checkedQuery(request){
-const {data,error}=await request;
-if(error)throw error;
-return data||[];
-}
-
-async function checkNotifications(){
-if(!user||checkingNotifications)return;
-checkingNotifications=true;
-const checkingUser=user.id;
-
-try{
-const conversations=await checkedQuery(
-db.from("shon_conversations")
-.select("id,member_a,member_b")
-);
-
-const blocks=await checkedQuery(
-db.from("shon_blocks")
-.select("blocked")
-.eq("blocker",checkingUser)
-);
-
-const blocked=new Set(blocks.map(x=>x.blocked));
-
-const visible=conversations.filter(c=>
-!blocked.has(
-c.member_a===checkingUser?c.member_b:c.member_a
-)
-);
-
-const markers=readMarkers();
-let count=0;
-
-for(let i=0;i<visible.length;i+=30){
-const ids=visible.slice(i,i+30).map(c=>c.id);
-
-const messages=await checkedQuery(
-db.from("shon_messages")
-.select("conversation_id,sender,created_at")
-.in("conversation_id",ids)
-.order("created_at",{ascending:false})
-.limit(1000)
-);
-
-for(const item of messages){
-const timestamp=new Date(item.created_at).getTime();
-if(item.sender!==checkingUser&&
-timestamp>(Number(markers[String(item.conversation_id)])||0)){
-count++;
-}
-}
-}
-
-if(user?.id===checkingUser)setBell(count);
-
-}catch(error){
-console.warn("SHONnetwork notification check:",error.message);
-}finally{
-checkingNotifications=false;
-}
-}
-
-function startNotifications(){
-if(notificationTimer){
-clearInterval(notificationTimer);
-}
-checkNotifications();
-notificationTimer=setInterval(()=>{
-if(!document.hidden)checkNotifications();
-},30000);
+async function removePhoto(photo){
+  if(!user||!confirm("Remove this photograph?"))return;
+  try{
+    const {error}=await db.from("shon_photos").delete().eq("id",photo.id).eq("owner_id",user.id);
+    if(error)throw error;
+    const {error:storageError}=await db.storage.from(PHOTO_BUCKET).remove([photo.storage_path]);
+    await loadPhotos(value("listing-id"));
+    message("photo-status",storageError?"Photograph removed from gallery, but storage cleanup failed: "+errorText(storageError):"Photograph removed.",Boolean(storageError));
+  }catch(e){message("photo-status","Could not remove photograph: "+errorText(e),true);}
 }
 
 async function initialize(){
@@ -588,7 +586,7 @@ message("status",
 return;
 }
 
-db=window.supabase.createClient(URL,KEY,{
+db=window.supabase.createClient(SUPABASE_URL,KEY,{
 auth:{
 storageKey:"sb-wqcninwqeyfoyxlllwdy-auth-token",
 persistSession:true,
@@ -611,7 +609,6 @@ return;
 }
 
 showSignedIn(data.user);
-startNotifications();
 await loadDisplayName();
 await loadListings();
 
@@ -624,22 +621,12 @@ message("status",
 $("listing-form").addEventListener("submit",saveListing);
 $("clear-button").addEventListener("click",resetForm);
 $("refresh-button").addEventListener("click",loadListings);
-
-document.addEventListener("visibilitychange",()=>{
-if(!document.hidden&&user)checkNotifications();
-});
-
-window.addEventListener("storage",event=>{
-if(user&&event.key==="shon-message-read-v1-"+user.id){
-checkNotifications();
-}
-});
+$("upload-photo").addEventListener("click",uploadPhoto);
 
 initialize().catch(error=>{
 message("status","Initialization error: "+errorText(error),true);
 });
 })();
 </script>
-<script src="shon-notifications.js" defer></script>
 </body>
 </html>

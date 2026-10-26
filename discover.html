@@ -28,6 +28,14 @@ input{width:100%;max-width:300px;background:white}
 article{padding:17px;border:1px solid #d7e4da;border-radius:12px;background:#f2f8f1;overflow-wrap:anywhere}
 article:nth-child(even){background:#eaf4fc}
 article p{white-space:pre-wrap}
+.category-filter{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+.category-filter button{background:#fff;color:#194436;border:2px solid var(--cat,#9bb7a6);font-weight:750}
+.category-filter button[aria-pressed="true"]{background:var(--cat,#176049);color:white}
+.category-label{display:inline-block;background:var(--cat,#176049);color:#fff;border-radius:7px;padding:5px 10px;font-size:13px;font-weight:800;margin-bottom:9px}
+.category-label.unknown{background:#546c61}
+article{border-top:5px solid var(--cat,#9bb7a6)}
+article .discovery-tags{display:flex;gap:5px;flex-wrap:wrap;margin:8px 0}article .discovery-tag{background:#e9f1eb;color:#254b3c;border-radius:14px;padding:3px 9px;font-size:12px;font-weight:650}article .listing-visual{min-height:75px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#e7f2e8,#f6f8f5);border-radius:9px;margin-bottom:10px;font-size:36px}
+
 .status{padding:12px;background:#eef5ed;border-radius:8px;margin:15px 0}
 footer{text-align:center;background:#174c3c;color:white}
 footer a{color:white}
@@ -67,6 +75,7 @@ footer a{color:white}
 <button id="clear" type="button">Clear</button>
 </div>
 
+<div id="category-filters" class="category-filter" aria-label="Filter opportunities by category"></div>
 <p id="status" class="status" role="status">Loading directory…</p>
 <div id="results"></div>
 
@@ -99,10 +108,42 @@ const AUTH_KEY="sb-wqcninwqeyfoyxlllwdy-auth-token";
 let db;
 let mode="listings";
 let rows=[];
+let photoByListing={};
 let me=null;
 let notificationTimer=null;
 let checkingNotifications=false;
 let directoryRequest=0;
+let category="all";
+const CATEGORIES=[
+ ["housing_needed","Housing Needed","#367d35","🏡"],
+ ["housing_offered","Housing Offered","#0878c9","🏠"],
+ ["property_presence","Property Presence","#8838b5","🔑"],
+ ["help_skills","Help / Skills Offered","#c84835","🤝"],
+ ["companionship","Companionship","#aa7a0c","💛"],
+ ["community","Community / Collaboration","#087b79","🌱"]
+];
+function categoryFor(r){
+ if(typeof r.visual_category==="string"&&CATEGORIES.some(c=>c[0]===r.visual_category))return r.visual_category;
+ const raw=[r.category,r.listing_type,r.type,r.opportunity_type,r.kind,r.intent].filter(v=>typeof v==="string").join(" ").toLowerCase();
+ const title=String(r.title||"").toLowerCase();
+ const value=raw||title;
+ if(/property.?presence|caretaker|house.?sitting/.test(value))return "property_presence";
+ if(/housing_needed|housing.?needed|need.*(room|home|housing)|seeking.*(room|home|housing)|homing.?needed/.test(value))return "housing_needed";
+ if(/housing_offered|housing.?offered|offer.*(room|home|housing)|room.?available|space.?to.?share/.test(value))return "housing_offered";
+ if(/help_offered|help|skills|tutor|assistance/.test(value))return "help_skills";
+ if(/connection_sought|companionship|companion|friendship/.test(value))return "companionship";
+ if(/community|collaboration|household/.test(value))return "community";
+ return "other";
+}
+function renderFilters(){
+ const el=$("category-filters");
+ el.hidden=mode!=="listings";
+ if(mode!=="listings")return;
+ const filters=[["all","All","#176049"],...CATEGORIES.map(x=>x.slice(0,3))];
+ el.innerHTML=filters.map(([id,label,color])=>`<button type="button" data-category="${id}" style="--cat:${color}" aria-pressed="${category===id}">${safe(label)}</button>`).join("");
+ el.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{category=b.dataset.category;render();}));
+}
+
 
 function safe(v){
 return String(v??"").replace(/[&<>"']/g,c=>({
@@ -111,11 +152,19 @@ return String(v??"").replace(/[&<>"']/g,c=>({
 })[c]);
 }
 
+function listingVisual(r,symbol){
+ const path=photoByListing[String(r.id)];
+ if(!path)return `<div class="listing-visual" aria-hidden="true">${symbol}</div>`;
+ const url=db.storage.from("shon-public-photos").getPublicUrl(path).data.publicUrl;
+ return `<div class="listing-visual"><img src="${safe(url)}" alt="Opportunity photograph" loading="lazy" style="width:100%;height:170px;object-fit:cover;border-radius:9px"></div>`;
+}
 function render(){
 const q=$("search").value.toLowerCase().trim();
 const loc=$("location").value.toLowerCase().trim();
 
+renderFilters();
 const matches=rows.filter(r=>{
+if(mode==="listings"&&category!=="all"&&categoryFor(r)!==category)return false;
 const text=Object.values(r)
 .filter(v=>typeof v==="string")
 .join(" ").toLowerCase();
@@ -130,10 +179,17 @@ $("results").innerHTML=matches.slice(0,100).map(r=>{
 const title=r.title||r.display_name||r.name||"Community member";
 const desc=r.description||r.bio||r.about||"";
 const place=r.region||r.location||r.city||"";
-return `<article>
+const cat=mode==="listings"?CATEGORIES.find(x=>x[0]===categoryFor(r)):null;
+const label=cat?cat[1]:(mode==="listings"?"Other Opportunity":"Member Profile");
+const color=cat?cat[2]:"#546c61";
+const symbol=cat?cat[3]:"👤";
+return `<article style="--cat:${color}">
+${mode==="listings"?listingVisual(r,symbol):`<div class="listing-visual" aria-hidden="true">${symbol}</div>`}
+<span class="category-label ${cat?"":"unknown"}">${safe(label)}</span>
 <h3>${safe(title)}</h3>
 <small>${safe(place)}</small>
 <p>${safe(desc)}</p>
+${mode==="listings"&&Array.isArray(r.discovery_tags)?`<div class="discovery-tags">${r.discovery_tags.slice(0,8).map(t=>`<span class="discovery-tag">${safe(t)}</span>`).join("")}</div>`:""}
 <a href="members.html">Sign in to connect</a>
 </article>`;
 }).join("")||"<p>No matching entries found.</p>";
@@ -141,6 +197,7 @@ return `<article>
 
 async function load(which){
 mode=which;
+category="all";
 const request=++directoryRequest;
 $("status").textContent="Loading public "+which+"…";
 $("results").innerHTML="";
@@ -161,6 +218,15 @@ if(request!==directoryRequest)return;
 if(result.error)throw result.error;
 
 rows=Array.isArray(result.data)?result.data:[];
+photoByListing={};
+if(which==="listings"&&rows.length){
+ try{
+ const ids=rows.map(r=>String(r.id));
+ const photos=await db.from("shon_photos").select("item_id,storage_path,created_at").eq("item_type","listing").in("item_id",ids).order("created_at",{ascending:true});
+ if(!photos.error)for(const photo of photos.data||[]){if(!photoByListing[String(photo.item_id)])photoByListing[String(photo.item_id)]=photo.storage_path;}
+ }catch(error){console.warn("Photo lookup unavailable",error);}
+}
+if(request!==directoryRequest)return;
 render();
 
 }catch(e){
