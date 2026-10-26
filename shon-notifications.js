@@ -71,10 +71,24 @@ function ensureTopActions(){
  const area=document.querySelector('.shon-global-header .shon-header-actions');
  if(!area)return;
  const support=area.querySelector('#shon-global-support');
- for(const [id,label,url,w,h] of [['shon-global-messenger','💬 Messenger','messenger.html',380,690],['shon-global-meetings','👥 Meetings','meetings.html',880,750]]){
-  let a=document.getElementById(id);
-  if(!a){a=document.createElement('a');a.id=id;a.className='shon-header-action';a.href=url;a.textContent=label; if(support)area.insertBefore(a,support);else area.append(a);}
-  a.addEventListener('click',e=>{const win=window.open(url,id,'popup=yes,width='+w+',height='+h+',resizable=yes,scrollbars=yes');if(win){e.preventDefault();win.focus();}});
+ for(const [id,label,url,width,height] of [
+  ['shon-global-messenger','💬 Messenger','messenger.html',380,690],
+  ['shon-global-meetings','👥 Meetings','meetings.html',880,750]
+ ]){
+  let link=area.querySelector('#'+id);
+  if(!link){
+   link=document.createElement('a');
+   link.id=id;link.className='shon-header-action';
+   if(support)area.insertBefore(link,support);else area.appendChild(link);
+  }
+  link.textContent=label;link.href=url;
+  if(link.dataset.shonPopupBound!=='yes'){
+   link.dataset.shonPopupBound='yes';
+   link.addEventListener('click',event=>{
+    const popup=window.open(url,id,'popup=yes,width='+width+',height='+height+',resizable=yes,scrollbars=yes');
+    if(popup){event.preventDefault();popup.focus();}
+   });
+  }
  }
 }
 async function init(){
