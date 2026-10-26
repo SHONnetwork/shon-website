@@ -11,7 +11,7 @@ header{background:#fff;border-bottom:1px solid #dce6dc;padding:14px 18px}
 .bar{max-width:1050px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
 .brand{font-size:27px;font-weight:800;color:#111;text-decoration:none}
 .brand span{font-weight:400}
-nav{display:flex;gap:12px;flex-wrap:wrap}
+nav{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 nav a{color:#205342;text-decoration:none;font-weight:650}
 main{max-width:1000px;margin:auto;padding:24px 16px 70px}
 h1{font-size:clamp(29px,5vw,40px);margin:0 0 8px}
@@ -39,17 +39,20 @@ button:disabled{opacity:.6;cursor:wait}
 .empty{padding:18px;border:1px dashed #b7cebf;border-radius:10px}
 [hidden]{display:none!important}
 :focus-visible{outline:3px solid #bd7d25;outline-offset:2px}
+#shon-bell{display:inline-flex;align-items:center;gap:5px;white-space:nowrap;text-decoration:none;color:#173b32;background:#fff3cf;border:1px solid #cfb56b;border-radius:9px;padding:8px 11px;font-weight:700;min-height:42px}
+.bell-badge{display:inline-block;background:#b43427;color:white;border-radius:99px;padding:2px 9px;font-size:12px;font-weight:800}
 @media(max-width:650px){.grid{grid-template-columns:1fr}.panel{padding:16px}}
 </style>
 </head>
 <body>
 <header><div class="bar">
 <a class="brand" href="index.html">🏡 SHON<span>network</span></a>
-<nav>
+<nav aria-label="Member navigation">
 <a href="members.html">My SHONnetwork</a>
 <a href="profile.html">My Profile</a>
 <a href="listings.html" aria-current="page">My Listings</a>
 <a href="connections.html">My Connections</a>
+<a id="shon-bell" href="connections.html" hidden aria-label="Messages">🔔 Messages <span id="bell-count" class="bell-badge" hidden></span></a>
 </nav>
 </div></header>
 
@@ -180,6 +183,8 @@ let user=null;
 let listings=[];
 let saving=false;
 let directoryName="SHON member";
+let notificationTimer=null;
+let checkingNotifications=false;
 
 function message(id,value,isError=false){
 const box=$(id);
@@ -191,8 +196,27 @@ function errorText(error){
 return error?.message||String(error);
 }
 
+function setBell(count){
+const bell=$("shon-bell");
+const badge=$("bell-count");
+bell.hidden=!user;
+badge.hidden=count===0;
+badge.textContent=count>99?"99+":String(count);
+bell.setAttribute("aria-label",count?
+count+" unread messages. Open My Connections.":
+"Messages. Open My Connections.");
+document.title=count?
+"("+count+") My Listings | SHONnetwork":
+"My Listings | SHONnetwork";
+}
+
 function showSignedOut(){
 user=null;
+if(notificationTimer){
+clearInterval(notificationTimer);
+notificationTimer=null;
+}
+setBell(0);
 $("signed-out").hidden=false;
 $("workspace").hidden=true;
 message("status","Sign in to manage your listings.");
@@ -202,6 +226,7 @@ function showSignedIn(member){
 user=member;
 $("signed-out").hidden=true;
 $("workspace").hidden=false;
+setBell(0);
 message("status","Signed in as "+(member.email||"SHONnetwork member"));
 }
 
@@ -477,6 +502,93 @@ await loadListings();
 message("status","Listing deleted.");
 }
 
+/* Notification bell, using Connections read markers */
+
+function readMarkers(){
+if(!user)return {};
+try{
+const data=JSON.parse(
+localStorage.getItem("shon-message-read-v1-"+user.id)||"{}"
+);
+return data&&typeof data==="object"?data:{};
+}catch(error){
+return {};
+}
+}
+
+async function checkedQuery(request){
+const {data,error}=await request;
+if(error)throw error;
+return data||[];
+}
+
+async function checkNotifications(){
+if(!user||checkingNotifications)return;
+checkingNotifications=true;
+const checkingUser=user.id;
+
+try{
+const conversations=await checkedQuery(
+db.from("shon_conversations")
+.select("id,member_a,member_b")
+);
+
+const blocks=await checkedQuery(
+db.from("shon_blocks")
+.select("blocked")
+.eq("blocker",checkingUser)
+);
+
+const blocked=new Set(blocks.map(x=>x.blocked));
+
+const visible=conversations.filter(c=>
+!blocked.has(
+c.member_a===checkingUser?c.member_b:c.member_a
+)
+);
+
+const markers=readMarkers();
+let count=0;
+
+for(let i=0;i<visible.length;i+=30){
+const ids=visible.slice(i,i+30).map(c=>c.id);
+
+const messages=await checkedQuery(
+db.from("shon_messages")
+.select("conversation_id,sender,created_at")
+.in("conversation_id",ids)
+.order("created_at",{ascending:false})
+.limit(1000)
+);
+
+for(const item of messages){
+const timestamp=new Date(item.created_at).getTime();
+if(item.sender!==checkingUser&&
+timestamp>(Number(markers[String(item.conversation_id)])||0)){
+count++;
+}
+}
+}
+
+if(user?.id===checkingUser)setBell(count);
+
+}catch(error){
+console.warn("SHONnetwork notification check:",error.message);
+}finally{
+checkingNotifications=false;
+}
+}
+
+function startNotifications(){
+if(notificationTimer){
+clearInterval(notificationTimer);
+}
+checkNotifications();
+notificationTimer=setInterval(()=>{
+if(!document.hidden)checkNotifications();
+},30000);
+}
+
 async function initialize(){
 if(!window.supabase?.createClient){
 message("status",
@@ -507,6 +619,7 @@ return;
 }
 
 showSignedIn(data.user);
+startNotifications();
 await loadDisplayName();
 await loadListings();
 
@@ -519,6 +632,16 @@ message("status",
 $("listing-form").addEventListener("submit",saveListing);
 $("clear-button").addEventListener("click",resetForm);
 $("refresh-button").addEventListener("click",loadListings);
+
+document.addEventListener("visibilitychange",()=>{
+if(!document.hidden&&user)checkNotifications();
+});
+
+window.addEventListener("storage",event=>{
+if(user&&event.key==="shon-message-read-v1-"+user.id){
+checkNotifications();
+}
+});
 
 initialize().catch(error=>{
 message("status","Initialization error: "+errorText(error),true);
