@@ -218,7 +218,7 @@ async function refreshUnread(){
   if(unreadTotal>0){
     summary.textContent=
       unreadTotal+" unread support message"+
-      (unreadTotal===1:"s")+
+      (unreadTotal===1?"":"s")+
       " waiting for your attention.";
 
     notice.hidden=false;
