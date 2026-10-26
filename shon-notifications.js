@@ -41,6 +41,7 @@ async function check(){
  }catch(e){console.warn("SHONnetwork notification refresh:",e.message);}finally{active=false;}
 }
 function ensureChatNav(){
+ document.querySelectorAll('.shon-global-nav a[href="members.html"]').forEach(a=>{if(a.textContent.includes('Sign In/Out'))a.textContent='Sign In/Out';});
  const nav=document.querySelector('.shon-global-header .shon-global-nav');
  if(!nav||nav.querySelector('a[href="chat.html"]'))return;
  const link=document.createElement('a');link.href='chat.html';link.textContent='Chat';
