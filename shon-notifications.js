@@ -40,7 +40,15 @@ async function check(){
   if(supportLink)supportLink.title=contactCount?`${contactCount} unread support messages`:"Contact SHONnetwork Support";
  }catch(e){console.warn("SHONnetwork notification refresh:",e.message);}finally{active=false;}
 }
+function ensureChatNav(){
+ const nav=document.querySelector('.shon-global-header .shon-global-nav');
+ if(!nav||nav.querySelector('a[href="chat.html"]'))return;
+ const link=document.createElement('a');link.href='chat.html';link.textContent='Chat';
+ const community=nav.querySelector('a[href="community.html"]');
+ if(community)nav.insertBefore(link,community);else nav.appendChild(link);
+}
 async function init(){
+ ensureChatNav();
  const bell=$("shon-global-messages");if(!bell)return;
  if(!window.supabase){console.warn("Supabase not available for header notifications");return;}
  try{
