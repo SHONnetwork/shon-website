@@ -41,12 +41,31 @@ async function check(){
  }catch(e){console.warn("SHONnetwork notification refresh:",e.message);}finally{active=false;}
 }
 function ensureChatNav(){
- document.querySelectorAll('.shon-global-nav a[href="members.html"]').forEach(a=>{if(a.textContent.includes('Sign In/Out'))a.textContent='Sign In/Out';});
  const nav=document.querySelector('.shon-global-header .shon-global-nav');
  if(!nav)return;
- const community=nav.querySelector('a[href="community.html"]');
- if(!nav.querySelector('a[href="chat.html"]')){const link=document.createElement('a');link.href='chat.html';link.textContent='Chat';if(community)nav.insertBefore(link,community);else nav.appendChild(link);}
- if(!nav.querySelector('a[href="games.html"]')){const link=document.createElement('a');link.href='games.html';link.textContent='Games';if(community)nav.insertBefore(link,community);else nav.appendChild(link);}
+ const items=[
+  ['index.html','Home'],['members.html','Sign In/Out'],
+  ['discover.html','Discover'],['profile.html','Profile'],
+  ['listings.html','Listings'],['connections.html','Connections'],
+  ['chat.html','Chat'],['games.html','Games'],
+  ['community.html','Community'],['resources.html','Resources'],
+  ['partners.html','Partners']
+ ];
+ const existing=[...nav.querySelectorAll('a')];
+ const page=location.pathname.split('/').pop()||'index.html';
+ for(const [href,label] of items){
+  let link=existing.find(a=>a.getAttribute('href')===href);
+  if(!link){link=document.createElement('a');link.href=href;}
+  link.textContent=label;
+  if(page===href)link.setAttribute('aria-current','page');
+  else link.removeAttribute('aria-current');
+  nav.appendChild(link);
+ }
+ // Remove only duplicate links for these canonical destinations.
+ for(const a of existing){
+  if(items.some(([href])=>href===a.getAttribute('href')) &&
+     a!==nav.querySelector('a[href="'+a.getAttribute('href')+'"]'))a.remove();
+ }
 }
 async function init(){
  ensureChatNav();
