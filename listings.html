@@ -42,17 +42,10 @@ button:disabled{opacity:.6;cursor:wait}
 :focus-visible{outline:3px solid #bd7d25;outline-offset:2px}
 @media(max-width:650px){.grid{grid-template-columns:1fr}.panel{padding:16px}}
 </style>
+<link rel="stylesheet" href="shon-header.css">
 </head>
 <body>
-<header><div class="bar">
-<a class="brand" href="index.html">🏡 SHON<span>network</span></a>
-<nav>
-<a href="members.html">My SHONnetwork</a>
-<a href="profile.html">My Profile</a>
-<a href="listings.html" aria-current="page">My Listings</a>
-<a href="connections.html">My Connections</a>
-</nav>
-</div></header>
+<header class="shon-global-header"><div class="shon-header-inner"><div class="shon-header-top"><a class="shon-global-brand" href="index.html">🏡 <span>SHON<span>network</span></span></a><div class="shon-header-actions"><a id="shon-global-messages" class="shon-header-action" href="members.html">🔔 Messages <span id="shon-global-member-count" class="shon-global-count" hidden></span></a><a id="shon-global-support" class="shon-header-action" href="contact.html">Support / Contact SHON <span id="shon-global-support-count" class="shon-global-count" hidden></span></a></div></div><nav class="shon-global-nav" aria-label="Site navigation"><a href="index.html">Home</a><a href="members.html">SHONnetwork - Sign In/Out</a><a href="discover.html">Discover</a><a href="profile.html">Profile</a><a href="listings.html" aria-current="page">Listings</a><a href="connections.html">Connections</a><a href="community.html">Community</a><a href="resources.html">Resources</a><a href="partners.html">Partners</a></nav></div></header>
 
 <main>
 <h1>My Listings</h1>
@@ -689,5 +682,6 @@ message("status","Initialization error: "+errorText(error),true);
 });
 })();
 </script>
+<script src="shon-notifications.js" defer></script>
 </body>
 </html>
