@@ -440,6 +440,10 @@ if(!currentUser)return;
 try{
 const values=householdValues();
 validateHousehold(values);
+const allowedParticipation=new Set(["none","companionship","light_shared","discuss"]);
+const submittedParticipation=values.participation===null || values.participation==="" ? null : String(values.participation).trim();
+if(submittedParticipation!==null && !allowedParticipation.has(submittedParticipation))throw new Error("Unrecognized household participation value: "+JSON.stringify(values.participation));
+values.participation=submittedParticipation;
 
 message("household-status","Saving to SHONnetwork...");
 
@@ -692,9 +696,20 @@ for(const [name,fn] of [
 ["Household preferences",async()=>{
 const v=householdValues();
 validateHousehold(v);
+// Normalize only the participation value before sending it to Supabase.
+// Keep the remaining questionnaire fields unchanged.
+const allowedParticipation=new Set(["none","companionship","light_shared","discuss"]);
+const rawParticipation=v.participation;
+const normalizedParticipation=rawParticipation===null || rawParticipation==="" ? null : String(rawParticipation).trim();
+if(normalizedParticipation!==null && !allowedParticipation.has(normalizedParticipation)){
+  throw new Error("Household participation has an unrecognized value: "+JSON.stringify(rawParticipation)+". No household answers were submitted.");
+}
+v.participation=normalizedParticipation;
 const r=await db.from("shon_household_preferences")
 .upsert(v,{onConflict:"user_id"});
-if(r.error)throw r.error;
+if(r.error){
+  throw new Error(errorText(r)+" | Submitted participation="+JSON.stringify(v.participation)+" | Code="+(r.code||"not supplied")+" | Detail="+(r.details||"none"));
+}
 }],
 ["Discovery preferences",async()=>{
 const r=await db.from("shon_match_preferences")
