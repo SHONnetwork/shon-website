@@ -79,6 +79,7 @@ footer a{color:white}
 <div class="controls">
 <input id="search" placeholder="Search words or interests" aria-label="Search words">
 <input id="location" placeholder="Location or region" aria-label="Location">
+<select id="shared-interest" aria-label="Interest mentioned in public biography"><option value="">Any shared interest</option><option value="Reading">Reading</option><option value="Music">Music</option><option value="Movies">Movies</option><option value="Games">Games</option><option value="Cooking">Cooking</option><option value="Gardening">Gardening</option><option value="Technology">Technology</option><option value="Exercise">Exercise</option><option value="Travel">Travel</option><option value="Learning">Learning</option><option value="Cats">Cats</option><option value="Dogs">Dogs</option><option value="Companionship">Companionship</option><option value="Community projects">Community projects</option></select>
 <button id="clear" type="button">Clear</button>
 </div>
 
@@ -90,6 +91,7 @@ footer a{color:white}
 <p id="status" class="status" role="status">Loading directory…</p>
 <div id="results"></div>
 
+<p>Interest filtering searches public biographies and interests members explicitly chose to share. Private questionnaire answers remain private.</p>
 <p>Only public information should appear here. Confirm availability and arrangements directly with the people involved.</p>
 <p><a href="members.html">Join or sign in to connect</a></p>
 </section>
@@ -125,6 +127,7 @@ let me=null;
 let notificationTimer=null;
 let checkingNotifications=false;
 let directoryRequest=0;
+let publicInterestTags={};
 let category="all";
 const CATEGORIES=[
  ["housing_needed","Housing Needed","#367d35","🏡"],
@@ -175,15 +178,18 @@ function render(){
 const q=$("search").value.toLowerCase().trim();
 const loc=$("location").value.toLowerCase().trim();
 const living=$("living-filter").value;
+const sharedInterest=$("shared-interest").value.toLowerCase();
 
 renderFilters();
 const matches=rows.filter(r=>{
 if(mode==="listings"&&category!=="all"&&categoryFor(r)!==category)return false;
 if(mode==="listings"&&living&&!(Array.isArray(r.discovery_tags)&&r.discovery_tags.includes(living)))return false;
-const text=Object.values(r)
-.filter(v=>typeof v==="string")
-.join(" ").toLowerCase();
+const text=(mode==="people"?[r.display_name,r.region,r.bio,(Array.isArray(r.roles)?r.roles.join(" "):"")]:Object.values(r).filter(v=>typeof v==="string")).filter(v=>typeof v==="string").join(" ").toLowerCase();
 const place=String(r.region||r.location||r.city||"").toLowerCase();
+// Match only public fields already returned by the public directory; never read private stories.
+const publicWords=String(r.bio||"").toLowerCase();
+const selectedTags=publicInterestTags[String(r.directory_id)]||[];
+if(mode==="people"&&sharedInterest&&!publicWords.includes(sharedInterest)&&!selectedTags.some(x=>x.toLowerCase()===sharedInterest))return false;
 return (!q||text.includes(q))&&
 (!loc||place.includes(loc)||text.includes(loc));
 });
@@ -261,6 +267,14 @@ if(which==="people"){
  // Keep all records returned by the public-only RPC; do not discard records
  // merely because a particular optional profile field is absent.
  rows=rows.filter(r=>r&&typeof r==="object"&&!Array.isArray(r));
+}
+publicInterestTags={};
+if(which==="people"){
+ try{
+  const interests=await publicDirectoryDb.rpc('shon_discover_public_interests');
+  if(request===directoryRequest&&!interests.error)for(const item of interests.data||[])publicInterestTags[String(item.directory_id)]=Array.isArray(item.tags)?item.tags:[];
+  else console.warn('Optional interest discovery unavailable',interests.error.message);
+ }catch(error){console.warn('Optional interest discovery unavailable',error);}
 }
 if(which==="listings")rows=rows.filter(r=>!r.expires_at||new Date(r.expires_at).getTime()>Date.now());
 photoByListing={};
@@ -408,9 +422,10 @@ $("people").onclick=()=>load("people");
 $("search").oninput=render;
 $("location").oninput=render;
 $("living-filter").onchange=render;
+$("shared-interest").onchange=render;
 $("clear").onclick=()=>{
 $("search").value="";$("living-filter").value="";
-$("location").value="";
+$("location").value="";$("shared-interest").value="";
 render();
 };
 

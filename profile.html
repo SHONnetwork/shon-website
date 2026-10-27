@@ -87,6 +87,9 @@ All questions are optional. Your household questionnaire is saved to your accoun
 <details>
 <summary>🌱 My interests, relationships and future</summary>
 <div class="fields">
+<fieldset id="matching-interests" aria-describedby="matching-interests-help"><legend>Interests and shared-life preferences (choose any)</legend><p class="hint" id="matching-interests-help">Optional selections are added to your existing interests answer. You can also describe yourself in your own words below.</p><p><strong>Activities</strong></p><div class="grid"><label class="check"><input type="checkbox" data-interest-tag="Reading"> Reading</label><label class="check"><input type="checkbox" data-interest-tag="Music"> Music</label><label class="check"><input type="checkbox" data-interest-tag="Movies"> Movies</label><label class="check"><input type="checkbox" data-interest-tag="Games"> Games</label><label class="check"><input type="checkbox" data-interest-tag="Cooking"> Cooking</label><label class="check"><input type="checkbox" data-interest-tag="Gardening"> Gardening</label><label class="check"><input type="checkbox" data-interest-tag="Arts and crafts"> Arts and crafts</label><label class="check"><input type="checkbox" data-interest-tag="Technology"> Technology</label><label class="check"><input type="checkbox" data-interest-tag="Exercise"> Exercise</label><label class="check"><input type="checkbox" data-interest-tag="Outdoor activities"> Outdoor activities</label><label class="check"><input type="checkbox" data-interest-tag="Travel"> Travel</label><label class="check"><input type="checkbox" data-interest-tag="Learning"> Learning</label></div><p><strong>Shared life</strong></p><div class="grid"><label class="check"><input type="checkbox" data-interest-tag="Quiet household"> Quiet household</label><label class="check"><input type="checkbox" data-interest-tag="Social household"> Social household</label><label class="check"><input type="checkbox" data-interest-tag="Shared meals"> Shared meals</label><label class="check"><input type="checkbox" data-interest-tag="Independent routines"> Independent routines</label><label class="check"><input type="checkbox" data-interest-tag="Family activities"> Family activities</label><label class="check"><input type="checkbox" data-interest-tag="Community projects"> Community projects</label><label class="check"><input type="checkbox" data-interest-tag="Companionship"> Companionship</label><label class="check"><input type="checkbox" data-interest-tag="Collaborative projects"> Collaborative projects</label></div><p><strong>Animals</strong></p><div class="grid"><label class="check"><input type="checkbox" data-interest-tag="Cats"> Cats</label><label class="check"><input type="checkbox" data-interest-tag="Dogs"> Dogs</label><label class="check"><input type="checkbox" data-interest-tag="Other pets"> Other pets</label><label class="check"><input type="checkbox" data-interest-tag="Pet-free home"> Pet-free home</label></div></fieldset>
+<label class="check"><input type="checkbox" id="public-interest-opt-in"> Let other members discover my selected interests (optional; off by default)</label>
+<p class="hint">Only checked interests are shared when you opt in. Your private story stays private.</p>
 <label for="story-interests">Interests, hobbies, activities and habits</label><textarea id="story-interests" rows="3"></textarea>
 <label for="story-household">The kind of household and daily life I would enjoy</label><textarea id="story-household" rows="3"></textarea>
 <label for="story-family">Family, children, pets and people important to me</label><textarea id="story-family" rows="3"></textarea>
@@ -575,6 +578,18 @@ const STORY_KEYS=[
 ];
 let personalReady=false,householdReady=false,matchReady=false;
 
+const INTEREST_TAGS=()=>Array.from(document.querySelectorAll('[data-interest-tag]')).filter(x=>x.checked).map(x=>x.dataset.interestTag);
+async function loadPublicInterests(){
+ const r=await db.from('shon_public_interest_tags').select('tags,visible').eq('user_id',currentUser.id).maybeSingle();
+ if(r.error){console.warn('Optional public interests unavailable',r.error.message);return;}
+ // Private story is the source of truth for checked interests.
+ // Public tags are only a consent-controlled projection of those choices.
+ $('public-interest-opt-in').checked=r.data?.visible===true;
+}
+async function savePublicInterests(){
+ const r=await db.from('shon_public_interest_tags').upsert({user_id:currentUser.id,tags:INTEREST_TAGS(),visible:$('public-interest-opt-in').checked,updated_at:new Date().toISOString()},{onConflict:'user_id'});
+ if(r.error)throw r.error;
+}
 async function loadPersonal(){
 const r=await db.from("member_profiles")
 .select("display_name,roles,region,bio,needs_text,offers_text,contact_preference,profile_discoverable,directory_opt_in")
@@ -608,6 +623,8 @@ $("story-"+key).value=story.data?.answers?.[key]||"";
 }
 
 personalReady=true;
+$("story-interests").dispatchEvent(new Event("shon-interests-loaded"));
+await loadPublicInterests();
 message("personal-status",
 "Your personal profile and private story are loaded.");
 }
@@ -649,6 +666,8 @@ updated_at:new Date().toISOString()
 },{onConflict:"user_id"});
 
 if(r.error)throw r.error;
+try { await savePublicInterests(); }
+catch(error) { console.warn('Optional interest-sharing save failed',error); throw new Error('Private profile saved, but interest-sharing preferences were not saved: '+errorText(error)); }
 }
 
 let saving=false;
@@ -911,5 +930,27 @@ message("status","Initialization failed: "+errorText(error));
 })();
 </script>
 <script src="shon-notifications.js" defer></script>
+<script>
+/* Additive checkbox convenience layer: uses the existing story-interests field and save flow. */
+(()=>{
+ const field=document.getElementById('story-interests');
+ const checks=[...document.querySelectorAll('[data-interest-tag]')];
+ if(!field||!checks.length)return;
+ const parse=()=>field.value.split(/\s*[,;\n]\s*/).map(x=>x.trim()).filter(Boolean);
+ const refresh=()=>{const values=parse();for(const c of checks)c.checked=values.some(v=>v.toLowerCase()===c.dataset.interestTag.toLowerCase());};
+ checks.forEach(c=>c.addEventListener('change',()=>{
+  const current=parse().filter(v=>v.toLowerCase()!==c.dataset.interestTag.toLowerCase());
+  if(c.checked)current.push(c.dataset.interestTag);
+  field.value=current.join('; ');
+  field.dispatchEvent(new Event('input',{bubbles:true}));
+ }));
+ field.addEventListener('input',refresh);
+ // Existing asynchronous profile loading can update the textarea programmatically.
+ // Refresh on user focus and after the initial data-load window without modifying save functions.
+ field.addEventListener('focus',refresh);
+ field.addEventListener('shon-interests-loaded',refresh);
+ refresh();
+})();
+</script>
 </body>
 </html>
