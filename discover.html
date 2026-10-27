@@ -196,7 +196,7 @@ const publicCompatibility=window.SHONCompatibility?.compare(
  {interests:$("shared-interest").value},
  {interests:selectedTags}
 );
-if(mode==="people"&&sharedInterest&&!publicWords.includes(sharedInterest)&&!publicCompatibility.commonInterests.includes(sharedInterest))return false;
+if(mode==="people"&&sharedInterest&&!publicWords.includes(sharedInterest)&&!publicCompatibility?.commonInterests?.includes(sharedInterest)&&!selectedTags.some(x=>String(x).toLowerCase()===sharedInterest))return false;
 return (!q||text.includes(q))&&
 (!loc||place.includes(loc)||text.includes(loc));
 });
@@ -280,7 +280,7 @@ if(which==="people"){
  try{
   const interests=await publicDirectoryDb.rpc('shon_discover_public_interests');
   if(request===directoryRequest&&!interests.error)for(const item of interests.data||[])publicInterestTags[String(item.directory_id)]=Array.isArray(item.tags)?item.tags:[];
-  else console.warn('Optional interest discovery unavailable',interests.error.message);
+  else if(interests.error)console.warn('Optional interest discovery unavailable',interests.error.message);
  }catch(error){console.warn('Optional interest discovery unavailable',error);}
 }
 if(which==="listings")rows=rows.filter(r=>!r.expires_at||new Date(r.expires_at).getTime()>Date.now());
