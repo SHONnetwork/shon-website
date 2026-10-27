@@ -201,7 +201,7 @@ ${mode==="listings"&&photoByListing[String(r.id)]?"":`<span class="category-labe
 <small>${safe(place)}</small>
 <p>${safe(desc)}</p>
 ${mode==="listings"&&Array.isArray(r.discovery_tags)?`<div class="discovery-tags">${r.discovery_tags.slice(0,30).map(t=>`<span class="discovery-tag">${safe(t)}</span>`).join("")}</div>`:""}
-${r.user_id?`<a href="public-profile.html?user=${encodeURIComponent(r.user_id)}">View member profile</a>`:`<a href="members.html">Sign in to connect</a>`}
+${mode==="people"&&r.directory_id?`<a href="public-profile.html?directory=${encodeURIComponent(r.directory_id)}">View member profile</a>`:mode==="listings"?`<a href="discover.html?people=1">Browse public member profiles</a>`:`<a href="members.html">Sign in to connect</a>`}
 </article>`;
 }).join("")||"<p>No matching entries found.</p>";
 }
@@ -370,7 +370,7 @@ console.warn("SHONnetwork member notification setup:",error.message);
 }
 }
 
-$("opportunities").onclick=()=>load("listings");
+$("opportunities").onclick=()=>load(new URLSearchParams(location.search).has("people")?"people":"listings");
 $("people").onclick=()=>load("people");
 $("search").oninput=render;
 $("location").oninput=render;
@@ -404,7 +404,7 @@ detectSessionInUrl:true
 }
 });
 
-load("listings");
+load(new URLSearchParams(location.search).has("people")?"people":"listings");
 initializeNotifications();
 
 })();
