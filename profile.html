@@ -333,6 +333,7 @@ currentUser=null;
 personalReady=false;
 householdReady=false;
 matchReady=false;
+$("matches-list").replaceChildren();
 $("signed-out").hidden=false;
 $("workspace").hidden=true;
 setBell(0);
@@ -581,6 +582,7 @@ card.append(createElement("p",
 root.append(card);
 }
 }catch(error){
+if(currentUser?.id!==requestedUserId)return;
 message("matches-status",
 "Could not load mutual connections: "+errorText(error));
 }
