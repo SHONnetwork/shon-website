@@ -760,7 +760,7 @@ results.push(name+": FAILED ("+errorText(e)+")");
 }
 }
 
-message("save-all-status",results.join("\n")+"\n"+(results.some(x=>x.includes(": FAILED"))?"Some changes were not saved. Review the messages above before leaving this page.":"All three profile sections completed saving."));
+message("save-all-status",results.join("\n")+"\n"+(results.length!==3||results.some(x=>x.includes(": FAILED")||x.includes("account changed")||x.includes(": skipped"))?"Not all sections were confirmed saved. Review the results and reload your profile before trying again.":"All three profile sections completed saving."));
 saving=false;
 $("save-all").disabled=false;
 }
