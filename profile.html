@@ -148,7 +148,7 @@ All questions are optional. Your household questionnaire is saved to your accoun
 <details>
 <summary>🐈 Animals & Household Environment</summary>
 <div class="fields grid">
-<div><label for="pets_present">Pets currently in household</label>
+<div><label for="pets_present">Pets currently owned</label>
 <select id="pets_present" data-hh="pets_present">
 <option value="">Skip</option>
 <option value="none">None</option>
@@ -190,33 +190,26 @@ All questions are optional. Your household questionnaire is saved to your accoun
 <details>
 <summary>👨‍👩‍👧 Children & Family Considerations</summary>
 <div class="fields grid">
-<div><label for="children_age_rule">Children in the household</label>
+<div><label for="children_age_rule">Comfort sharing a household with families who have children?</label>
 <select id="children_age_rule" data-hh="children_age_rule">
 <option value="">Skip</option>
-<option value="any">Any ages</option>
-<option value="none">No children preferred</option>
-<option value="discuss">Let's discuss</option>
+<option value="any">Families with children are welcome</option>
+<option value="none">Prefer an adults-only household</option>
+<option value="discuss">Open to discussing household arrangements</option>
 </select></div>
-<div><label for="children_count_min">Minimum number of children</label>
-<input id="children_count_min" data-hh="children_count_min" type="number" min="0" step="1"></div>
-<div><label for="children_count_max">Maximum number of children</label>
-<input id="children_count_max" data-hh="children_count_max" type="number" min="0" step="1"></div>
-<div><label for="children_age_min">Minimum child age</label>
-<input id="children_age_min" data-hh="children_age_min" type="number" min="0" step="1"></div>
-<div><label for="children_age_max">Maximum child age</label>
-<input id="children_age_max" data-hh="children_age_max" type="number" min="0" step="1"></div>
+<div class="family-note"><p class="hint">This question concerns household compatibility, not preferences about individual children. You do not need to specify ages or numbers of children.</p></div>
 </div>
 </details>
 
 <details>
-<summary>💚 Financial Arrangements</summary>
+<summary>💚 Income & Shared Household Costs</summary>
 <div class="fields grid">
-<div><label for="monthly_budget_max">Maximum monthly budget</label>
+<div><label for="monthly_budget_max">Maximum I could contribute monthly toward household costs</label>
 <input id="monthly_budget_max" data-hh="monthly_budget_max" type="number" min="0" step="1" placeholder="0 is a valid answer"></div>
-<div><label for="monthly_contribution_min">Minimum monthly contribution expected</label>
+<div><label for="monthly_contribution_min">Minimum monthly contribution I would request from a housemate</label>
 <input id="monthly_contribution_min" data-hh="monthly_contribution_min" type="number" min="0" step="1" placeholder="0 is a valid answer"></div>
 </div>
-<p class="hint">These questions help people discuss possible arrangements. They do not require anyone to charge or pay rent.</p>
+<p class="hint">These are optional household cost preferences, not a requirement to pay rent. Monthly income is personal financial information and is not requested here. Enter 0 if no contribution is possible or expected.</p>
 </details>
 
 <div class="actions">
@@ -395,10 +388,7 @@ return result;
 }
 
 function validateHousehold(values){
-const pairs=[
-["children_count_min","children_count_max"],
-["children_age_min","children_age_max"]
-];
+const pairs=[];
 for(const [min,max] of pairs){
 if(values[min]!==null &&
 values[max]!==null &&
