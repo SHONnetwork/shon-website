@@ -7,6 +7,7 @@
 <title>Discover | SHONnetwork</title>
 <style>
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 body{margin:0;background:#f8faf6;color:#194436;font:16px/1.5 system-ui,Arial}
 header,main,footer{padding:20px}
 header{background:white;border-bottom:1px solid #d9e5db}
@@ -116,6 +117,7 @@ const key="sb_publishable_YTHhpIPiKKHGBLMdkj_4og_Uyq_t_SX";
 const AUTH_KEY="sb-wqcninwqeyfoyxlllwdy-auth-token";
 
 let db;
+let publicDirectoryDb;
 let mode="listings";
 let rows=[];
 let photoByListing={};
@@ -188,7 +190,7 @@ return (!q||text.includes(q))&&
 
 $("status").textContent=matches.length+(mode==="people"?" public member profiles found.":" public opportunities found.");
 if(mode==="people" && rows.length===0){
- $("status").textContent="The public directory returned no profiles. Your opportunities are unaffected. A member may need to enable public profile visibility, or the public directory database function may need checking.";
+ $("status").textContent="The public API returned zero member profiles. This is not caused by the housing filters. Your opportunities are unaffected. Please report this message if it persists.";
 }else if(mode==="people" && matches.length===0 && rows.length>0){
  $("status").textContent="The public directory returned "+rows.length+" profile(s), but none match the current search filters.";
 }
@@ -221,6 +223,7 @@ $("opportunities").setAttribute("aria-pressed",String(which==="listings"));
 $("people").setAttribute("aria-pressed",String(which==="people"));
 $("living-filter-wrap").hidden=which==="people";
 $("category-filters").hidden=which==="people";
+$("living-filter").value="";
 const request=++directoryRequest;
 $("status").textContent="Loading public "+which+"…";
 $("results").innerHTML="";
@@ -234,7 +237,9 @@ result=await db.from("listings")
 .eq("status","published")
 .limit(200);
 }else{
-result=await db.rpc("shon_public_directory");
+// Public discovery must not inherit the viewer's signed-in JWT.
+// The public RPC is explicitly available to the anon database role.
+result=await publicDirectoryDb.rpc("shon_public_directory");
 }
 
 if(request!==directoryRequest)return;
@@ -271,7 +276,7 @@ render();
 
 }catch(e){
 if(request===directoryRequest){
-$("status").textContent="Unable to load public "+which+": "+(e?.message||String(e))+". Your listings have not been changed.";
+$("status").textContent="Public "+which+" API error: "+(e?.message||String(e))+". Your listings have not been changed.";
 }
 }
 }
@@ -431,6 +436,13 @@ persistSession:true,
 autoRefreshToken:true,
 detectSessionInUrl:true
 }
+});
+
+// Independent anonymous client for public directory searches.
+// Do not reuse the authenticated client's session or localStorage tokens.
+publicDirectoryDb=window.supabase.createClient(url,key,{
+ auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false},
+ global:{headers:{"X-Client-Info":"shon-public-directory"}}
 });
 
 load(new URLSearchParams(location.search).has("people")?"people":"listings");
