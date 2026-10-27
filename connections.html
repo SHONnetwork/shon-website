@@ -46,20 +46,24 @@ label{display:block;font-weight:700;margin:12px 0 5px}
 [hidden]{display:none!important}
 :focus-visible{outline:3px solid #bd7d25;outline-offset:2px}
 @media(max-width:650px){.panel{padding:14px}.tabs button{flex:1 1 130px}}
+
+/* Shared SHONnetwork header, matching the other pages. */
+.shon-global-header{background:#fff;border-bottom:1px solid #dce6dc;padding:14px 18px}
+.shon-header-inner{max-width:1160px;margin:auto}
+.shon-header-top{display:flex;flex-direction:column;align-items:flex-start;gap:12px}
+.shon-global-brand{font-size:27px;font-weight:850;letter-spacing:-.035em;text-decoration:none;color:#153c32}
+.shon-global-brand span span{font-weight:400}
+.shon-header-actions{display:flex;flex-wrap:wrap;align-items:center;gap:9px}
+.shon-header-action{display:inline-flex;align-items:center;gap:5px;background:#f0f5f1;border:1px solid #e0eae2;border-radius:9px;padding:9px 12px;color:#205342;text-decoration:none;font-size:13px;font-weight:700;min-height:39px}
+.shon-global-nav{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-top:12px}
+.shon-global-nav a{color:#205342;text-decoration:none;font-size:14px;font-weight:500}
+.shon-global-nav a:hover,.shon-header-action:hover{text-decoration:underline}
+.shon-global-count{background:#b43427;color:white;border-radius:20px;padding:1px 7px;font-size:12px}
+@media(max-width:650px){.shon-global-header{padding:12px}.shon-global-nav{gap:10px}}
 </style>
 </head>
 <body>
-<header>
-<div class="bar">
-<a class="brand" href="index.html">🏡 SHON<span>network</span></a>
-<nav aria-label="Member navigation">
-<a href="members.html">My SHONnetwork</a>
-<a href="profile.html">My Profile</a>
-<a href="listings.html">My Listings</a>
-<a href="connections.html" aria-current="page">My Connections</a>
-</nav>
-</div>
-</header>
+<header class="shon-global-header"><div class="shon-header-inner"><div class="shon-header-top"><a class="shon-global-brand" href="index.html">🏡 <span>SHON<span>network</span></span></a><div class="shon-header-actions"><a id="shon-global-messages" class="shon-header-action" href="members.html">🔔 Messages <span id="shon-global-member-count" class="shon-global-count" hidden></span></a><a id="shon-global-support" class="shon-header-action" href="contact.html">Support / Contact SHON <span id="shon-global-support-count" class="shon-global-count" hidden></span></a></div></div><nav class="shon-global-nav" aria-label="Site navigation"><a href="index.html">Home</a><a href="members.html">SHONnetwork - Sign In/Out</a><a href="discover.html">Discover</a><a href="profile.html">Profile</a><a href="listings.html">Listings</a><a href="connections.html" aria-current="page">Connections</a><a href="community.html">Community</a><a href="resources.html">Resources</a><a href="partners.html">Partners</a></nav></div></header>
 
 <main>
 <h1>My Connections</h1>
