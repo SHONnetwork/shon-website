@@ -272,6 +272,7 @@ All questions are optional. Your household questionnaire is saved to your accoun
 
 <section class="panel">
 <h2>🤝 Mutual Household Connections</h2>
+<p class="hint">Mutual connections reflect reciprocal interest, not a calculated compatibility score. The separate compatibility engine is being integrated and will not reveal private answers.</p>
 <p class="hint">Results are supplied by SHONnetwork's existing mutual-match database function. A match is a starting point for conversation, not an assurance of safety or suitability.</p>
 <button type="button" id="refresh-matches">Refresh Mutual Connections</button>
 <p id="matches-status" role="status" aria-live="polite"></p>
@@ -946,6 +947,7 @@ message("status","Initialization failed: "+errorText(error));
 
 })();
 </script>
+<script src="assets/shon-compatibility-core.js"></script>
 <script src="shon-notifications.js" defer></script>
 <script>
 /* Additive checkbox convenience layer: uses the existing story-interests field and save flow. */
