@@ -164,7 +164,7 @@ Remote or online contribution possible
 <p id="editor-status" role="status" aria-live="polite"></p>
 <section class="panel" aria-label="Listing photographs">
 <h2>📷 Listing photographs</h2>
-<p class="hint">Save and publish your listing, then select Edit to add up to eight public photographs. JPG, PNG or WebP, up to 5 MB each. Do not upload private documents or exact address details.</p>
+<p class="hint">Save and publish your listing, then select Edit to add up to eight public photographs. <strong>Photograph 1 is your main photograph and appears in Discover search results.</strong> Photographs 2–8 are available in the full advertisement. Photographs appear in upload order; to change the first photograph, remove and upload images in your preferred order. JPG, PNG or WebP, up to 5 MB each. Do not upload private documents or exact address details.</p>
 <label for="listing-photo">Choose a photograph</label>
 <input id="listing-photo" type="file" accept="image/jpeg,image/png,image/webp">
 <div class="actions"><button type="button" id="upload-photo" class="secondary">Add Photograph</button></div>
@@ -578,6 +578,7 @@ async function loadPhotos(listingId){
   const root=$("photo-gallery");
   for(const photo of photos){
     const tile=create("div","","photo-tile");
+    tile.append(create("strong",photos.indexOf(photo)===0?"Photo 1 · Main search image":"Photo "+(photos.indexOf(photo)+1)+" · Full listing"));
     const img=document.createElement("img");
     img.alt="Listing photograph";img.loading="lazy";
     img.src=photoUrl(photo.storage_path);

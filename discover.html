@@ -34,6 +34,7 @@ article p{white-space:pre-wrap}
 .category-label{display:inline-block;background:var(--cat,#176049);color:#fff;border-radius:7px;padding:5px 10px;font-size:13px;font-weight:800;margin-bottom:9px}
 .category-label.unknown{background:#546c61}
 article{border-top:5px solid var(--cat,#9bb7a6)}
+.view-listing{display:inline-block;background:#176049;color:white;padding:10px 15px;border-radius:8px;font-weight:750;text-decoration:none}.view-listing:hover{background:#0f4836}
 article .discovery-tags{display:flex;gap:5px;flex-wrap:wrap;margin:8px 0}article .discovery-tag{background:#e9f1eb;color:#254b3c;border-radius:14px;padding:3px 9px;font-size:12px;font-weight:650}article .listing-visual{min-height:75px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#e7f2e8,#f6f8f5);border-radius:9px;margin-bottom:10px;font-size:36px}
 
 /* Full photograph, with category label anchored to its lower edge. */
@@ -165,7 +166,8 @@ function listingVisual(r,symbol,label){
  const path=photoByListing[String(r.id)];
  if(!path)return `<div class="listing-visual" aria-hidden="true">${symbol}</div>`;
  const url=db.storage.from("shon-public-photos").getPublicUrl(path).data.publicUrl;
- return `<div class="listing-visual has-photo"><a href="${safe(url)}" target="_blank" rel="noopener noreferrer" aria-label="Open full-size opportunity photograph"><img src="${safe(url)}" alt="Opportunity photograph" loading="lazy"></a><span class="category-label">${safe(label)}</span></div>`;
+ const listingHref="listing.html?id="+encodeURIComponent(r.id);
+ return `<div class="listing-visual has-photo"><a href="${safe(listingHref)}" aria-label="View full listing"><img src="${safe(url)}" alt="Opportunity photograph" loading="lazy"></a><span class="category-label">${safe(label)}</span></div>`;
 }
 function render(){
 const q=$("search").value.toLowerCase().trim();
@@ -197,10 +199,11 @@ const symbol=cat?cat[3]:"👤";
 return `<article style="--cat:${color}">
 ${mode==="listings"?listingVisual(r,symbol,label):`<div class="listing-visual" aria-hidden="true">${symbol}</div>`}
 ${mode==="listings"&&photoByListing[String(r.id)]?"":`<span class="category-label ${cat?"":"unknown"}">${safe(label)}</span>`}
-<h3>${safe(title)}</h3>
+<h3>${mode==="listings"?`<a href="listing.html?id=${encodeURIComponent(r.id)}">${safe(title)}</a>`:safe(title)}</h3>
 <small>${safe(place)}</small>
 <p>${safe(desc)}</p>
 ${mode==="listings"&&Array.isArray(r.discovery_tags)?`<div class="discovery-tags">${r.discovery_tags.slice(0,30).map(t=>`<span class="discovery-tag">${safe(t)}</span>`).join("")}</div>`:""}
+${mode==="listings"?`<p><a class="view-listing" href="listing.html?id=${encodeURIComponent(r.id)}">View Full Listing →</a></p>`:""}
 ${mode==="people"&&r.directory_id?`<a href="public-profile.html?directory=${encodeURIComponent(r.directory_id)}">View member profile</a>`:mode==="listings"?`<a href="discover.html?people=1">Browse public member profiles</a>`:`<a href="members.html">Sign in to connect</a>`}
 </article>`;
 }).join("")||"<p>No matching entries found.</p>";
