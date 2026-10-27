@@ -128,10 +128,10 @@ All questions are optional. Your household questionnaire is saved to your accoun
 <div><label for="participation">Household participation</label>
 <select id="participation" data-hh="participation">
 <option value="">Skip</option>
+<option value="none">No participation required</option>
 <option value="companionship">Companionship</option>
-<option value="light_tasks">Light participation</option>
-<option value="shared_responsibilities">Shared responsibilities</option>
-<option value="flexible">Flexible or negotiable</option>
+<option value="light_shared">Light shared participation</option>
+<option value="discuss">Flexible or negotiable</option>
 </select></div>
 <div><label for="relocation_scope">Relocation preference</label>
 <select id="relocation_scope" data-hh="relocation_scope">
@@ -375,7 +375,9 @@ const booleanFields=new Set([
 function setHousehold(data){
 for(const field of householdFields){
 const value=data?.[field.dataset.hh];
-field.value=value===null||value===undefined?"":String(value);
+const legacyParticipation={light_tasks:"light_shared",shared_responsibilities:"discuss",flexible:"discuss"};
+const normalized=field.dataset.hh==="participation" ? (legacyParticipation[value]||value) : value;
+field.value=normalized===null||normalized===undefined?"":String(normalized);
 }
 }
 
