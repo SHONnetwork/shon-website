@@ -422,15 +422,17 @@ throw new Error("Minimum cannot exceed maximum for "+min.replaceAll("_"," "));
 async function loadHousehold(){
 if(!currentUser)return;
 householdReady=false;
+const requestedUserId=currentUser.id;
 message("household-status","Loading saved household preferences...");
 
 const {data,error}=await db
 .from("shon_household_preferences")
 .select("*")
-.eq("user_id",currentUser.id)
+.eq("user_id",requestedUserId)
 .maybeSingle();
 
 if(error)throw error;
+if(currentUser?.id!==requestedUserId)return;
 
 setHousehold(data);
 householdReady=true;
@@ -479,14 +481,16 @@ strict:$("match-strict").value==="true"
 async function loadMatchPreferences(){
 if(!currentUser)return;
 matchReady=false;
+const requestedUserId=currentUser.id;
 
 const {data,error}=await db
 .from("shon_match_preferences")
 .select("goal,location,remote,strict")
-.eq("user_id",currentUser.id)
+.eq("user_id",requestedUserId)
 .maybeSingle();
 
 if(error)throw error;
+if(currentUser?.id!==requestedUserId)return;
 
 $("match-goal").value=data?.goal||"";
 $("match-location").value=data?.location||"any";
