@@ -189,7 +189,13 @@ const place=String(r.region||r.location||r.city||"").toLowerCase();
 // Match only public fields already returned by the public directory; never read private stories.
 const publicWords=String(r.bio||"").toLowerCase();
 const selectedTags=publicInterestTags[String(r.directory_id)]||[];
-if(mode==="people"&&sharedInterest&&!publicWords.includes(sharedInterest)&&!selectedTags.some(x=>x.toLowerCase()===sharedInterest))return false;
+// Compatibility here uses only member-authorized public interests.
+// Private household questionnaire answers are never queried by Discover.
+const publicCompatibility=window.SHONCompatibility?.compare(
+ {interests:$("shared-interest").value},
+ {interests:selectedTags}
+);
+if(mode==="people"&&sharedInterest&&!publicWords.includes(sharedInterest)&&!publicCompatibility.commonInterests.includes(sharedInterest))return false;
 return (!q||text.includes(q))&&
 (!loc||place.includes(loc)||text.includes(loc));
 });
@@ -465,6 +471,7 @@ initializeNotifications();
 
 })();
 </script>
+<script src="assets/shon-compatibility-core.js"></script>
 <script src="shon-notifications.js" defer></script>
 </body>
 </html>
