@@ -187,6 +187,11 @@ return (!q||text.includes(q))&&
 });
 
 $("status").textContent=matches.length+(mode==="people"?" public member profiles found.":" public opportunities found.");
+if(mode==="people" && rows.length===0){
+ $("status").textContent="The public directory returned no profiles. Your opportunities are unaffected. A member may need to enable public profile visibility, or the public directory database function may need checking.";
+}else if(mode==="people" && matches.length===0 && rows.length>0){
+ $("status").textContent="The public directory returned "+rows.length+" profile(s), but none match the current search filters.";
+}
 
 $("results").innerHTML=matches.slice(0,100).map(r=>{
 const title=r.title||r.display_name||r.name||"Community member";
@@ -215,6 +220,7 @@ category="all";
 $("opportunities").setAttribute("aria-pressed",String(which==="listings"));
 $("people").setAttribute("aria-pressed",String(which==="people"));
 $("living-filter-wrap").hidden=which==="people";
+$("category-filters").hidden=which==="people";
 const request=++directoryRequest;
 $("status").textContent="Loading public "+which+"…";
 $("results").innerHTML="";
@@ -236,13 +242,21 @@ if(result.error)throw result.error;
 
 // RPCs can return a row array, a single row, or a wrapped JSON payload.
 const payload=result.data;
-if(Array.isArray(payload))rows=payload;
-else if(payload&&typeof payload==="object"){
- const candidate=payload.rows??payload.members??payload.profiles??payload.results??payload.data;
- rows=Array.isArray(candidate)?candidate:(candidate&&typeof candidate==="object"?[candidate]:[payload]);
+let decoded=payload;
+if(typeof decoded==="string"){
+ try{decoded=JSON.parse(decoded);}catch(_){decoded=[];}
+}
+if(Array.isArray(decoded))rows=decoded;
+else if(decoded&&typeof decoded==="object"){
+ const candidate=decoded.rows??decoded.members??decoded.profiles??decoded.results??decoded.data;
+ rows=Array.isArray(candidate)?candidate:(candidate&&typeof candidate==="object"?[candidate]:[decoded]);
 }else rows=[];
 // Do not substitute private member tables for the public directory.
-if(which==="people")rows=rows.filter(r=>r&&typeof r==="object"&&(r.directory_id||r.display_name||r.bio));
+if(which==="people"){
+ // Keep all records returned by the public-only RPC; do not discard records
+ // merely because a particular optional profile field is absent.
+ rows=rows.filter(r=>r&&typeof r==="object"&&!Array.isArray(r));
+}
 if(which==="listings")rows=rows.filter(r=>!r.expires_at||new Date(r.expires_at).getTime()>Date.now());
 photoByListing={};
 if(which==="listings"&&rows.length){
@@ -257,7 +271,7 @@ render();
 
 }catch(e){
 if(request===directoryRequest){
-$("status").textContent="Directory error: "+e.message;
+$("status").textContent="Unable to load public "+which+": "+(e?.message||String(e))+". Your listings have not been changed.";
 }
 }
 }
