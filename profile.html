@@ -916,8 +916,8 @@ const targets=[
 "matches-status"
 ];
 
-householdReady=results[1].status==="fulfilled";
-matchReady=results[2].status==="fulfilled";
+// Each loader sets readiness only after its own data has loaded successfully.
+// Do not override those flags here: a stale request may have completed for a prior account.
 
 results.forEach((result,index)=>{
 if(result.status==="rejected"){
