@@ -592,7 +592,7 @@ let personalReady=false,householdReady=false,matchReady=false;
 const INTEREST_TAGS=()=>Array.from(document.querySelectorAll('[data-interest-tag]')).filter(x=>x.checked).map(x=>x.dataset.interestTag);
 async function loadPublicInterests(){
  const r=await db.from('shon_public_interest_tags').select('tags,visible').eq('user_id',currentUser.id).maybeSingle();
- if(r.error){console.warn('Optional public interests unavailable',r.error.message);return;}
+ if(r.error)throw new Error('Interest-sharing visibility could not be loaded: '+errorText(r.error));
  // Private story is the source of truth for checked interests.
  // Public tags are only a consent-controlled projection of those choices.
  $('public-interest-opt-in').checked=r.data?.visible===true;
@@ -634,9 +634,9 @@ for(const key of STORY_KEYS){
 $("story-"+key).value=story.data?.answers?.[key]||"";
 }
 
-personalReady=true;
 $("story-interests").dispatchEvent(new Event("shon-interests-loaded"));
 await loadPublicInterests();
+personalReady=true;
 message("personal-status",
 "Your personal profile and private story are loaded.");
 }
