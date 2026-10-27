@@ -8,12 +8,6 @@
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#f7f9f5;color:#173b32;font:16px/1.5 system-ui,Arial,sans-serif}
-header{background:white;border-bottom:1px solid #dce6dc;padding:14px 18px}
-.bar{max-width:1100px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
-.brand{font-size:27px;font-weight:800;color:#111;text-decoration:none}
-.brand span{font-weight:400}
-nav{display:flex;gap:12px;flex-wrap:wrap}
-nav a{color:#205342;text-decoration:none;font-weight:650}
 main{max-width:1050px;margin:auto;padding:24px 16px 70px}
 h1{font-size:clamp(29px,5vw,40px);margin:0 0 8px}
 h2{font-size:22px;margin:0 0 10px}
@@ -49,6 +43,10 @@ label{display:block;font-weight:700;margin:12px 0 5px}
 
 </style>
 <link rel="stylesheet" href="shon-header.css">
+<style>
+/* Connections: consistent compact top-row spacing, without changing shared site styles. */
+.shon-global-header .shon-header-top{justify-content:flex-start;column-gap:14px}
+</style>
 </head>
 <body>
 <header class="shon-global-header"><div class="shon-header-inner"><div class="shon-header-top"><a class="shon-global-brand" href="index.html">🏡 <span>SHON<span>network</span></span></a><div class="shon-header-actions"><a id="shon-global-messages" class="shon-header-action" href="members.html">🔔 Messages <span id="shon-global-member-count" class="shon-global-count" hidden></span></a><a id="shon-global-support" class="shon-header-action" href="contact.html">Support / Contact SHON <span id="shon-global-support-count" class="shon-global-count" hidden></span></a></div></div><nav class="shon-global-nav" aria-label="Site navigation"><a href="index.html">Home</a><a href="members.html">SHONnetwork - Sign In/Out</a><a href="discover.html">Discover</a><a href="profile.html">Profile</a><a href="listings.html">Listings</a><a href="connections.html" aria-current="page">Connections</a><a href="community.html">Community</a><a href="resources.html">Resources</a><a href="partners.html">Partners</a></nav></div></header>
