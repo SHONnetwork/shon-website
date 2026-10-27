@@ -691,6 +691,7 @@ return;
 
 saving=true;
 $("save-all").disabled=true;
+message("save-all-status","Saving your profile, household answers, and discovery preferences...");
 const results=[];
 
 for(const [name,fn] of [
@@ -727,7 +728,7 @@ results.push(name+": FAILED ("+errorText(e)+")");
 }
 }
 
-message("save-all-status",results.join("\n"));
+message("save-all-status",results.join("\n")+"\n"+(results.some(x=>x.includes(": FAILED"))?"Some changes were not saved. Review the messages above before leaving this page.":"All three profile sections completed saving."));
 saving=false;
 $("save-all").disabled=false;
 }
