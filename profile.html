@@ -528,6 +528,7 @@ return element;
 
 async function loadMatches(){
 if(!currentUser)return;
+const requestedUserId=currentUser.id;
 
 const root=$("matches-list");
 root.replaceChildren();
@@ -537,6 +538,7 @@ try{
 const {data,error}=await db
 .rpc("shon_my_safe_mutual_match_details");
 
+if(currentUser?.id!==requestedUserId)return;
 if(error)throw error;
 
 if(!Array.isArray(data)||data.length===0){
