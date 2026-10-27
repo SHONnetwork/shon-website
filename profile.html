@@ -330,6 +330,9 @@ notificationTimer=null;
 function showSignedOut(){
 stopNotifications();
 currentUser=null;
+personalReady=false;
+householdReady=false;
+matchReady=false;
 $("signed-out").hidden=false;
 $("workspace").hidden=true;
 setBell(0);
