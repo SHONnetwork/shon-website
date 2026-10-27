@@ -740,7 +740,11 @@ $("save-all").disabled=false;
 $("save-all").addEventListener("click",saveAll);
 
 $("reload-all").addEventListener("click",async()=>{
-if(!currentUser)return;
+if(!currentUser||saving)return;
+personalReady=false;
+householdReady=false;
+matchReady=false;
+message("save-all-status","Reloading saved profile sections...");
 const tasks=await Promise.allSettled([
 loadPersonal(),
 loadHousehold(),
@@ -939,6 +943,7 @@ saveAll();
 });
 
 $("reload-household").addEventListener("click",()=>{
+if(saving)return;
 loadHousehold().catch(error=>
 message("household-status",
 "Could not reload: "+errorText(error))
