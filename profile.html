@@ -338,6 +338,7 @@ message("status","Sign in to access your saved preferences.");
 
 function showSignedIn(user){
 const changed=currentUser?.id!==user.id;
+if(changed){personalReady=false;householdReady=false;matchReady=false;}
 currentUser=user;
 $("signed-out").hidden=true;
 $("workspace").hidden=false;
@@ -417,6 +418,7 @@ throw new Error("Minimum cannot exceed maximum for "+min.replaceAll("_"," "));
 
 async function loadHousehold(){
 if(!currentUser)return;
+householdReady=false;
 message("household-status","Loading saved household preferences...");
 
 const {data,error}=await db
@@ -473,6 +475,7 @@ strict:$("match-strict").value==="true"
 
 async function loadMatchPreferences(){
 if(!currentUser)return;
+matchReady=false;
 
 const {data,error}=await db
 .from("shon_match_preferences")
@@ -599,6 +602,7 @@ async function savePublicInterests(){
  if(r.error)throw r.error;
 }
 async function loadPersonal(){
+personalReady=false;
 const r=await db.from("member_profiles")
 .select("display_name,roles,region,bio,needs_text,offers_text,contact_preference,profile_discoverable,directory_opt_in")
 .eq("user_id",currentUser.id).maybeSingle();
