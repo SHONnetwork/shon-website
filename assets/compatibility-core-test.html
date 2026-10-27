@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SHON Compatibility Core Verification</title>
+<style>body{font:16px system-ui,sans-serif;max-width:750px;margin:3rem auto;padding:1rem} .pass{color:#146b3a}.fail{color:#a21b1b}pre{white-space:pre-wrap}</style>
+<h1>Compatibility core verification</h1>
+<p>Development-only checks. No accounts, network calls, or private member records are used.</p>
+<div id="results" role="status" aria-live="polite">Running tests…</div>
+<script src="shon-compatibility-core.js"></script>
+<script>
+(function(){
+"use strict";
+const tests=[];
+function check(name,condition){tests.push({name,pass:Boolean(condition)});}
+const compare=window.SHONCompatibility&&window.SHONCompatibility.compare;
+check("Module loads",typeof compare==="function");
+if(compare){
+const a={roles:["need_place"],interests:"Reading; Cats",smoking_household:"no"};
+const b={roles:["have_space"],interests:["cats","music"],smoking_household:"no"};
+const matched=compare(a,b);
+check("Complementary roles increase score",matched.score>=5);
+check("Shared interests are case insensitive",matched.commonInterests.includes("cats"));
+check("Shared preferences are recognized",matched.strengths.some(x=>x.includes("Smoking")));
+check("Empty answers remain optional",compare({},{}).score===0);
+check("Different preferences are discussion prompts",compare({smoking_household:"no"},{smoking_household:"yes"}).questions.length===1);
+check("Inputs are not modified",a.interests==="Reading; Cats"&&b.roles[0]==="have_space");
+}
+const target=document.getElementById("results");
+const passed=tests.filter(t=>t.pass).length;
+target.innerHTML="<h2>"+passed+" / "+tests.length+" checks passed</h2>";
+const list=document.createElement("ul");
+for(const t of tests){const li=document.createElement("li");li.className=t.pass?"pass":"fail";li.textContent=(t.pass?"PASS: ":"FAIL: ")+t.name;list.append(li);}
+target.append(list);
+})();
+</script></html>
