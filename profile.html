@@ -705,6 +705,7 @@ let saving=false;
 
 async function saveAll(){
 if(!currentUser||saving)return;
+const savingUserId=currentUser.id;
 
 if(!personalReady||!householdReady||!matchReady){
 message("save-all-status",
@@ -743,8 +744,16 @@ const r=await db.from("shon_match_preferences")
 if(r.error)throw r.error;
 }]
 ]){
+if(currentUser?.id!==savingUserId){
+results.push(name+": skipped (account changed)");
+break;
+}
 try{
 await fn();
+if(currentUser?.id!==savingUserId){
+results.push(name+": account changed during save; check saved data after signing in again");
+break;
+}
 results.push(name+": saved");
 }catch(e){
 results.push(name+": FAILED ("+errorText(e)+")");
