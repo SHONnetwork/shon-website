@@ -606,11 +606,14 @@ async function savePublicInterests(){
 }
 async function loadPersonal(){
 personalReady=false;
+const requestedUserId=currentUser?.id;
+if(!requestedUserId)return;
 const r=await db.from("member_profiles")
 .select("display_name,roles,region,bio,needs_text,offers_text,contact_preference,profile_discoverable,directory_opt_in")
 .eq("user_id",currentUser.id).maybeSingle();
 
 if(r.error)throw r.error;
+if(currentUser?.id!==requestedUserId)return;
 
 const p=r.data||{};
 $("member-profile-name").value=p.display_name||currentUser.user_metadata?.display_name||"";
@@ -632,6 +635,7 @@ const story=await db.from("member_private_stories")
 .maybeSingle();
 
 if(story.error)throw story.error;
+if(currentUser?.id!==requestedUserId)return;
 
 for(const key of STORY_KEYS){
 $("story-"+key).value=story.data?.answers?.[key]||"";
@@ -639,6 +643,7 @@ $("story-"+key).value=story.data?.answers?.[key]||"";
 
 $("story-interests").dispatchEvent(new Event("shon-interests-loaded"));
 await loadPublicInterests();
+if(currentUser?.id!==requestedUserId)return;
 personalReady=true;
 message("personal-status",
 "Your personal profile and private story are loaded.");
