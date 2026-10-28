@@ -773,15 +773,17 @@ personalReady=false;
 householdReady=false;
 matchReady=false;
 message("save-all-status","Reloading saved profile sections...");
+const requestedUserId=currentUser.id;
 const tasks=await Promise.allSettled([
 loadPersonal(),
 loadHousehold(),
 loadMatchPreferences()
 ]);
+if(currentUser?.id!==requestedUserId)return;
 message("save-all-status",
-tasks.every(x=>x.status==="fulfilled")?
+tasks.every(x=>x.status==="fulfilled")&&personalReady&&householdReady&&matchReady?
 "Saved profile reloaded.":
-"Some saved information could not be reloaded. Review the section messages.");
+"Some saved information could not be reloaded. Review the section messages before saving.");
 });
 
 /* Shared SHONnetwork unread-message notifications */
