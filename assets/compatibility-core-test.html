@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SHON Compatibility Core Verification</title>
+<style>body{font:16px system-ui,sans-serif;max-width:750px;margin:3rem auto;padding:1rem} .pass{color:#146b3a}.fail{color:#a21b1b}pre{white-space:pre-wrap}</style>
+<h1>Compatibility core verification</h1>
+<p>Development-only checks. No accounts, network calls, or private member records are used.</p>
+<div id="results" role="status" aria-live="polite">Running tests…</div>
+<script src="shon-compatibility-core.js"></script>
+<script>
+(function(){
+"use strict";
+const tests=[];
+function check(name,condition){tests.push({name,pass:Boolean(condition)});}
+const compare=window.SHONCompatibility&&window.SHONCompatibility.compare;
+check("Module loads",typeof compare==="function");
+if(compare){
+const a={roles:["need_place"],interests:"Reading; Cats",smoking_household:"no"};
+const b={roles:["have_space"],interests:["cats","music"],smoking_household:"no"};
+const matched=compare(a,b);
+check("Complementary roles increase score",matched.score>=5);
+check("Shared interests are case insensitive",matched.commonInterests.includes("cats"));
+check("Shared preferences are recognized",matched.strengths.some(x=>x.includes("Smoking")));
+check("Empty answers remain optional",compare({},{}).score===0);
+check("Different preferences are discussion prompts",compare({smoking_household:"no"},{smoking_household:"yes"}).questions.length===1);
+check("Inputs are not modified",a.interests==="Reading; Cats"&&b.roles[0]==="have_space");
+check("No interests are invented",compare({interests:"Reading"},{interests:"Cooking"}).commonInterests.length===0);
+check("Unanswered preferences create no conflicts",compare({smoking_household:"no"},{}).questions.length===0);
+check("No automatic contact authorization",compare(a,b).note.includes("not a safety judgment or consent"));
+check("Score is nonnegative",compare({},{}).score>=0);
+check("Community seekers match",compare({roles:["looking_person"]},{roles:["looking_person"]}).score===3);
+check("Housing goals match either way",compare({roles:["have_space"]},{roles:["need_place"]}).score===5);
+check("Two conflicts prompt discussion",compare({smoking_household:"no",relocation_scope:"local"},{smoking_household:"yes",relocation_scope:"national"}).questions.length===2);
+check("Missing income does not prevent matching",compare({roles:["need_place"]},{roles:["have_space"]}).score===5);
+check("No private data or network dependency",!document.querySelector("script[src^='https://']"));
+
+}
+const target=document.getElementById("results");
+const passed=tests.filter(t=>t.pass).length;
+target.innerHTML="<h2>"+passed+" / "+tests.length+" checks passed</h2>";
+const list=document.createElement("ul");
+for(const t of tests){const li=document.createElement("li");li.className=t.pass?"pass":"fail";li.textContent=(t.pass?"PASS: ":"FAIL: ")+t.name;list.append(li);}
+target.append(list);
+})();
+</script></html>

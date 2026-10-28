@@ -108,6 +108,7 @@ footer a{color:white}
 <a href="index.html">Home</a>
 </footer>
 
+<script src="assets/shon-compatibility-core.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.0/dist/umd/supabase.min.js"></script>
 <script>
 (function(){
@@ -189,7 +190,13 @@ const place=String(r.region||r.location||r.city||"").toLowerCase();
 // Match only public fields already returned by the public directory; never read private stories.
 const publicWords=String(r.bio||"").toLowerCase();
 const selectedTags=publicInterestTags[String(r.directory_id)]||[];
-if(mode==="people"&&sharedInterest&&!publicWords.includes(sharedInterest)&&!selectedTags.some(x=>x.toLowerCase()===sharedInterest))return false;
+// Compatibility here uses only member-authorized public interests.
+// Private household questionnaire answers are never queried by Discover.
+const publicCompatibility=window.SHONCompatibility?.compare(
+ {interests:$("shared-interest").value},
+ {interests:selectedTags}
+);
+if(mode==="people"&&sharedInterest&&!publicWords.includes(sharedInterest)&&!publicCompatibility?.commonInterests?.includes(sharedInterest)&&!selectedTags.some(x=>String(x).toLowerCase()===sharedInterest))return false;
 return (!q||text.includes(q))&&
 (!loc||place.includes(loc)||text.includes(loc));
 });
@@ -273,7 +280,7 @@ if(which==="people"){
  try{
   const interests=await publicDirectoryDb.rpc('shon_discover_public_interests');
   if(request===directoryRequest&&!interests.error)for(const item of interests.data||[])publicInterestTags[String(item.directory_id)]=Array.isArray(item.tags)?item.tags:[];
-  else console.warn('Optional interest discovery unavailable',interests.error.message);
+  else if(interests.error)console.warn('Optional interest discovery unavailable',interests.error.message);
  }catch(error){console.warn('Optional interest discovery unavailable',error);}
 }
 if(which==="listings")rows=rows.filter(r=>!r.expires_at||new Date(r.expires_at).getTime()>Date.now());

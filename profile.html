@@ -272,6 +272,7 @@ All questions are optional. Your household questionnaire is saved to your accoun
 
 <section class="panel">
 <h2>🤝 Mutual Household Connections</h2>
+<p class="hint">Mutual connections reflect reciprocal interest, not a calculated compatibility score. The separate compatibility engine is being integrated and will not reveal private answers.</p>
 <p class="hint">Results are supplied by SHONnetwork's existing mutual-match database function. A match is a starting point for conversation, not an assurance of safety or suitability.</p>
 <button type="button" id="refresh-matches">Refresh Mutual Connections</button>
 <p id="matches-status" role="status" aria-live="polite"></p>
@@ -280,6 +281,7 @@ All questions are optional. Your household questionnaire is saved to your accoun
 </div>
 </main>
 
+<script src="assets/shon-compatibility-core.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.0/dist/umd/supabase.min.js"></script>
 <script>
 (function(){
@@ -328,6 +330,10 @@ notificationTimer=null;
 function showSignedOut(){
 stopNotifications();
 currentUser=null;
+personalReady=false;
+householdReady=false;
+matchReady=false;
+$("matches-list").replaceChildren();
 $("signed-out").hidden=false;
 $("workspace").hidden=true;
 setBell(0);
@@ -336,6 +342,7 @@ message("status","Sign in to access your saved preferences.");
 
 function showSignedIn(user){
 const changed=currentUser?.id!==user.id;
+if(changed){personalReady=false;householdReady=false;matchReady=false;}
 currentUser=user;
 $("signed-out").hidden=true;
 $("workspace").hidden=false;
@@ -415,15 +422,18 @@ throw new Error("Minimum cannot exceed maximum for "+min.replaceAll("_"," "));
 
 async function loadHousehold(){
 if(!currentUser)return;
+householdReady=false;
+const requestedUserId=currentUser.id;
 message("household-status","Loading saved household preferences...");
 
 const {data,error}=await db
 .from("shon_household_preferences")
 .select("*")
-.eq("user_id",currentUser.id)
+.eq("user_id",requestedUserId)
 .maybeSingle();
 
 if(error)throw error;
+if(currentUser?.id!==requestedUserId)return;
 
 setHousehold(data);
 householdReady=true;
@@ -471,14 +481,17 @@ strict:$("match-strict").value==="true"
 
 async function loadMatchPreferences(){
 if(!currentUser)return;
+matchReady=false;
+const requestedUserId=currentUser.id;
 
 const {data,error}=await db
 .from("shon_match_preferences")
 .select("goal,location,remote,strict")
-.eq("user_id",currentUser.id)
+.eq("user_id",requestedUserId)
 .maybeSingle();
 
 if(error)throw error;
+if(currentUser?.id!==requestedUserId)return;
 
 $("match-goal").value=data?.goal||"";
 $("match-location").value=data?.location||"any";
@@ -516,6 +529,7 @@ return element;
 
 async function loadMatches(){
 if(!currentUser)return;
+const requestedUserId=currentUser.id;
 
 const root=$("matches-list");
 root.replaceChildren();
@@ -525,6 +539,7 @@ try{
 const {data,error}=await db
 .rpc("shon_my_safe_mutual_match_details");
 
+if(currentUser?.id!==requestedUserId)return;
 if(error)throw error;
 
 if(!Array.isArray(data)||data.length===0){
@@ -567,6 +582,7 @@ card.append(createElement("p",
 root.append(card);
 }
 }catch(error){
+if(currentUser?.id!==requestedUserId)return;
 message("matches-status",
 "Could not load mutual connections: "+errorText(error));
 }
@@ -586,8 +602,11 @@ let personalReady=false,householdReady=false,matchReady=false;
 
 const INTEREST_TAGS=()=>Array.from(document.querySelectorAll('[data-interest-tag]')).filter(x=>x.checked).map(x=>x.dataset.interestTag);
 async function loadPublicInterests(){
- const r=await db.from('shon_public_interest_tags').select('tags,visible').eq('user_id',currentUser.id).maybeSingle();
- if(r.error){console.warn('Optional public interests unavailable',r.error.message);return;}
+ const requestedUserId=currentUser?.id;
+ if(!requestedUserId)return;
+ const r=await db.from('shon_public_interest_tags').select('tags,visible').eq('user_id',requestedUserId).maybeSingle();
+ if(r.error)throw new Error('Interest-sharing visibility could not be loaded: '+errorText(r.error));
+ if(currentUser?.id!==requestedUserId)return;
  // Private story is the source of truth for checked interests.
  // Public tags are only a consent-controlled projection of those choices.
  $('public-interest-opt-in').checked=r.data?.visible===true;
@@ -597,11 +616,15 @@ async function savePublicInterests(){
  if(r.error)throw r.error;
 }
 async function loadPersonal(){
+personalReady=false;
+const requestedUserId=currentUser?.id;
+if(!requestedUserId)return;
 const r=await db.from("member_profiles")
 .select("display_name,roles,region,bio,needs_text,offers_text,contact_preference,profile_discoverable,directory_opt_in")
 .eq("user_id",currentUser.id).maybeSingle();
 
 if(r.error)throw r.error;
+if(currentUser?.id!==requestedUserId)return;
 
 const p=r.data||{};
 $("member-profile-name").value=p.display_name||currentUser.user_metadata?.display_name||"";
@@ -623,14 +646,16 @@ const story=await db.from("member_private_stories")
 .maybeSingle();
 
 if(story.error)throw story.error;
+if(currentUser?.id!==requestedUserId)return;
 
 for(const key of STORY_KEYS){
 $("story-"+key).value=story.data?.answers?.[key]||"";
 }
 
-personalReady=true;
 $("story-interests").dispatchEvent(new Event("shon-interests-loaded"));
 await loadPublicInterests();
+if(currentUser?.id!==requestedUserId)return;
+personalReady=true;
 message("personal-status",
 "Your personal profile and private story are loaded.");
 }
@@ -680,6 +705,7 @@ let saving=false;
 
 async function saveAll(){
 if(!currentUser||saving)return;
+const savingUserId=currentUser.id;
 
 if(!personalReady||!householdReady||!matchReady){
 message("save-all-status",
@@ -689,6 +715,7 @@ return;
 
 saving=true;
 $("save-all").disabled=true;
+message("save-all-status","Saving your profile, household answers, and discovery preferences...");
 const results=[];
 
 for(const [name,fn] of [
@@ -717,15 +744,23 @@ const r=await db.from("shon_match_preferences")
 if(r.error)throw r.error;
 }]
 ]){
+if(currentUser?.id!==savingUserId){
+results.push(name+": skipped (account changed)");
+break;
+}
 try{
 await fn();
+if(currentUser?.id!==savingUserId){
+results.push(name+": account changed during save; check saved data after signing in again");
+break;
+}
 results.push(name+": saved");
 }catch(e){
 results.push(name+": FAILED ("+errorText(e)+")");
 }
 }
 
-message("save-all-status",results.join("\n"));
+message("save-all-status",results.join("\n")+"\n"+(results.length!==3||results.some(x=>x.includes(": FAILED")||x.includes("account changed")||x.includes(": skipped"))?"Not all sections were confirmed saved. Review the results and reload your profile before trying again.":"All three profile sections completed saving."));
 saving=false;
 $("save-all").disabled=false;
 }
@@ -733,16 +768,22 @@ $("save-all").disabled=false;
 $("save-all").addEventListener("click",saveAll);
 
 $("reload-all").addEventListener("click",async()=>{
-if(!currentUser)return;
+if(!currentUser||saving)return;
+personalReady=false;
+householdReady=false;
+matchReady=false;
+message("save-all-status","Reloading saved profile sections...");
+const requestedUserId=currentUser.id;
 const tasks=await Promise.allSettled([
 loadPersonal(),
 loadHousehold(),
 loadMatchPreferences()
 ]);
+if(currentUser?.id!==requestedUserId)return;
 message("save-all-status",
-tasks.every(x=>x.status==="fulfilled")?
+tasks.every(x=>x.status==="fulfilled")&&personalReady&&householdReady&&matchReady?
 "Saved profile reloaded.":
-"Some saved information could not be reloaded. Review the section messages.");
+"Some saved information could not be reloaded. Review the section messages before saving.");
 });
 
 /* Shared SHONnetwork unread-message notifications */
@@ -905,8 +946,8 @@ const targets=[
 "matches-status"
 ];
 
-householdReady=results[1].status==="fulfilled";
-matchReady=results[2].status==="fulfilled";
+// Each loader sets readiness only after its own data has loaded successfully.
+// Do not override those flags here: a stale request may have completed for a prior account.
 
 results.forEach((result,index)=>{
 if(result.status==="rejected"){
@@ -932,6 +973,7 @@ saveAll();
 });
 
 $("reload-household").addEventListener("click",()=>{
+if(saving)return;
 loadHousehold().catch(error=>
 message("household-status",
 "Could not reload: "+errorText(error))
