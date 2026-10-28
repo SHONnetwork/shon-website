@@ -27,6 +27,10 @@ check("No interests are invented",compare({interests:"Reading"},{interests:"Cook
 check("Unanswered preferences create no conflicts",compare({smoking_household:"no"},{}).questions.length===0);
 check("No automatic contact authorization",compare(a,b).note.includes("not a safety judgment or consent"));
 check("Score is nonnegative",compare({},{}).score>=0);
+check("Community seekers match",compare({roles:["looking_person"]},{roles:["looking_person"]}).score===3);
+check("Housing goals match either way",compare({roles:["have_space"]},{roles:["need_place"]}).score===5);
+check("Two conflicts prompt discussion",compare({smoking_household:"no",relocation_scope:"local"},{smoking_household:"yes",relocation_scope:"national"}).questions.length===2);
+check("Missing income does not prevent matching",compare({roles:["need_place"]},{roles:["have_space"]}).score===5);
 check("No private data or network dependency",!document.querySelector("script[src^='https://']"));
 
 }
