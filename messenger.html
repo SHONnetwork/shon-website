@@ -48,6 +48,29 @@ main>.pane{margin:0!important}
 #shon-no-chat{grid-column:2;grid-row:3;align-self:stretch;background:white;border:1px solid #cbdcd0;border-radius:11px;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;color:#617568}
 #shon-no-chat[hidden]{display:none}
 @media(max-width:620px){main{grid-template-columns:1fr}#status,[data-shon-panel="status"],#invite-help,[data-shon-panel="friends"],#chatpane,#shon-no-chat{grid-column:1;grid-row:auto}[data-shon-panel="friends"]{min-height:150px}#chatpane{min-height:350px}#shon-no-chat{min-height:150px}}
+</style><style id="shane-messenger-compact">
+:root{--shane-width:1080px;--shane-height:500px}
+body main{width:min(var(--shane-width),calc(100vw - 20px));max-width:none!important;min-height:var(--shane-height);resize:both;overflow:auto;grid-template-rows:minmax(300px,1fr) auto;gap:7px;padding:8px}
+header{padding:7px 12px}#status{position:absolute;clip-path:inset(50%);width:1px;height:1px;overflow:hidden}
+#invite-help{display:none!important}
+[data-shon-panel="friends"]{grid-column:1;grid-row:1;min-height:260px}
+#chatpane,#shon-no-chat{grid-column:2;grid-row:1;min-height:260px}
+[data-shon-panel="status"]{grid-column:1/-1;grid-row:2;padding:5px 8px!important}
+[data-shon-panel="status"] .row{justify-content:flex-end;flex-wrap:nowrap}
+[data-shon-panel="status"] .row>*{flex:0 0 auto}
+[data-shon-panel="status"] p.muted{display:none}
+#messages{min-height:130px}
+#shon-classic-menu[open] .classic-links{width:min(320px,90vw);max-height:75vh;overflow-y:auto}
+.shane-menu-tools{border-bottom:1px solid #d4e0d6;padding:7px}
+.shane-menu-tools input{width:100%;padding:7px;margin:3px 0;border:1px solid #b8cabe;border-radius:6px;font:inherit}
+.shane-menu-tools label{display:block;font-size:12px;margin-top:7px}
+.shane-menu-tools input[type=range]{padding:0}
+.shane-menu-tools button{width:auto;display:inline-block;padding:5px 9px}
+.shane-shortcut-row{display:flex;align-items:center}
+.shane-shortcut-row a{flex:1;min-width:0;overflow-wrap:anywhere}
+.shane-shortcut-row button{flex:none;width:auto!important}
+#shane-menu-editor[hidden]{display:none}
+@media(max-width:620px){body main{resize:vertical;grid-template-columns:1fr;grid-template-rows:auto} [data-shon-panel="friends"],#chatpane,#shon-no-chat,[data-shon-panel="status"]{grid-column:1;grid-row:auto}}
 </style></head><body><header><h1>🏡 SHONnetwork Messenger</h1><details id="shon-classic-menu"><summary>Menu</summary><nav class="classic-links" aria-label="Messenger menu"><a href="connections.html?tab=discover" target="_blank" rel="noopener">Add friend</a><a href="connections.html?tab=people" target="_blank" rel="noopener">Friend requests</a><a href="connections.html?tab=blocked" target="_blank" rel="noopener">Blocked members</a><a href="index.html" target="_blank" rel="noopener">SHONnetwork home</a><a href="discover.html" target="_blank" rel="noopener">Discover people</a><a href="community.html" target="_blank" rel="noopener">Communities</a><a href="chat.html" target="_blank" rel="noopener">Chat rooms</a><a href="resources.html" target="_blank" rel="noopener">Useful resources</a><a href="partners.html" target="_blank" rel="noopener">Partners</a><button type="button" id="shon-show-options">Preferences</button></nav></details></header><main><div id="status" role="status">Connecting…</div><div class="pane" id="customize-pane">
 <details id="customize-details"><summary>🎨 Customize Messenger</summary>
 <p class="muted">Choose what appears, change colors, add a background picture, and rearrange sections. Your choices stay in this browser.</p>
@@ -146,4 +169,41 @@ document.getElementById('shon-bgfile').addEventListener('change',e=>{const f=e.t
 document.getElementById('shon-remove-image').onclick=()=>{state.image='';document.getElementById('shon-bgfile').value='';save();apply()};
 document.getElementById('shon-reset-custom').onclick=()=>{if(!confirm('Restore Messenger appearance and section order to defaults?'))return;state=defaults();save();apply();render()};
 state.order=[...new Set([...(Array.isArray(state.order)?state.order.filter(x=>ids.includes(x)):[]),...ids])];apply();render();
-})();</script><script>(function(){const form=document.getElementById('shon-invite-form');form.addEventListener('submit',e=>{e.preventDefault();const address=document.getElementById('shon-invite-email').value.trim();if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(address))return;const subject='Join me on SHONnetwork Messenger';const body="I'd love to stay connected with you. SHONnetwork is free to join, and its optional Messenger lets us chat, join groups, and meet online.\n\nJoin: https://shonnetwork.org/members.html\nMessenger: https://shonnetwork.org/messenger.html\n\nHope to see you there!";const link='mailto:'+encodeURIComponent(address)+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);window.location.href=link;document.getElementById('shon-invite-result').textContent='Invitation opened in your email application. Review and send it there.'})})();</script></body></html>
+})();</script><script>(function(){const form=document.getElementById('shon-invite-form');form.addEventListener('submit',e=>{e.preventDefault();const address=document.getElementById('shon-invite-email').value.trim();if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(address))return;const subject='Join me on SHONnetwork Messenger';const body="I'd love to stay connected with you. SHONnetwork is free to join, and its optional Messenger lets us chat, join groups, and meet online.\n\nJoin: https://shonnetwork.org/members.html\nMessenger: https://shonnetwork.org/messenger.html\n\nHope to see you there!";const link='mailto:'+encodeURIComponent(address)+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);window.location.href=link;document.getElementById('shon-invite-result').textContent='Invitation opened in your email application. Review and send it there.'})})();</script><script id="shane-messenger-ui">
+(()=>{'use strict';
+const config=Object.assign({organization:'shonnetwork',defaults:[['Home','index.html'],['Discover','discover.html'],['Community','community.html'],['Chat','chat.html'],['Games','games.html'],['Resources','resources.html'],['Partners','partners.html']]},window.SHANE_MESSENGER_CONFIG||{});
+const key='shane-messenger-ui:'+config.organization;
+let settings={};try{settings=JSON.parse(localStorage.getItem(key)||'{}')||{}}catch{}
+const save=()=>{try{localStorage.setItem(key,JSON.stringify(settings))}catch{}};
+const safeUrl=x=>{try{const u=new URL(x,location.href);return ['https:','http:'].includes(u.protocol)?u.href:null}catch{return null}};
+document.addEventListener('DOMContentLoaded',()=>{
+const menu=document.querySelector('#shon-classic-menu .classic-links');if(!menu)return;
+const wrap=document.createElement('div');wrap.className='shane-menu-tools';
+const input=(id,placeholder)=>{const e=document.createElement('input');e.id=id;e.placeholder=placeholder;return e};
+const search=input('shane-menu-search','Search menu…');search.type='search';search.setAttribute('aria-label','Search shortcuts');
+const links=document.createElement('div');links.id='shane-menu-links';
+const edit=document.createElement('button');edit.type='button';edit.textContent='Customize menu';
+const editor=document.createElement('div');editor.id='shane-menu-editor';editor.hidden=true;
+const name=input('shane-menu-name','Shortcut name');name.maxLength=48;
+const url=input('shane-menu-url','Website URL or page.html');
+const add=document.createElement('button');add.type='button';add.textContent='Add shortcut';
+const slider=(label,min,max,step,value,field,variable)=>{const l=document.createElement('label');l.textContent=label;const x=document.createElement('input');x.type='range';x.min=min;x.max=max;x.step=step;x.value=String(settings[field]||value);x.setAttribute('aria-label',label);x.addEventListener('input',()=>{settings[field]=Number(x.value);document.documentElement.style.setProperty(variable,x.value+'px');save()});editor.append(l,x);return x};
+const defaults=config.defaults.map(([name,url])=>({name,url}));
+const items=()=>Array.isArray(settings.links)?settings.links:defaults;
+const move=(i,delta)=>{const a=items().slice(),j=i+delta;if(j<0||j>=a.length)return;[a[i],a[j]]=[a[j],a[i]];settings.links=a;save();render()};
+const render=()=>{links.replaceChildren();items().forEach((item,i)=>{if(!item.name.toLowerCase().includes(search.value.toLowerCase()))return;const href=safeUrl(item.url);if(!href)return;const row=document.createElement('div');row.className='shane-shortcut-row';const a=document.createElement('a');a.textContent=item.name;a.href=href;a.target='_blank';a.rel='noopener noreferrer';row.append(a);if(!editor.hidden){for(const [symbol,action,label] of [['↑',()=>move(i,-1),'Move up'],['↓',()=>move(i,1),'Move down'],['×',()=>{settings.links=items().filter((_,j)=>i!==j);save();render()},'Remove']]){const b=document.createElement('button');b.type='button';b.textContent=symbol;b.setAttribute('aria-label',label+' '+item.name);b.onclick=action;row.append(b)}}links.append(row)})};
+edit.onclick=()=>{editor.hidden=!editor.hidden;edit.textContent=editor.hidden?'Customize menu':'Finish customizing';render()};
+add.onclick=()=>{const n=name.value.trim(),u=url.value.trim();if(!n||!safeUrl(u)){url.setCustomValidity('Enter a valid website or relative page');url.reportValidity();return}url.setCustomValidity('');settings.links=[...items(),{name:n,url:u}];save();name.value='';url.value='';render()};
+url.oninput=()=>url.setCustomValidity('');
+editor.append(name,url,add);
+slider('Window width',360,1600,20,1080,'width','--shane-width');
+slider('Window height',350,1100,25,500,'height','--shane-height');
+const note=document.createElement('small');note.textContent='Preferences are saved in this browser.';editor.append(note);
+wrap.append(search,links,edit,editor);menu.prepend(wrap);
+search.oninput=render;render();
+document.documentElement.style.setProperty('--shane-width',(settings.width||1080)+'px');
+document.documentElement.style.setProperty('--shane-height',(settings.height||500)+'px');
+const p=document.querySelector('[data-shon-panel="status"]');if(p){const label=p.querySelector('label[for="presence"]');if(label)label.textContent='Status';const refresh=document.getElementById('refresh');if(refresh){refresh.textContent='↻';refresh.title='Refresh';refresh.setAttribute('aria-label','Refresh Messenger')}}
+});
+})();
+</script></body></html>
