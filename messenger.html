@@ -135,7 +135,7 @@ function save(){try{localStorage.setItem(storageKey,JSON.stringify(state));retur
 function apply(){
 const root=document.documentElement;root.style.setProperty('--shon-accent',/^#[0-9a-f]{6}$/i.test(state.accent)?state.accent:'#185c47');root.style.setProperty('--shon-wall',/^#[0-9a-f]{6}$/i.test(state.background)?state.background:'#f2f7f3');root.style.setProperty('--shon-paper',/^#[0-9a-f]{6}$/i.test(state.paper)?state.paper:'#ffffff');root.style.setProperty('--shon-wall-image',state.image?'url("'+state.image+'")':'none');
 document.body.classList.remove('shon-compact','shon-wide','shon-dense');if(['compact','wide','dense'].includes(state.layout))document.body.classList.add('shon-'+state.layout);
-for(const id of ids){const el=main.querySelector('[data-shon-panel="'+id+'"]');if(!el)continue;el.style.display=(Array.isArray(state.hidden)&&state.hidden.includes(id))?'none':''}
+for(const id of ids){const el=main.querySelector('[data-shon-panel="'+id+'"]');if(!el)continue;const essential=id==='friends'||id==='conversation'||id==='status';el.style.display=essential?'':((Array.isArray(state.hidden)&&state.hidden.includes(id))?'none':'')}
 const order=Array.isArray(state.order)?state.order:ids;for(const id of [...new Set([...order,...ids])]){const el=main.querySelector('[data-shon-panel="'+id+'"]');if(el)main.appendChild(el)}
 // Keep installation panel at end, but permit custom ordering of all sections.
 }
